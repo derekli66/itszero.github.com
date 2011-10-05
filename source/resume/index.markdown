@@ -46,12 +46,12 @@ Bachelor Degree / Communication Engineering
 
 ## Awards
 
-* Embedded System Contest '11 **Honorable Mention**
-held by Ministry of Education
+* Embedded System Contest '11 **Honorable Mention**    
+held by Ministry of Education    
 Work: Augmented Reality Home Automation System
 
-* Value-added Contest '10 **Honorable Mention**
-held by Chunghwa Telecom
+* Value-added Contest '10 **Honorable Mention**    
+held by Chunghwa Telecom    
 Work: MOD-based home appliance monitoring and control system using wireless sensor network
 
 * WWDC(Worldwide Developer Conference) '09 Student Scholarship    
@@ -81,13 +81,17 @@ Work: RoomRider, in-door room map conduct and positioning using Zigbee '07
 
 ## Publications
 
-* (Journal) Chih-Lin Hu and **Chien-An Cho**, “User-provided multimedia content distribution architecture in mobile and ubiquitous communication network”, Journal of Network and Computer Applications, Vol. 34, pg. 121-136, January 2011
+### Journal Papers
 
-* (Journal/Conf.) Chih-Lin Hu, **Chien-An Cho**, Chang-Jung Lin and Chen-Wei Fan, “Design of mobile group communication system in ubiquitous communication network”, IEEE Transactions on Consumer Electronics, Vol. 56, pg. 88-96, Feburary 2010
+* Chih-Lin Hu and <u>Chien-An Cho</u>, “User-provided multimedia content distribution architecture in mobile and ubiquitous communication network”, Journal of Network and Computer Applications, Vol. 34, pg. 121-136, January 2011 [[Paper](http://www.sciencedirect.com/science/article/pii/S108480451000158X)]
 
-* (Journal) Chih-Lin Hu and **Chien-An Cho**, “A Novel Mobile Content Delivery Scenario with Simple Double-Key Secure Access Control,” International Journal of Security and Its Applications, Vol. 3, No. 1, pp. 1-16, January 2009. [Recommended by UMC'08]
+* Chih-Lin Hu, <u>Chien-An Cho</u>, Chang-Jung Lin and Chen-Wei Fan, “Design of mobile group communication system in ubiquitous communication network”, IEEE Transactions on Consumer Electronics, Vol. 56, pg. 88-96, Feburary 2010 [[Paper](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=5439130)]
 
-* (Conference) Chih-Lin Hu, **Chien-An Cho** and Po-Jung Wang, “Secure Mobile Content Delivery Architecture in Hybrid Network Environment,” accepted by the 2008 International Symposium on Ubiquitous Multimedia Computing (UMC’08), Hobart, Australia, Oct. 13-15, 2008. [Rate: 22% (46/201)]
+* Chih-Lin Hu and <u>Chien-An Cho</u>, “A Novel Mobile Content Delivery Scenario with Simple Double-Key Secure Access Control,” International Journal of Security and Its Applications, Vol. 3, No. 1, pp. 1-16, January 2009. [Recommended by UMC'08] [[Paper](http://www.earticle.net/Article.aspx?sn=103743)]
+
+### Conference Papers
+
+* Chih-Lin Hu, <u>Chien-An Cho</u> and Po-Jung Wang, “Secure Mobile Content Delivery Architecture in Hybrid Network Environment,” accepted by the 2008 International Symposium on Ubiquitous Multimedia Computing (UMC’08), Hobart, Australia, Oct. 13-15, 2008. [Rate: 22% (46/201)] [[Paper](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=4656519)]
 
 ## Projects
 
