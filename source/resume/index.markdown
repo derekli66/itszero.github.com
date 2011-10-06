@@ -100,7 +100,7 @@ Work: RoomRider, in-door room map conduct and positioning using Zigbee '07
 
 ## Projects
 
-Besides all the projects being mentioned in the award sections, I also owned or engaged in lots of open-source projects. I have **19** public repositories on github, range from web/mobile applications to embedded system developing tools. Please check it out on my sidebar or directly on [Github](http://github.com/itszero).
+Some of my previous projects are mentioned in the award sections, but apart from that, I also owned or engaged in lots of open-source projects. I have **20**(and increasing...) public repositories on github, ranging from web/mobile applications to embedded system developing tools. Please check it out on my sidebar or directly on [Github](http://github.com/itszero).
 
 ## Skill Sets
 
