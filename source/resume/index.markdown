@@ -20,6 +20,11 @@ Email: itszero at gmail dot com
 
 I am most interested in bringing technologies into life. Based on this original concept, my interest areas include embedded systems, wireless sensor network, network protocol design, mobile/ubiquitous computing, cloud computing and user interface/experience.
 
+## Examination Scores
+
+* TOEFL-iBT: 107 (R: 29, L: 28, S: 23, W: 27)
+* GRE: will be available soon
+
 ## Education
 
 * National Tsing Hua University 2010/09 - 2011/06  
