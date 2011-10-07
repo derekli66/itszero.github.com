@@ -27,7 +27,7 @@ I am most interested in bringing technologies into life. Based on this original 
 
 ## Education
 
-* National Tsing Hua University 2010/09 - 2011/06  
+* National Tsing Hua University 2010/09 - 2012/06 (ongoing)
 Master Degree / Computer Science  
 Embedded Platform Lab, Advisor: Pai H. Chou  
 Overall GPA: 4.0/4.0
