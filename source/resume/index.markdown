@@ -30,9 +30,11 @@ I am most interested in bringing technologies into life. Based on this original 
 * National Tsing Hua University 2010/09 - 2011/06  
 Master Degree / Computer Science  
 Embedded Platform Lab, Advisor: Pai H. Chou  
+Overall GPA: 4.0/4.0
 
 * National Central University 2006/09 - 2010/06  
-Bachelor Degree / Communication Engineering  
+Bachelor Degree / Communication Engineering    
+Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
 
 * Taipei Municipal Cheng-Kung Senior High 2003/09 - 2006/06
 
