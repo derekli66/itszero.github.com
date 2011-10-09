@@ -80,3 +80,6 @@ disqus_show_comment_count: false
 
 # Google Analytics
 google_analytics_tracking_id: UA-7277533-4
+   
+# Facebook Like
+facebook_like: true   
