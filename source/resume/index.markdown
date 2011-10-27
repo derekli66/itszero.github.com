@@ -51,6 +51,12 @@ Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
 - Maintained PDF generation framework in Cocoa
 - iOS application development
 
+### Leader of Network Management Group (2007 - 2010)
+- System Network Management Group, Department of Electrical Engineering & Communication Engineering, National Central University
+- Lead the group for the major system transition (FreeBSD 4 to ArchLinux)
+- Communicate with supervisors (professors) and coordinate the progress of members
+- Experiences of major system failure recovery (Hard disk failure due to power outage)
+
 ## Awards
 
 * Embedded System Contest '11 **Honorable Mention**    
@@ -77,7 +83,7 @@ held by Ministry of Education
 Work: Vehicle-based Communication System on Android    
 
 * Software Creativity Contest '08 **Honorable Mention**    
-held by MInistry of Education    
+held by Ministry of Education    
 Work: JudgeOnRails, online program judging system designed for use in-school    
 
 * School Projects Conest '07, '08, '09 **Honorable Mention**    
@@ -100,9 +106,41 @@ Work: RoomRider, in-door room map conduct and positioning using Zigbee '07
 
 * Chih-Lin Hu, <u>Chien-An Cho</u> and Po-Jung Wang, “Secure Mobile Content Delivery Architecture in Hybrid Network Environment,” accepted by the 2008 International Symposium on Ubiquitous Multimedia Computing (UMC’08), Hobart, Australia, Oct. 13-15, 2008. [Rate: 22% (46/201)] [[Paper](http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=4656519)]
 
-## Projects
+## Selected Open-Source Projects
 
-Some of my previous projects are mentioned in the award sections, but apart from that, I also owned or engaged in lots of open-source projects. I have **20**(and increasing...) public repositories on github, ranging from web/mobile applications to embedded system developing tools. Please check it out on my sidebar or directly on [Github](http://github.com/itszero).
+### KerKerInput    
+Role: Project Leader (has 2 contributors and many forks)    
+[Project Page](https://github.com/itszero/KerKerInput), tags: _Android, Input Method, Framework_
+
+- One of the first Chinese input methods implemented for the Android platform. The fact that it can be easily extended made it a perfect playground to experiment different new and creative mobile input methods
+
+### MetaLoc    
+Role: Project Leader    
+[Project Page](https://github.com/itszero/MetaLoc), tags: _Android, Web Services, Bluetooth, Embedded Systems_
+
+- A fun experiment that integrate Google Maps with your wrist watch
+- This project enables your Android Phone to interact with MetaWatch
+
+### CameraPaper    
+Role: Project Leader    
+[Project Page](https://github.com/itszero/CameraPaper), tags: _Android, Live Wallpaper, Image Processing_
+
+- Make your Android Phone looks like transparent by taking camera feed and some real-time processing
+- Boosted its performance from 5 fps to 15fps by utilizing JNI and some improvement to algorithm
+
+### TwTrk    
+Role: Project Leader    
+[Project Page](https://github.com/itszero/TwTrk), tags: _Ruby, Social Network, Syncing, Web Services_
+
+- Starts as a experiment that testing how user interacts with terminal-like UI in a website but then become a public web service
+- Learned how to detach work from web front-end
+
+### HypoWWDCBroadcast    
+Role: Main Contributor    
+[Project Page](https://github.com/hypo/HypoWWDCBoradcast), tags: _Python, AppEngine, large-scale web_
+
+- Developed to host an Apple WWDC Chinese live text broadcast event
+- 150 requests per second is achieved without any service disruption during the broadcast
 
 ## Skill Sets
 
