@@ -11,6 +11,8 @@ footer: true
 	<a href="http://www.flickr.com/photos/dinocho/3353043589/" title="Me and my Powerbook 12&quot; by itsZero, on Flickr"><img src="http://farm2.static.flickr.com/1172/3353043589_9b97519aa6.jpg" width="230" alt="Me and my Powerbook 12&quot;"></a>
 </div>
 
+PDF version of resume is available [here](/resume/resume.pdf).
+
 ## Personal Information
 
 Name: 卓建安 / Chien-An Cho    
