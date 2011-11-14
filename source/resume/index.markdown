@@ -23,7 +23,7 @@ I am most interested in bringing technologies into life. Based on this original 
 ## Examination Scores
 
 * TOEFL-iBT: 107 (R: 29, L: 28, S: 23, W: 27)
-* GRE: will be available soon
+* GRE: V 149/42%, Q 163/88%, AWA 3.5/29%
 
 ## Education
 
