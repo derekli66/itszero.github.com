@@ -80,7 +80,7 @@ Work: KerKerInput, an Android Chinese Input Method framework
 held by Chunghwa Telecom    
 Work: SLIMA, location-based photo blogging system with timeline concept    
 
-* Intenet Communication Softwares and Creativity Application Contest '08 **First Prize**    
+* Intent Communication Softwares and Creativity Application Contest '08 **First Prize**    
 held by Ministry of Education    
 Work: Vehicle-based Communication System on Android    
 
@@ -88,7 +88,7 @@ Work: Vehicle-based Communication System on Android
 held by Ministry of Education    
 Work: JudgeOnRails, online program judging system designed for use in-school    
 
-* School Projects Conest '07, '08, '09 **Honorable Mention**    
+* School Projects Contest '07, '08, '09 **Honorable Mention**    
 held by NCU EECES    
 Work: MBS, Adaptive media streaming service for Wireless network '08    
 Work: MobileSync, Data synchronization and access method for hetrogeneous network '07    
