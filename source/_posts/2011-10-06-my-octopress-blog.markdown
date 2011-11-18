@@ -6,4 +6,5 @@ comments: true
 categories: 
 ---
 
-又想搬家了XD
+Just saw this new blogging system and I think I like the idea. :)
+I think I'll move to this blog and try to write posts in English here.
