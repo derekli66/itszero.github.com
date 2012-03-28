@@ -13,6 +13,7 @@ group :development do
   gem 'rb-fsevent'
   gem 'stringex'
   gem 'liquid', '2.2.2'
+  gem 'ffi', '1.0.10'
 end
 
 gem 'sinatra', '1.2.6'
