@@ -2,8 +2,12 @@
 // To give it a try, uncomment some of the lines below rebuild your blog, and see how it works. your sites's.
 // If you love to use Web Fonts, you also need to add some lines to source/_includes/custom/head.html
 
-$sans: "myriad-pro", sans-serif;
-$serif: "ff-meta-serif-web-pro", serif;
-$mono: "ubuntu mono", monospace;
-$heading-font-family: "myriad-pro", sans-serif;
-$header-title-font-family: "nasalization", sans-serif;
+$sans: "Oxygen", sans-serif;
+$serif: "Esteban", serif;
+$mono: "Ubuntu Mono", monospace;
+$heading-font-family: "Oxygen", sans-serif;
+$header-title-font-family: "Audiowide", sans-serif;
+
+h1.entry-title {
+	font-weight: 700;
+}
