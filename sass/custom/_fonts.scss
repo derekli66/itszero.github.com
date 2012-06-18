@@ -2,8 +2,12 @@
 // To give it a try, uncomment some of the lines below rebuild your blog, and see how it works. your sites's.
 // If you love to use Web Fonts, you also need to add some lines to source/_includes/custom/head.html
 
-//$sans: "Optima", sans-serif;
-//$serif: "Baskerville", serif;
-//$mono: "Courier", monospace;
-//$heading-font-family: "Verdana", sans-serif;
-//$header-title-font-family: "Futura", sans-serif;
+$sans: "Oxygen", sans-serif;
+$serif: "Esteban", serif;
+$mono: "Ubuntu Mono", monospace;
+$heading-font-family: "Oxygen", sans-serif;
+$header-title-font-family: "Audiowide", sans-serif;
+
+h1.entry-title {
+	font-weight: 700;
+}

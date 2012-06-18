@@ -1,10 +1,10 @@
 source "http://rubygems.org"
 
 group :development do
-  gem 'rake', '0.9.2'
+  gem 'rake', '0.9.2.2'
   gem 'rack'
-  gem 'jekyll'
-  gem 'rdiscount'
+  gem 'jekyll', :git => 'https://github.com/mojombo/jekyll.git'
+  gem 'redcarpet', '1.17.2'
   gem 'pygments.rb'
   gem 'RedCloth'
   gem 'haml', '>= 3.1'
@@ -12,7 +12,8 @@ group :development do
   gem 'rubypants'
   gem 'rb-fsevent'
   gem 'stringex'
-  gem 'liquid', '2.2.2'
+  gem 'liquid'
+  gem 'ffi', '1.0.10'
 end
 
 gem 'sinatra', '1.2.6'
