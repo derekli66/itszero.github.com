@@ -16,7 +16,7 @@
   <meta name="MobileOptimized" content="320">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  {% capture canonical %}{{ site.url }}{% if site.permalink contains '.html' %}{{ page.url }}{% else %}{{ page.url | remove:'index.html' | strip_slash }}{% endif %}{% endcapture %}
+  {% capture canonical %}{{ site.url }}{% if site.permalink contains '.html' %}{{ page.url }}{% else %}{{ page.url | remove:'index.html' }}{% endif %}{% endcapture %}
   <link rel="canonical" href="{{ canonical }}">
   <link href="{{ root_url }}/favicon.png" rel="icon">
   <link href="{{ root_url }}/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -26,24 +26,4 @@
   <link href="{{ site.subscribe_rss }}" rel="alternate" title="{{site.title}}" type="application/atom+xml">
   {% include custom/head.html %}
   {% include google_analytics.html %}
-	<link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Esteban' rel='stylesheet' type='text/css'>
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
-  <!-- fancyBox -->
-  <!-- Add jQuery library -->
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-  <!-- Add fancyBox -->
-  <link rel="stylesheet" href="{{ root_url }}/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
-  <script type="text/javascript" src="{{ root_url }}/javascripts/jquery.fancybox.pack.js?v=2.0.4"></script>
-  <!-- Add fancyBox jQuery -->
-  <script type="text/javascript">
-    jQuery.noConflict();    // prevents conflicts with Ender.js, use jQuery instead of $
-    jQuery(document).ready(function() {
-        jQuery(".fancybox").fancybox();
-    });
-  </script>
-  <!-- End fancyBox insert -->
 </head>
