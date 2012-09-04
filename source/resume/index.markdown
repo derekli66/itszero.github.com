@@ -15,32 +15,16 @@ PDF version of resume is available [here](/resume/resume.pdf).
 
 ## Personal Information
 
-Name: 卓建安 / Chien-An Cho    
-Email: itszero at gmail dot com
-
-## Research Interests
-
-I am most interested in bringing technologies into life. Based on this original concept, my interest areas include embedded systems, wireless sensor network, network protocol design, mobile/ubiquitous computing, cloud computing and user interface/experience.
-
-## Examination Scores
-
-* TOEFL-iBT: 107 (R: 29, L: 28, S: 23, W: 27)
-* GRE: V 149/42%, Q 163/88%, AWA 3.5/29%
-
-## Education
-
-* National Tsing Hua University 2010/09 - 2012/06 (expected)    
-Master Degree / Computer Science  
-Embedded Platform Lab, Advisor: Pai H. Chou  
-Overall GPA: 4.0/4.0
-
-* National Central University 2006/09 - 2010/06  
-Bachelor Degree / Communication Engineering    
-Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
-
-* Taipei Municipal Cheng-Kung Senior High 2003/09 - 2006/06
+Name: Zero, 卓建安 / Chien-An Cho    
+Email: itszero at gmail dot com    
 
 ## Work Experiences
+
+### Contractor (Jan 2012 - Aug 2012)
+- [KKBOX Inc.](http://www.kkbox.com.tw/), Taipei, Taiwan
+- Technical research for mobile and web platforms
+- Developed Customized UI Control for Android
+- Delivered HTML5-based Javascript Game
 
 ### Summer Intern (July 2011 - Aug 2011)
 - Android System Team, [MediaTek Inc.](http://www.mediatek.com/), working with Nicholas Tang
@@ -59,6 +43,23 @@ Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
 - Communicate with supervisors (professors) and coordinate the progress of members
 - Experiences of major system failure recovery (Hard disk failure due to power outage)
 
+## Education
+
+* Georgia Institute of Technology 2012/08 - Now    
+PhD Degree / Computer Science    
+Working with Calton Pu on Cloud Computing project    
+
+* National Tsing Hua University 2010/09 - 2012/06 (expected)    
+Master Degree / Computer Science  
+Embedded Platform Lab, Advisor: Pai H. Chou  
+Overall GPA: 4.0/4.0
+
+* National Central University 2006/09 - 2010/06  
+Bachelor Degree / Communication Engineering    
+Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
+
+* Taipei Municipal Cheng-Kung Senior High 2003/09 - 2006/06
+
 ## Awards
 
 * Embedded System Contest '11 **Honorable Mention**    
@@ -69,7 +70,7 @@ Work: Augmented Reality Home Automation System
 held by Chunghwa Telecom    
 Work: MOD-based home appliance monitoring and control system using wireless sensor network
 
-* WWDC(Worldwide Developer Conference) '09 Student Scholarship    
+* WWDC(Worldwide Developer Conference) '09 **Student Scholarship**    
 held by Apple Inc.
 
 * MobileHero Android Software Contest '09 **Second Prize + Google Prize**    
@@ -151,3 +152,8 @@ Role: Main Contributor
 * WebDevs: HTML, CSS, JavaScript, Ruby on Rails, Sinatra, Google AppEngine
 
 * Study Interests: UI design, embedded systems, ubiquitous computing, natural langauge
+
+## Examination Scores
+
+* TOEFL-iBT: 107 (R: 29, L: 28, S: 23, W: 27)
+* GRE: V 149/42%, Q 163/88%, AWA 3.5/29%
