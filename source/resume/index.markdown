@@ -62,6 +62,10 @@ Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
 
 ## Awards
 
+* Taipei Fun Mobile Application Contest '11 **First Prize**    
+held by Taipei City Government    
+Work: [TaipeiFever](https://speakerdeck.com/u/itszero/p/taipeifever), Taipei Guide app for Android
+
 * Embedded System Contest '11 **Honorable Mention**    
 held by Ministry of Education    
 Work: Augmented Reality Home Automation System
