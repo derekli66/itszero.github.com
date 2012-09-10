@@ -140,6 +140,6 @@ Conclusions
 
 You should have everything you need to know by now. For the things I didn't
 mentioned above, look for your desired school. You might find some help on the
-internet as well. Try StudyAbroad on PTT BBS if yoQu're a Taiwanese student. I
+internet as well. Try StudyAbroad on PTT BBS if you're a Taiwanese student. I
 hope this experience can be of help. I also hope that you will be admitted by your
 favorite school. ;)
