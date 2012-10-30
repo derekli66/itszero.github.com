@@ -155,9 +155,8 @@ Future Work
 
 There are many ideas that can be implemented to improve my solution. Like
 implementing a word bigrams to further weight the possibility of characters
-bigrams could be useful, but it would requires more research into the NLP
-field. I think it is really a fun challenge. If you got some spare time, try
-it!
+bigrams could be useful, but it would require more research into NLP field. I
+think it is really a fun challenge. If you got some spare time, try it!
 
 [hangman]: http://en.wikipedia.org/wiki/Hangman_(game)
 [n-gram]: http://en.wikipedia.org/wiki/N-gram
