@@ -75,20 +75,20 @@ used is:
 {% raw %}
 <div class="mathjax">
 $$
-f_{factor}(x) = \frac{f_{unsolved}(x)}{f_{strlen}(x)^2}
+f_{cost}(w_i) = \frac{f_{unsolved}(w_i)}{f_{strlen}(w_i)^2}
 $$
 </div>
 {% endraw %}
 
-The best word to attack will have smallest factor from this formula. It first
+The best word to attack will have smallest cost from this formula. It first
 calculate the percentage of unsolved characters in the word, so the word with
-most solved characters now having the smallest factor now. However, say we have
-a word ``a_``, the word is now 50% solved but to finish the second character,
-you only need one move. It sounds good, but it does not generate any
-*side-effect*. Say now we have a word ``co__ec__e__`` and you already know the
-full word is ``correctness``. You can now confidently send answers ``[r, t, n,
-s]``. You may reveal characters in other words in the process, thus increase
-the overall probability of making right guesses.
+most portion of its characters revealed now having the smallest cost now. However, say we have a
+word ``a_``, the word is now 50% solved but to finish the second character, you
+only need one move. It sounds good, but it does not generate any *side-effect*.
+Say now we have a word ``co__ec__e__`` and you already know the full word is
+``correctness``. You can now confidently send answers ``[r, t, n, s]``. You may
+reveal characters in other words in the process, thus increase the overall
+probability of making right guesses.
 
 #### The n-grams
 
