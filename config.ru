@@ -1,6 +1,10 @@
 require 'bundler/setup'
 require 'sinatra/base'
 
+fork do
+  system("rake watch")
+end
+
 # The project root directory
 $root = ::File.dirname(__FILE__)
 
