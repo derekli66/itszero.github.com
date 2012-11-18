@@ -1,0 +1,110 @@
+---
+layout: portfolio
+---
+<div class="portfolio_wrapper">
+
+  <div class="project objc">
+    <h2>HackerDaily</h2>
+    <div class="image"><img src="/portfolio/projects/hackerdaily/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">apple</span> Objective-C
+    </div>
+    <p>An elegant Hacker News reader application for iPhone. Spent a lot of time to design and implement an high-quality interface. A large portion of time is used for improving user experiences, such as implementing infinity scrolling list and client-side document parser.</p>
+    <div class="links">
+      <a href="https://itunes.apple.com/us/app/hackerdaily/id524351975?mt=8" class="lsf" title="AppStore" target="_blank">link</a>
+    </div>
+  </div>
+
+  <div class="project java">
+    <h2>TaipeiFever</h2>
+    <div class="image"><img src="/portfolio/projects/taipeifever/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">android</span> Java
+    </div>
+    <p>I teamed up with 2 of my friends to make this app, and we won a first prize for a Taipei City Government contest. We designed and implemented this Metro-esque UI on the Android. We spent a lot of time to make this UI can adapt dynamically to all kinds of Android phones with different screen resolution. We used lots of open data sources, such as OpenStreetMap and Wikipedia.</p>
+    <div class="links">
+      <a href="http://taipei.zfever.tw/" class="lsf" title="product site" target="_blank">link</a>
+    </div>
+  </div>
+
+  <div class="project ruby">
+    <h2>HypoWide</h2>
+    <div class="image"><img src="/portfolio/projects/hypowide/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">globe</span> Ruby on Rails, Obj-C
+    </div>
+    <p>This is an web-based photo album editor. User can import their photos from flickr, arrange photos on the website with precise preview. Hypo will then print the book out and deliver it to the user. I designed the system architecture for this website and implemented both front-end and back-end of this website using Ruby on Rails. I also built a scalable queue system for serving previews and generating PDF files.</p>
+    <div class="links">
+      <a href="http://hypo.cc/wide.html" class="lsf" title="link" target="_blank">link</a>
+    </div>
+  </div>
+
+  <div class="project ruby">
+    <h2>TwTrk</h2>
+    <div class="image"><img src="/portfolio/projects/twtrk/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">globe</span> Ruby w/ Sinatra
+    </div>
+    <p>TwTrk is a webapp that sync your twits to a social network popular in Asian called Plurk. I made a terminal emulator in JavaScript and wrote messages in the website using ANSI.</p>
+    <div class="links">
+      <a href="http://twtrk.itsze.ro/" class="lsf" title="link" target="_blank">link</a>
+      <a href="https://github.com/itszero/TwTrk" class="lsf" title="link" target="_blank">code</a>
+    </div>
+  </div>
+
+  <div class="project other">
+    <h2>javacomplete</h2>
+    <div class="image"><img src="/portfolio/projects/javacomplete/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">pc</span> vim scripts
+    </div>
+    <p>Javacomplete is a vim plugin that extend OmniComplete to support Java. I forked the project and extend it to further support Android projects. My plugin can automatically find the Android project root and infer all 3rd-party libraries used by the project. It was accomplished by tapping into the ant build system.</p>
+    <div class="links">
+      <a href="https://github.com/itszero/javacomplete" class="lsf" title="link" target="_blank">code</a>
+    </div>
+  </div>
+
+  <div class="project java">
+    <h2>KerKerInput</h2>
+    <div class="image"><img src="/portfolio/projects/kerkerinput/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">android</span> Java
+    </div>
+    <p>One of the first Chinese input methods implemented for the Android platform. The fact that it can be easily extended made it a perfect playground to experiment different new and creative mobile input methods.</p>
+    <div class="links">
+      <a href="https://github.com/itszero/KerKerInput" class="lsf" title="link" target="_blank">code</a>
+    </div>
+  </div>
+
+  <div class="project java">
+    <h2>MetaLoc</h2>
+    <div class="image"><img src="/portfolio/projects/metawatch/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">android</span> Java
+    </div>
+    <p>An experiment that brings Google Maps to your watch.</p>
+    <div class="links">
+      <a href="https://github.com/itszero/MetaLoc" class="lsf" title="link" target="_blank">code</a>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+  jQuery('.portfolio_wrapper').masonry({
+    itemSelector: '.project',
+    isResizable: false
+  });
+
+  /* Zero: Auto-resize portfolio */
+  jQuery(window).resize(function(){
+    var mLeft = ($('#content').width() - $('.portfolio_wrapper').width()) / 2;
+    $('.portfolio_wrapper').css('margin-left', mLeft + 'px');
+    jQuery('.portfolio_wrapper').masonry('reload');
+  });
+  setTimeout(function(){
+    jQuery(window).resize();
+  }, 10);
+});
+</script>
