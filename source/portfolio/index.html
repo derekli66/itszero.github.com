@@ -88,8 +88,21 @@ layout: portfolio
     </div>
   </div>
 
+  <div class="project java">
+    <h2>CameraPaper</h2>
+    <div class="image"><img src="/portfolio/projects/camerapaper/banner.png"/></div>
+    <div class="techs">
+      <span class="lsf">android</span> Java, JNI
+    </div>
+    <p>An Android live wallpaper which making your Android Phone looks "transparent". The original version used JNI and some improvement to algorithm to boost its performance from 5fps to 15fps. The current version takes advantage of new system API, thus running at full speed.</p>
+    <div class="links">
+      <a href="https://github.com/itszero/CameraPaper" class="lsf" title="link" target="_blank">code</a>
+    </div>
+  </div>
+
 </div>
 
+<script type="text/javascript" src="/javascripts/retina.js"></script>
 <script type="text/javascript">
 jQuery(document).ready(function() {
   jQuery('.portfolio_wrapper').masonry({
@@ -101,7 +114,11 @@ jQuery(document).ready(function() {
   jQuery(window).resize(function(){
     var mLeft = ($('#content').width() - $('.portfolio_wrapper').width()) / 2;
     $('.portfolio_wrapper').css('margin-left', mLeft + 'px');
-    jQuery('.portfolio_wrapper').masonry('reload');
+    if ($('.portfolio_wrapper').width() != window.cachePortfolioWrapperWidth)
+    {
+      jQuery('.portfolio_wrapper').masonry('reload');
+      window.cachePortfolioWrapperWidth = $('.portfolio_wrapper').width();
+    }
   });
   setTimeout(function(){
     jQuery(window).resize();
