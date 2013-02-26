@@ -57,6 +57,10 @@ Overall GPA: 3.1/4.0 Major GPA(Computer Science): 3.7/4.0
 
 ## Awards
 
+* eBay GaTech Hackathon '13 **Second Prize**
+held by eBay
+Work: Implemented a simplified version of facebook graph search for eBay items
+
 * Taipei Fun Mobile Application Contest '11 **First Prize**    
 held by Taipei City Government    
 Work: [TaipeiFever](https://speakerdeck.com/u/itszero/p/taipeifever), Taipei Guide app for Android
