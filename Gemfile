@@ -1,9 +1,9 @@
 source "http://rubygems.org"
 
 group :development do
-  gem 'rake', '0.9.2.2'
+  gem 'rake'
   gem 'rack'
-  gem 'jekyll', :git => 'https://github.com/mojombo/jekyll.git'
+  gem 'jekyll'
   gem 'redcarpet', '1.17.2'
   gem 'pygments.rb'
   gem 'RedCloth'
