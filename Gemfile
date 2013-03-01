@@ -16,4 +16,4 @@ group :development do
   gem 'ffi', '1.0.10'
 end
 
-gem 'sinatra', '~> 1.3.2'
+gem 'sinatra', '~> 1.3.5'
