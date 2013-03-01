@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: vim | [Zero setLogger: self];]]></title>
+  <link href="http://itszero.github.com/blog/categories/vim/atom.xml" rel="self"/>
+  <link href="http://itszero.github.com/"/>
+  <updated>2013-03-01T11:37:13-05:00</updated>
+  <id>http://itszero.github.com/</id>
+  <author>
+    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[the Solarized Dark Vim]]></title>
+    <link href="http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim/"/>
+    <updated>2012-04-19T22:38:00-04:00</updated>
+    <id>http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim</id>
+    <content type="html"><![CDATA[<p>Today, I spent a whole day on reconfigure my Vim. Vim is a powerful monster
+that needs care. Once you feed it with (your precious) time, Vim will pay you
+back with a nice and pretty editing experience.</p>
+
+<p><a href="/images/posts/solarized-dark-vim.png" class="fancybox"><img src="/images/posts/solarized-dark-vim.png" width="600" title="&quot;Solarized Dark vim&quot;" ></a></p>
+
+<p>Two things I'll talk about today: Solarized Dark and Powerline.</p>
+
+<h2>Solarized Dark</h2>
+
+<p><a href="http://ethanschoonover.com/solarized">Solarized Dark</a> is a color palette designed by <a href="http://ethanschoonover.com/">Ethan Schoonover</a>. From my
+experiences, this color scheme proves to be usable across many kinds of
+computers and monitors. The colors are smooth and clear. Color settings for
+most of daily use apps are provided on the official website. Even if it doesn't
+provided officially, you usually still can find it somewhere on the Internet.
+:-p In short, pretty color for your eyes and large userbase. Go get it now!</p>
+
+<p>To use this color scheme (properly) in Vim, some prerequisites must be met.</p>
+
+<ul>
+<li>A decent terminal emulator with properly configured 256-colors support</li>
+<li>Install vim-colors-solarized plugin</li>
+</ul>
+
+<p>Since there are way too many terminal apps to be introduced one-by-one, I'll
+save your time from that. I can tell you that I'm using this color scheme on
+<a href="https://github.com/brantb/solarized/tree/master/iterm2-colors-solarized">iTerm2</a>, <a href="https://github.com/mavnn/mintty-colors-solarized">mintty</a>, <a href="https://github.com/sigurdga/gnome-terminal-colors-solarized">gnome-terminal</a>. Oh, Did I mention that I just gave your
+links to those color scheme files? :-D</p>
+
+<p>P.S. OSX's Terminal is no good, try iTerm2 if you're using OSX.</p>
+
+<p>Once you prepared your terminal environment for colorful life, we can get to
+the business. The vim-colors-solarized plugin can be installed by adding this
+line to your .vimrc, given that you're using <a href="https://github.com/gmarik/vundle">Vundle</a>, and please do use it.</p>
+
+<p>``` vim
+Bundle 'altercation/vim-colors-solarized'</p>
+
+<p>colorscheme solarized
+```</p>
+
+<p>Save, reopen your vim, and run <code>:BundleInstall</code>. Do reopen your vim again, then
+Voilà!</p>
+
+<h2>Powerline</h2>
+
+<p><a href="https://github.com/Lokaltog/vim-powerline">Powerline</a> is a plugin designed to power your Vim's <strong>laststatus</strong>. It gives
+you a super pretty and useful statusbar right after installation. If you want
+to install this plugin, add those to your .vimrc.</p>
+
+<p>``` vim
+Bundle 'Lokaltog/vim-powerline'</p>
+
+<p>let g:Powerline_symbols = 'fancy'
+```</p>
+
+<p>Set g:Powerline_symbols to <strong>fancy</strong> gives you best look, but it requires you
+to use a patched font. You can find those fonts
+<a href="https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts">here</a>.
+To use those fonts, simple download it and change your favorite terminal app's
+fonts to ``[Your favorite font name here] for Powerline''.</p>
+
+<h2>Conclusions</h2>
+
+<p>Your Vim should now be look liked mine in the screenshot. However, this is just
+a start. The real power of vim lies in the plugins. Maybe I'll write another
+post to talk about my favorite vim plugins sometimes later. Bon voyage, on the
+journey of becoming a power Vim user. :-)</p>
+]]></content>
+  </entry>
+  
+</feed>

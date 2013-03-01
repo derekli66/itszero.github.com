@@ -1,0 +1,203 @@
+<!--
+  Paper presentation: A Dynamic User Authentication Scheme for Wireless Sensor Networks
+  Author: Zero <itszero@gmail.com>
+  This is only for education / research purpose only.
+
+  Made for lab meeting of Embedded Platform Lab, NTHU, TW
+-->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>A Dynamic User Authentication Scheme for Wireless Sensor Networks</title>
+    
+    <meta name="author" content="Zero Cho" />
+
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="impress" class="impress-not-supported">
+
+    <div class="fallback-message">
+        <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+        <p>For the best experience please use the latest <b>Chrome</b> or <b>Safari</b> browser. Firefox 10 and Internet Explorer 10 <i>should</i> also handle it.</p>
+    </div>
+
+    <div id="title" class="step slide" data-x="-1000" data-y="-1200">
+		<q>A <b>Dynamic User Authentication</b> Scheme for Wireless Sensor Networks</q>
+		<br/>
+		<p>Kirk H.M. Wong, Yuan Zheng, Jiannong Cao, Shengwei Wang</p>
+		<br/>
+		<p class="small">
+			Internet and Mobile Computing Lab., Department of Computing<br/>
+			Department of Building Service Engineering<br/>
+			The Hong Kong Polytechnic University
+		</p>
+    </div>
+
+    <div id="acl" class="step" data-x="0" data-y="0" data-scale="4">
+        <h1>Access Control <sup>*</sup></h1>
+		<ul>
+			<li><sup>*</sup> a <strong>ancient</strong> need</li>
+			<li><sup>*</sup> a foundation of <strong>trustworthy</strong> systems</li>
+			<li><sup>*</sup> a necessity for pushing to <strong>market</strong></li>
+			<li><sup>*</sup> an <strong>unexplored</strong> area of WSN</li>
+		</ul>
+    </div>
+
+    <div id="what_now" class="step" data-x="-800" data-y="2700" data-rotate="90" data-scale="6">
+        <p>What do we have <b>now?</b></p>
+    </div>
+
+    <div id="smart_card" class="step" data-x="2000" data-y="4000" data-rotate="180" data-scale="5">
+        <p class="title"><strong>IC SmartCard*</strong></p>
+		<p class="small">
+			<b>Fast</b> HW accelerator<br/>
+			Encryption<br/>
+			Decryption<br/>
+			One-way hash function
+		</p>
+		<div id="contacts">
+			<div id="contact"></div>
+			<div id="contact"></div>
+			<div id="contact"></div>
+		</div>
+		<div id="this_way_in">▲</div>
+    </div>
+
+    <div id="tiny" class="step" data-x="2000" data-y="2000" data-z="20" data-rotate="300" data-scale="1.3">
+        <p><strong>epl / *t***** or </strong><span class="key">&#x1F511;</span></p>
+		<br/>
+		<ul>
+			<li><sup>*</sup> Weak(Asymmetric Cryptology)</li>
+			<li><sup>*</sup> Strong(One-way Hash)</li>
+		</ul>
+    </div>
+
+    <div id="another" class="step" data-x="2500" data-y="-1000" data-rotate="270" data-scale="6">
+        <p>Another protocal by El-Fishway et al. make use of <b class="rotating">keys</b>, <b class="rotating">one-way hash</b> with assumption of no <b class="positioning">central authority</b> and among non-trusted peers.</p>
+    </div>
+	
+	<div id="proposing" class="step" data-x="6800" data-y="-2700" data-scale="4">
+		<p class="large"><strong>Proposing...</strong></p>
+	</div>
+	
+    <div id="proposed" class="step" data-x="5500" data-y="-500" data-scale="4">
+		<h1>Scenario</h1>
+        <img src="img/diagram.png"/>
+    </div>
+
+    <div id="three_phases" class="step" data-x="6300" data-y="2100" data-rotate="20" data-scale="4">
+        <p><strong>Three Phases</strong></p>
+		<br/>
+		<ol>
+			<li>1. Registration</li>
+			<li>2. Login</li>
+			<li>3. Authentication</li>
+		</ol>
+    </div>
+
+    <div id="phase_one" class="step" data-x="4200" data-y="4100" data-rotate="270" data-scale="2">
+        <i>Phase 1 - <b>Registration</b></i>
+		<br/>
+		<ul>
+			<li>* User: Send desired ID/PW</li>
+			<li>* GW: A = H<sup>1</sup>(ID || key)</li>
+			<li>* GW: B = H(A || H(PW))</li>
+			<li>* GW: Save (ID, PW, A, B, TS<sup>2</sup>) to PC</li>
+			<li>* User: Received successful replies</li>
+		</ul>
+		<p class="footnote">
+			1. H is a one-way hash function, ex. SHA-256<br/>
+			2. TS is a timestamp
+		</p>
+    </div>
+
+    <div id="phase_two" class="step" data-x="5600" data-y="4100" data-rotate="180" data-scale="2">
+        <i>Phase 2 - <b>Login</b></i>
+		<br/>
+		<ul>
+			<li>* User: Login to a <strong>login-node</strong></li>
+			<li>* LN: Check user account</li>
+			<li>* LN: B* = H(A || H(PW*))</li>
+			<li>* LN: C2 = (B* XOR A) <span class="small">// use C2 to seal the content of B*</span></li>
+			<li>* LN: C1 = H(T XOR B*)</li> 
+			<li>* LN: Send (ID*, C2, C1, T) to GW</li>
+		</ul>
+    </div>
+
+    <div id="phase_three" class="step" data-x="7200" data-y="4200" data-rotate="90" data-scale="2">
+        <i>Phase 3 - <b>Authentication</b></i>
+		<br/>
+		<ul>
+			<li>* GN: Verify <strong>TS</strong> if it's within reasonable range</li>
+			<li>* GN: C2* = (B XOR A)</li>
+			<li>* GN: C1* = H(B XOR T)</li>
+			<li>* GN: Verify C1, C2 with C1*, C2*</li>
+		</ul>
+		<span class="small">// It verified the password and login time effectively</span>
+    </div>
+
+	<div id="analysis" class="step" data-x="9200" data-y="2500" data-rotate="270" data-scale="4">
+		<p class="large"><strong>⊷Analysis</strong></p>
+	</div>
+	
+	<div id="possible_cases" class="step" data-x="13000" data-y="-200" data-scale="6">
+		<h1><b>Security</b></h1>
+		<ul>
+			<li class="not_discuss">* Invalid credentials</li>
+			<li class="focus">* Login replay</li>
+			<li class="not_discuss">* Insider attack</li>
+		</ul>
+	</div>
+	
+	<div id="login_replay" class="step" data-x="13100" data-y="500" data-rotate="30">
+		<ul>
+			<li>Org. pkt? » Detected by TS</li>
+			<li>Change TS? » C1 and C1* mismatch</li>
+			<li>Change TS, C1? » Need <b>secret</b></li>
+		</ul>
+	</div>
+	
+	<div id="overhead" class="step" data-x="11350" data-y="2500" data-rotate="270" data-scale="4">
+		<h1><b>Overhead</b></h1>
+		<table>
+			<thead>
+				<tr>
+					<th>Phases</th>
+					<th>Overhead Cost</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Registration</td>
+					<td>2T<sub>H</sub> + 1C<sub>MH</sub></th>
+				</tr>
+				<tr>
+					<td>Login</td>
+					<td>2T<sub>H</sub> + 2T<sub>XOR</sub> + 1C<sub>MH</sub></th>
+				</tr>
+				<tr>
+					<td>Authentication</td>
+					<td>1T<sub>H</sub> + 1T<sub>XOR</sub> + 1C<sub>MH</sub></th>
+				</tr>
+				<tr>
+					<td><strong>Total Cost</strong></td>
+					<td><strong>5T<sub>H</sub> + 3T<sub>XOR</sub> + 3C<sub>MH</sub></strong></th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+    <div id="overview" class="step" data-x="3000" data-y="1500" data-scale="10">
+    </div>
+
+</div>
+
+<script src="js/impress.js"></script>
+
+</body>
+</html>

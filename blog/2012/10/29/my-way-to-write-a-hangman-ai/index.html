@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>(my way to) Write a Hangman AI - [Zero setLogger: self];</title>
+  <meta name="author" content="Chien-An "Zero" Cho">
+
+  
+  <meta name="description" content="I was asked to write a hangman AI as a challenge last week. I was asked not to
+leak the detail, so I will not post my solution here. However, the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="[Zero setLogger: self];" type="application/atom+xml">
+    
+  <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+  <!-- fancyBox -->
+  <!-- Add jQuery library -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <!-- Add fancyBox -->
+  <link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
+  <script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js?v=2.0.4"></script>
+  <!-- Add fancyBox jQuery -->
+  <script type="text/javascript">
+    jQuery.noConflict();    // prevents conflicts with Ender.js, use jQuery instead of $
+    jQuery(document).ready(function() {
+        jQuery(".fancybox").fancybox();
+    });
+  </script>
+  <!-- End fancyBox insert -->
+
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7277533-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">[Zero setLogger: self];</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:itszero.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/resume">Résumé</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">(my way to) Write a Hangman AI</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T20:17:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I was asked to write a hangman AI as a challenge last week. I was asked not to
+leak the detail, so I will not post my solution here. However, the hangman
+problem itself is a well-known problem, I would like to share some thoughts
+that I used to build my hangman solver.</p>
+
+<h2>Preface</h2>
+
+<p>There is a <a href="http://en.wikipedia.org/wiki/Hangman_(game)">hangman</a> page provides detailed information for hangman
+game. However, I would like to describe it in a shorter, more programmer&#8217;s way.</p>
+
+<h3>Input</h3>
+
+<p>You will receive an serialized object containing following information:</p>
+
+<ul>
+<li><p>state: The state is a string that reveals your correctly guessed characters
+in the string. For those unrevealed characters, a <code>_</code> is placed in those
+positions. For example, say the answer is &quot;apple&quot; and you guessed <em>p</em>, the
+state string will be <code>_pp__</code>. Please note that the state could contain
+multiple words, a sentence.</p></li>
+<li><p>remaining_guesses: How many times you can make a wrong guess before the game
+is over.</p></li>
+<li><p>status: It could be one of {<strong>WIN</strong>, <strong>ONGOING</strong>, <strong>LOSE</strong>}. The game will
+start as <strong>ONGOING</strong>.  If you reveal all characters before you used up all
+guesses, you <strong>WIN</strong> the game. If you make too many wrong guesses, you
+<strong>LOSE</strong> the game.</p></li>
+</ul>
+
+<h3>Output</h3>
+
+<p>For each game, you will start with a empty state. You must keep giving out a
+character as a guess until the status is <strong>WIN</strong> or <strong>LOSE</strong>.</p>
+
+<h2>Thoughts</h2>
+
+<p>Before we talk about anything, I need to clarify one thing: I am not familiar
+with NLP(Natural Language Processing) techniques. I might use some dumb way to
+solve this problem, but, well, it&#8217;s at least something that my intuition leads
+me to.</p>
+
+<h3>Initial Guess</h3>
+
+<p>If the state is all unrevealed, I will do an initial guess. The initial guess
+uses vowels, the famous a-e-i-o-u. However, I use a little variation here. I do
+not guess the vowels in this order, I sort it by the frequency of characters
+appearing in dictionary. I guess by e-i-o-u-a. The initial guess stops whenever
+a character works, then we go to word attack mode.</p>
+
+<h3>Word Attack</h3>
+
+<p>Since I don&#8217;t have any knowledge in the language model, I will launch a
+word-based attack. In my implementation, I only attack one word at a time. It
+is very important that we choose the right word to attack. If we pick the wrong
+word to guess, the probability to produce a correct guess will decrease. First,
+I assume that, in most cases, the word-to-be-attacked will be included in my
+dictionary. If we don&#8217;t make this assumption, it is hard to do optimization
+since you have to assume you have no knowledge regarding the context.</p>
+
+<h4>Which Word?</h4>
+
+<p>The best word to attack, in my opinion, is the word having most characters
+solved and having longest length as possible. Now, to decide it, the formula I
+used is:</p>
+
+<div class="mathjax">
+$$
+f_{cost}(w_i) = \frac{f_{unsolved}(w_i)}{f_{strlen}(w_i)^2}
+$$
+</div>
+
+<p>The best word to attack will have smallest cost from this formula. It first
+calculate the percentage of unsolved characters in the word, so the word with
+most portion of its characters revealed now having the smallest cost now. However, say we have a
+word <code>a_</code>, the word is now 50% solved but to finish the second character, you
+only need one move. It sounds good, but it does not generate any <em>side-effect</em>.
+Say now we have a word <code>co__ec__e__</code> and you already know the full word is
+<code>correctness</code>. You can now confidently send answers <code>[r, t, n, s]</code>. You may
+reveal characters in other words in the process, thus increase the overall
+probability of making right guesses.</p>
+
+<h4>The n-grams</h4>
+
+<blockquote><p>In the fields of computational linguistics and probability, an n-gram is a<br/>contiguous sequence of n items from a given sequence of text or speech. An<br/>n-gram could be any combination of letters. However, the items in question can<br/>be phonemes, syllables, letters, words or base pairs according to the<br/>application. The n-grams typically are collected from a text or speech corpus.</p><footer><strong>Wikipedia</strong> <cite><a href='http://en.wikipedia.org/wiki/N-gram'>N-gram</a></cite></footer></blockquote>
+
+<p>Since I&#8217;m not a NLP guy, I will just quote the definition of n-gram from
+Wikipedia. In my solver, I use two type of n-grams: A bigram table and a
+unigram table. Before I calculate those, I will filter the dictionary to a
+smaller version by eliminating words using the current state and guessed words.
+For example, the state of the word I&#8217;m attacking is <code>a__le</code>, and I haven&#8217;t
+guessed <code>[p, z]</code>. I will generate a regular expression of <code>a[pz][pz]le</code> and
+apply it on my dictionary. Then, I calculate those n-grams table in current
+reduced context.</p>
+
+<h5>Unigram table</h5>
+
+<p>My usage for unigram is very simple. I merely calculate the frequency of a
+characters shows in my dictionary.</p>
+
+<h5>Bigram table</h5>
+
+<p>The bigram I&#8217;m trying to build is based on the connection for two continuous
+characters. I will split each word into bigrams using the following ruby code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">bigram_split</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;^</span><span class="si">#{</span><span class="n">str</span><span class="si">}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each_cons</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span> <span class="n">bigram_split</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="o">[[</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;$&quot;</span><span class="o">]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>I collect those bigrams and calculate the frequency for each of those showing
+up among whole bigrams space for current dictionary.</p>
+
+<h4>The Attack</h4>
+
+<p>Now everything that we need before launching the attack is prepared, we can
+start to work on a guess. The first step is to acquire bigrams from the word
+state. The only bigrams we need is those with one of the character unsolved,
+but not all unsolved. In a more direct way, what we need is <code>[*, '_'] ['_',
+*]</code> but not <code>['_', '_']</code>. For those unsolved bigrams, I use the bigram table
+I just calculated to get a count on how frequent of a character shows up after
+or before a known character. I then sum the count for all bigrams in the word
+state and pick the character with highest count as the guess. It&#8217;s that simple.</p>
+
+<h4>Falling back</h4>
+
+<p>Well, sometimes you just don&#8217;t have any clue. In that case, my program will
+first falls back to attack on second best word and so on. If all words are
+tried, but we still have no clue. I&#8217;ll just fire a random guess using unigram
+table. However, it is really a wild guess, the success rate of making a correct
+guess using unigram table is not high.</p>
+
+<h2>Future Work</h2>
+
+<p>There are many ideas that can be implemented to improve my solution. Like
+implementing a word bigrams to further weight the possibility of characters
+bigrams could be useful, but it would require more research into NLP field. I
+think it is really a fun challenge. If you got some spare time, try it!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Chien-An "Zero" Cho</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-29T20:17:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ai/'>AI</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/hangman/'>hangman</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/" data-via="itszero" data-counturl="http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/09/04/applying-phd-for-dummies/" title="Previous Post: Applying PhD for dummies">&laquo; Applying PhD for dummies</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+		<li>
+		<a class='category' href='/blog/categories/ai/'>AI</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/google-maps/'>Google Maps</a>, <a class='category' href='/blog/categories/metawatch/'>MetaWatch</a>, <a class='category' href='/blog/categories/projects/'>Projects</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/gre/'>gre</a>, <a class='category' href='/blog/categories/hangman/'>hangman</a>, <a class='category' href='/blog/categories/impress-js/'>impress.js</a>, <a class='category' href='/blog/categories/middleman/'>middleman</a>, <a class='category' href='/blog/categories/new-technology/'>new technology</a>, <a class='category' href='/blog/categories/phd/'>phd</a>, <a class='category' href='/blog/categories/presentation/'>presentation</a>, <a class='category' href='/blog/categories/school/'>school</a>, <a class='category' href='/blog/categories/study/'>study</a>, <a class='category' href='/blog/categories/toefl/'>toefl</a>, <a class='category' href='/blog/categories/tricks/'>tricks</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+		</li>
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/my-way-to-write-a-hangman-ai/">(my way to) Write a Hangman AI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/04/applying-phd-for-dummies/">Applying PhD for dummies</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/19/the-solarized-dark-vim/">the Solarized Dark Vim</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/28/show-last-modified-date-in-middleman/">Show last modified date in Middleman</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/06/try-out-impress-js/">Trying out the impress.js</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/itszero">@itszero</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'itszero',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("itszero", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/itszero" class="twitter-follow-button" data-show-count="false">Follow @itszero</a>
+  
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/105273004135130660497?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Chien-An "Zero" Cho -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '50b5b9ea613f5d69b1000004');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zerogithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/';
+        var disqus_url = 'http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

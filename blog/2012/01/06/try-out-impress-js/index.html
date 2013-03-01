@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Trying out the impress.js - [Zero setLogger: self];</title>
+  <meta name="author" content="Chien-An "Zero" Cho">
+
+  
+  <meta name="description" content="There is a interesting javacsript library being released on the github these
+days, the impress.js. Impress.js is a
+framework for making presentations &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://itszero.github.com/blog/2012/01/06/try-out-impress-js/">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="[Zero setLogger: self];" type="application/atom+xml">
+    
+  <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+  <!-- fancyBox -->
+  <!-- Add jQuery library -->
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <!-- Add fancyBox -->
+  <link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
+  <script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js?v=2.0.4"></script>
+  <!-- Add fancyBox jQuery -->
+  <script type="text/javascript">
+    jQuery.noConflict();    // prevents conflicts with Ender.js, use jQuery instead of $
+    jQuery(document).ready(function() {
+        jQuery(".fancybox").fancybox();
+    });
+  </script>
+  <!-- End fancyBox insert -->
+
+  
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-7277533-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">[Zero setLogger: self];</a></h1>
+  
+    <h2></h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:itszero.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+  <li><a href="/resume">Résumé</a></li>
+  <li><a href="/portfolio">Portfolio</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Trying out the impress.js</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-06T02:25:00-05:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>There is a interesting javacsript library being released on the github these
+days, the <a href="http://bartaz.github.com/impress.js/">impress.js</a>. Impress.js is a
+framework for making presentations on a open canvas, or so called the
+<a href="http://prezi.com">Prezi-style</a>. I tried out the Prezi few years ago. It&#8217;s
+cool, but as the README from the impress.js said: &#8220;impress.js may not help you
+if you have nothing interesting to say ;)&#8221;. I don&#8217;t really have a chance to
+make a will-use-on-the-stage presentation on a Prezi.</p>
+
+<p>Fortunately, there is a regular meeting of my lab, and it&#8217;s just my turn to
+present a read paper this week. I spent a whole night and messed around with
+the impress.js. You can find my result here: <a href="/attic/dynamic-ua-for-wsn/">A dynamic user authentication
+scheme for wireless sensor network</a>. I&#8217;m not really
+get used to arrange contents flat, so the result is not perfect yet.</p>
+
+<p><a href="/images/impressjs_dynamic_ua.png" class="fancybox"><img src="/images/impressjs_dynamic_ua.png" width="600" title="&#34;A presentation made using impress.js&#34;" alt="&#34;A presentation made using impress.js&#34;"></a></p>
+
+<p>It&#8217;s really fun to make slides using HTML5/CSS3, and make them <em>alive</em> through
+impress.js. For example, I made that Smartcard entirely in the CSS3, which used
+border-radius and linear-gradient properties. I also used some CSS3 animation
+property in the Security Analysis section. Once you enter the slide, <em>Login
+Replay</em> becomes larger and the other two fade out. Next slide zooms in on the
+detail of login replay, the text will rotate for a little bit to give you a
+visual clue. You can use whatever CSS3 trick you know to make a presentation.
+Best of it? You can host it on whatever provider you want since it&#8217;s just some
+plain HTML/CSS/JS files. Dropbox? Sure. Github? Done.</p>
+
+<p>However, it does have some strange quirk. First, the relative location and
+zoom-on-active of slides seems not necessarily remain constant across
+different computer / resolution / browser configuration set. My slides did
+need some tweak to make sure no text being blocked out on both my iMac 27&quot; and
+MacBook Air 13&quot;. You&#8217;ll need to manually align your slides to the center, so
+you can expect some negative values on X, Y values. It would be awesome if the
+library can take care of this of me. :P</p>
+
+<p>In any case, this is still a fascinating library worth you to play with.
+Get it now on the github and perhaps you can make your own slides, or
+better, contribute some patches back to the project.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Chien-An "Zero" Cho</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-06T02:25:00-05:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/impress-js/'>impress.js</a>, <a class='category' href='/blog/categories/new-technology/'>new technology</a>, <a class='category' href='/blog/categories/presentation/'>presentation</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itszero.github.com/blog/2012/01/06/try-out-impress-js/" data-via="itszero" data-counturl="http://itszero.github.com/blog/2012/01/06/try-out-impress-js/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/11/18/git-dashboard/" title="Previous Post: Git Dashboard">&laquo; Git Dashboard</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/28/show-last-modified-date-in-middleman/" title="Next Post: Show last modified date in Middleman">Show last modified date in Middleman &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Categories</h1>
+  <ul id="categories">
+		<li>
+		<a class='category' href='/blog/categories/ai/'>AI</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/google-maps/'>Google Maps</a>, <a class='category' href='/blog/categories/metawatch/'>MetaWatch</a>, <a class='category' href='/blog/categories/projects/'>Projects</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/gre/'>gre</a>, <a class='category' href='/blog/categories/hangman/'>hangman</a>, <a class='category' href='/blog/categories/impress-js/'>impress.js</a>, <a class='category' href='/blog/categories/middleman/'>middleman</a>, <a class='category' href='/blog/categories/new-technology/'>new technology</a>, <a class='category' href='/blog/categories/phd/'>phd</a>, <a class='category' href='/blog/categories/presentation/'>presentation</a>, <a class='category' href='/blog/categories/school/'>school</a>, <a class='category' href='/blog/categories/study/'>study</a>, <a class='category' href='/blog/categories/toefl/'>toefl</a>, <a class='category' href='/blog/categories/tricks/'>tricks</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+		</li>
+  </ul>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/29/my-way-to-write-a-hangman-ai/">(my way to) Write a Hangman AI</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/09/04/applying-phd-for-dummies/">Applying PhD for dummies</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/04/19/the-solarized-dark-vim/">the Solarized Dark Vim</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/28/show-last-modified-date-in-middleman/">Show last modified date in Middleman</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/01/06/try-out-impress-js/">Trying out the impress.js</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/itszero">@itszero</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'itszero',
+            count: 10,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("itszero", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/itszero" class="twitter-follow-button" data-show-count="false">Follow @itszero</a>
+  
+</section>
+
+
+
+<section class="googleplus googleplus-hidden">
+  <h1>
+    <a href="https://plus.google.com/105273004135130660497?rel=author">
+      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
+      Google+
+    </a>
+  </h1>
+</section>
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Chien-An "Zero" Cho -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+<!-- mathjax config similar to math.stackexchange -->
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  jax: ["input/TeX", "output/HTML-CSS"],
+  tex2jax: {
+    inlineMath: [ ['$', '$'] ],
+    displayMath: [ ['$$', '$$']],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  messageStyle: "none",
+  "HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+});
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+  var _gauges = _gauges || [];
+  (function() {
+    var t   = document.createElement('script');
+    t.type  = 'text/javascript';
+    t.async = true;
+    t.id    = 'gauges-tracker';
+    t.setAttribute('data-site-id', '50b5b9ea613f5d69b1000004');
+    t.src = '//secure.gaug.es/track.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(t, s);
+  })();
+</script>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'zerogithub';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itszero.github.com/blog/2012/01/06/try-out-impress-js/';
+        var disqus_url = 'http://itszero.github.com/blog/2012/01/06/try-out-impress-js/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

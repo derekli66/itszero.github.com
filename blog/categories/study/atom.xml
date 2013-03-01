@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: study | [Zero setLogger: self];]]></title>
+  <link href="http://itszero.github.com/blog/categories/study/atom.xml" rel="self"/>
+  <link href="http://itszero.github.com/"/>
+  <updated>2013-03-01T11:37:13-05:00</updated>
+  <id>http://itszero.github.com/</id>
+  <author>
+    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Applying PhD for dummies]]></title>
+    <link href="http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies/"/>
+    <updated>2012-09-04T14:57:00-04:00</updated>
+    <id>http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies</id>
+    <content type="html"><![CDATA[<p>Applying for a PhD degree can be troublesome. There are agencies out there
+helping people deal with the process. Is it really necessary to pay lots of
+money for it? My answer is simply negative. All you need is a right set of tool
+to track the progress. I will share my experience of applying both the PhD and
+F-1 VISA (this part only applies to students in Taiwan, as your experience may
+vary). I started working on my application very late and it resulted in a rush
+application process. Hope by sharing my experience, you can apply for PhD
+programs more easily. :)</p>
+
+<h1>What do you need?</h1>
+
+<p>Before you begin, there are some prerequisites you need to take care of. Here
+is a short list:</p>
+
+<ul>
+<li>The TOEFL examination</li>
+<li>The GRE examination</li>
+<li>Résumé</li>
+<li>Statement of Purpose (and/or Personal Statement)</li>
+<li>Financial support document</li>
+<li>Transcripts for your BS and MS degree</li>
+</ul>
+
+<p>Please note that this may not be a complete list of everything you will need
+for every school.  Some schools may ask for additional documents, for example,
+some schools may requires you to take the Subject GRE examination as well. If
+you want to apply for the Fall semester, the deadline is usually in December of
+previous year. For example, you want to apply for Fall 2012. The application
+deadline would be around December 2011 to January 2012. I would suggest you to
+take care all of the examinations before November and leave a whole month for
+getting your application ready as you will need to wait for the deliveries of
+every documents and letters of recommendation(LoR).</p>
+
+<h2>TOEFL/GRE</h2>
+
+<p>You usually need to have your examinations scores delivered to the school by
+the end of the application deadline. Some schools may have one to two weeks
+extension for test scores. Since the ETS can sometimes be very unproductive,
+I would suggest you to finish the test before November. Oh, please take a note
+of the TOEFL/GRE institution code of your target schools. You can request a few
+free copies on the spot after taking the tests to save money. :P</p>
+
+<p>I don't really have tips for preparing, as I wan't very well prepared. However,
+there is some insights I can share. If you go to PTT, Taiwan's largest
+electronic bulletin board system, popular among the university students, and
+read those test-taking experience shared in TOEFL/GRE board. You will see that
+many people are complaining about the noise during the oral part of tests. Here
+is one thing I can tell you, do your tests quickly. If you're quick enough, you
+can be the first one to answer the speaking questions before everyone else, so
+you can relax and do your tests at the best you can.</p>
+
+<p>If you have friends who lives in the States, you can talk to him/her in for
+practice, you will have no problem on TOEFL test. However, GRE is a lot
+different. Though the verbal part of GRE may be a pain in the ass, the
+quantitative part is usually easy for Taiwanese students. We all have that
+miserable experience preparing for college entrance exam, right? You will
+definitely need some time to memorize some advanced vocabulary for GRE. Another
+thing that you may want to practice is AWA. AWA is like writing a small thesis
+on a given topic. There is no right or wrong. However, you will need to express
+your opinion systematically and defense your prospective with solid reasons. My
+tips? Write, write, and read. Find some time to write things down in English,
+preferably a long blog post or diaries. Read some articles from some well-known
+journals or magazines. Once you get used to the way of Americans thinking, you
+should not have problem on AWA.</p>
+
+<p>Last thing to do before taking tests: Spend a day to read some example test
+questions. It is not your objective to memorize all the questions. What you
+need to do is to get used to different kind of questions and know how to rush
+to an answer in no time.</p>
+
+<h2>Résumé</h2>
+
+<p>I think that you should have your résumé prepared all the time. Trust me. You
+will not want to write down your whole life in a day. It will be an erroneous
+and boring process. I would suggest you to write in Markdown syntax (or any
+plain text formatting syntax you prefer). Writing things down in plain text
+format can help you to organize things more quickly. If you use Markdown, you
+can easily convert it into a web page and put it online for display. I will
+suggest that you do a separate print version using LaTeX, as the template based
+on LaTeX gives a professional look. It is so easy to maintain compared to those
+made using Word, Pages or even InDesign.</p>
+
+<p>You can find my résumé <a href="http://itszero.github.com/resume">here</a>. Make sure you
+include those sections: basic personal information, education histories, work
+experiences, publications, some projects that you involved in before. You may
+want to put as much as possible to show your strength, but do not make it more
+than 2 pages. Professors and your future employers simply do not have time to
+read a long résumé. Keep it clean and simple. Highlights the most
+important things in your life! (Update: If you're preparing resume for job
+application, make it in one page.)</p>
+
+<h2>SoP and PS</h2>
+
+<p>SoP (Statement of Purpose) and PS (Personal Statement) aws quite confusing for
+me. The purpose of the two documents is actually the same. It presents your
+background and personality. I distinguish those two by applying more personal
+touch to the personal statement. You may want to use one or two paragraph to
+state a personal experience that leads you to your current study, while focus
+your SoP solely on the what you want to do in the future. I think it should be
+able to fit in a page or two. I doubt professors would have much time to read,
+so make it simple and clear.</p>
+
+<h2>Financial Document</h2>
+
+<p>Hmm, this should be the easiest part. I'm not going to waste much time here.
+You just deposit money into an account, and apply for the &quot;Certificate of
+Deposit&quot;, or 存款證明 in Chinese. For the amount, please ask your school for
+the details.  However, an average number would be USD$20000~30000. Some school
+may not request for it until they're applying I-20 for you. If that is the
+case, and you have a scholarship or assistantship offering, you may ask your
+department or graduate office for the correct amount you will need to prepare.</p>
+
+<h2>Some Tips</h2>
+
+<p>During the process, I would suggest you to use some spreadsheets software for
+managing application process of all the different schools. <a href="http://docs.google.com/">Google
+Docs</a> would be a good choice. Make sure you print (as
+PDF, to save papers) and archive everything. Track every letter of
+recommendations, TOEFL/GRE scores and results. If you do this, you will always
+have a dashboard for all those different applications. Likewise, since you will
+need to log into many systems during the application. I would suggest you to
+use some password manager like <a href="https://agilebits.com/onepassword">1Password</a>,
+<a href="http://keepass.info/">KeePass</a> to track every used password, because every
+system will have its own requirement on password. It will help a lot.</p>
+
+<h2>Conclusions</h2>
+
+<p>You should have everything you need to know by now. For the things I didn't
+mentioned above, look for your desired school. You might find some help on the
+internet as well. Try StudyAbroad on PTT BBS if you're a Taiwanese student. I
+hope this experience can be of help. I also hope that you will be admitted by your
+favorite school. ;)</p>
+]]></content>
+  </entry>
+  
+</feed>
