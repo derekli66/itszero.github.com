@@ -9,8 +9,8 @@
   <meta name="author" content="Chien-An "Zero" Cho">
 
   
-  <meta name="description" content="I was asked to write a hangman AI as a challenge last week. I was asked not to
-leak the detail, so I will not post my solution here. However, the &hellip;">
+  <meta name="description" content="I had a remote running Windows with Remote Desktop enabled. I&#8217;m really
+comfortable about just putting it online with the bare minimal Windows &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,73 @@ leak the detail, so I will not post my solution here. However, the &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/24/two-factor-authentication-for-windows/">Two-factor Authentication for Windows</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-24T15:25:00-04:00" pubdate data-updated="true">Apr 24<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I had a remote running Windows with Remote Desktop enabled. I&#8217;m really
+comfortable about just putting it online with the bare minimal Windows
+authentication protection. So I went online to do a little research and I found
+out that the algorithm Google Authenticator is using (it&#8217;s called TOTP) could
+be integrated to Windows authentication system. Here is how to do it.</p>
+
+<p>The key thing here is <a href="http://code.google.com/p/multi-one-time-password--credential-provider/">MultiOTP-CP</a>, it&#8217;s a credential provider for Windows to
+enable two-factor authentication. Before we get into that, we will need to
+install its dependency, <a href="http://www.multiotp.net">MultiOTP</a>. MultiOTP is a library to deal with one-time
+passwords. You can download it from [http://www.multiotp.net]. Extract it to
+<code>C:\multiotp</code>. Now, we need to tie your Windows account with a proper key for
+TOTP elgorithm. Open your command prompt and switch to <code>C:\multiotp</code>. Type the
+following command to setup two-factor auth.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>multiotp -debug -create test [user name] [20-bytes(160bits) key] [4 digit pin, doesn't matter.] 6 30</span></code></pre></td></tr></table></div></figure>
+
+<p>If it says success, try you could verify it by using</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>multiotp -debug [user name] [OTP generated on your phone]</span></code></pre></td></tr></table></div></figure>
+
+<p>If you need some help with generating key, I recommend <a href="https://github.com/markbao/speakeasy">speakeasy</a>. It&#8217;s not
+exactly a tool but a two-factor authentication library for node.js. It could
+generate key and url to QR code for your phone to scan in one line. If you
+don&#8217;t mind go through installing node.js, try it!</p>
+
+<p>Once that&#8217;s done, install multiotp-cp and it&#8217;s done! Next time you need to
+login to Windows, you&#8217;ll see an extra field for you to input one-time password.
+Simple as that!</p>
+
+<p><a href="/images/posts/multiotp-login.png" class="fancybox"><img src="/images/posts/multiotp-login.png" width="554" title="&#34;MulitOTP-CP login screen&#34;" alt="&#34;MulitOTP-CP login screen&#34;"></a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -863,13 +930,17 @@ I think I&#8217;ll move to this blog and try to write posts in English here.</p>
   <h1>Categories</h1>
   <ul id="categories">
 		<li>
-		<a class='category' href='/blog/categories/ai/'>AI</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/google-maps/'>Google Maps</a>, <a class='category' href='/blog/categories/metawatch/'>MetaWatch</a>, <a class='category' href='/blog/categories/projects/'>Projects</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/gre/'>gre</a>, <a class='category' href='/blog/categories/hangman/'>hangman</a>, <a class='category' href='/blog/categories/impress-js/'>impress.js</a>, <a class='category' href='/blog/categories/middleman/'>middleman</a>, <a class='category' href='/blog/categories/new-technology/'>new technology</a>, <a class='category' href='/blog/categories/phd/'>phd</a>, <a class='category' href='/blog/categories/presentation/'>presentation</a>, <a class='category' href='/blog/categories/school/'>school</a>, <a class='category' href='/blog/categories/study/'>study</a>, <a class='category' href='/blog/categories/toefl/'>toefl</a>, <a class='category' href='/blog/categories/tricks/'>tricks</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
+		<a class='category' href='/blog/categories/ai/'>AI</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/google-maps/'>Google Maps</a>, <a class='category' href='/blog/categories/metawatch/'>MetaWatch</a>, <a class='category' href='/blog/categories/multiotp/'>MultiOTP</a>, <a class='category' href='/blog/categories/projects/'>Projects</a>, <a class='category' href='/blog/categories/rdp-/'>RDP,</a>, <a class='category' href='/blog/categories/windows-/'>Windows,</a>, <a class='category' href='/blog/categories/authentication-/'>authentication,</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/gre/'>gre</a>, <a class='category' href='/blog/categories/hangman/'>hangman</a>, <a class='category' href='/blog/categories/impress-js/'>impress.js</a>, <a class='category' href='/blog/categories/middleman/'>middleman</a>, <a class='category' href='/blog/categories/new-technology/'>new technology</a>, <a class='category' href='/blog/categories/phd/'>phd</a>, <a class='category' href='/blog/categories/presentation/'>presentation</a>, <a class='category' href='/blog/categories/school/'>school</a>, <a class='category' href='/blog/categories/study/'>study</a>, <a class='category' href='/blog/categories/toefl/'>toefl</a>, <a class='category' href='/blog/categories/tricks/'>tricks</a>, <a class='category' href='/blog/categories/two-factor/'>two-factor</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
 		</li>
   </ul>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/04/24/two-factor-authentication-for-windows/">Two-factor Authentication for Windows</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2012/10/29/my-way-to-write-a-hangman-ai/">(my way to) Write a Hangman AI</a>
@@ -885,10 +956,6 @@ I think I&#8217;ll move to this blog and try to write posts in English here.</p>
     
       <li class="post">
         <a href="/blog/2012/03/28/show-last-modified-date-in-middleman/">Show last modified date in Middleman</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/01/06/try-out-impress-js/">Trying out the impress.js</a>
       </li>
     
   </ul>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: two-factor | [Zero setLogger: self];]]></title>
+  <link href="http://itszero.github.com/blog/categories/two-factor/atom.xml" rel="self"/>
+  <link href="http://itszero.github.com/"/>
+  <updated>2013-04-24T21:20:48-04:00</updated>
+  <id>http://itszero.github.com/</id>
+  <author>
+    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Two-factor Authentication for Windows]]></title>
+    <link href="http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows/"/>
+    <updated>2013-04-24T15:25:00-04:00</updated>
+    <id>http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows</id>
+    <content type="html"><![CDATA[<p>I had a remote running Windows with Remote Desktop enabled. I'm really
+comfortable about just putting it online with the bare minimal Windows
+authentication protection. So I went online to do a little research and I found
+out that the algorithm Google Authenticator is using (it's called TOTP) could
+be integrated to Windows authentication system. Here is how to do it.</p>
+
+<p>The key thing here is <a href="http://code.google.com/p/multi-one-time-password--credential-provider/">MultiOTP-CP</a>, it's a credential provider for Windows to
+enable two-factor authentication. Before we get into that, we will need to
+install its dependency, <a href="http://www.multiotp.net">MultiOTP</a>. MultiOTP is a library to deal with one-time
+passwords. You can download it from [http://www.multiotp.net]. Extract it to
+<code>C:\multiotp</code>. Now, we need to tie your Windows account with a proper key for
+TOTP elgorithm. Open your command prompt and switch to <code>C:\multiotp</code>. Type the
+following command to setup two-factor auth.</p>
+
+<p><code>
+multiotp -debug -create test [user name] [20-bytes(160bits) key] [4 digit pin, doesn't matter.] 6 30
+</code></p>
+
+<p>If it says success, try you could verify it by using</p>
+
+<p><code>
+multiotp -debug [user name] [OTP generated on your phone]
+</code></p>
+
+<p>If you need some help with generating key, I recommend <a href="https://github.com/markbao/speakeasy">speakeasy</a>. It's not
+exactly a tool but a two-factor authentication library for node.js. It could
+generate key and url to QR code for your phone to scan in one line. If you
+don't mind go through installing node.js, try it!</p>
+
+<p>Once that's done, install multiotp-cp and it's done! Next time you need to
+login to Windows, you'll see an extra field for you to input one-time password.
+Simple as that!</p>
+
+<p><a href="/images/posts/multiotp-login.png" class="fancybox"><img src="/images/posts/multiotp-login.png" width="554" title="&quot;MulitOTP-CP login screen&quot;" ></a></p>
+]]></content>
+  </entry>
+  
+</feed>
