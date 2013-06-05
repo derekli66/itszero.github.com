@@ -15,6 +15,10 @@ Email: itszero at gmail dot com
 
 ## Work Experiences
 
+### Software Engineering Intern (May 2013 - Jul 2013)
+- [Twitter Inc.](http://twitter.com), San Francisco, California, USA
+- Web Core Team (Frontend/Backend frameworks)
+
 ### Contractor (Jan 2012 - Aug 2012)
 - [KKBOX Inc.](http://www.kkbox.com.tw/), Taipei, Taiwan
 - Technical research for mobile and web platforms
