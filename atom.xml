@@ -4,7 +4,7 @@
   <title><![CDATA[[Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-04-24T21:20:48-04:00</updated>
+  <updated>2013-06-04T22:06:34-07:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
     <name><![CDATA[Chien-An "Zero" Cho]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Two-factor Authentication for Windows]]></title>
     <link href="http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows/"/>
-    <updated>2013-04-24T15:25:00-04:00</updated>
+    <updated>2013-04-24T15:25:00-07:00</updated>
     <id>http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows</id>
     <content type="html"><![CDATA[<p>I had a remote running Windows with Remote Desktop enabled. I&#8217;m really
 comfortable about just putting it online with the bare minimal Windows
@@ -56,7 +56,7 @@ Simple as that!</p>
   <entry>
     <title type="html"><![CDATA[(my way to) Write a Hangman AI]]></title>
     <link href="http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/"/>
-    <updated>2012-10-29T20:17:00-04:00</updated>
+    <updated>2012-10-29T20:17:00-07:00</updated>
     <id>http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai</id>
     <content type="html"><![CDATA[<p>I was asked to write a hangman AI as a challenge last week. I was asked not to
 leak the detail, so I will not post my solution here. However, the hangman
@@ -209,7 +209,7 @@ think it is really a fun challenge. If you got some spare time, try it!</p>
   <entry>
     <title type="html"><![CDATA[Applying PhD for dummies]]></title>
     <link href="http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies/"/>
-    <updated>2012-09-04T14:57:00-04:00</updated>
+    <updated>2012-09-04T14:57:00-07:00</updated>
     <id>http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies</id>
     <content type="html"><![CDATA[<p>Applying for a PhD degree can be troublesome. There are agencies out there
 helping people deal with the process. Is it really necessary to pay lots of
@@ -349,7 +349,7 @@ favorite school. ;)</p>
   <entry>
     <title type="html"><![CDATA[the Solarized Dark Vim]]></title>
     <link href="http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim/"/>
-    <updated>2012-04-19T22:38:00-04:00</updated>
+    <updated>2012-04-19T22:38:00-07:00</updated>
     <id>http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim</id>
     <content type="html"><![CDATA[<p>Today, I spent a whole day on reconfigure my Vim. Vim is a powerful monster
 that needs care. Once you feed it with (your precious) time, Vim will pay you
@@ -429,7 +429,7 @@ journey of becoming a power Vim user. :-)</p>
   <entry>
     <title type="html"><![CDATA[Show last modified date in Middleman]]></title>
     <link href="http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman/"/>
-    <updated>2012-03-28T13:39:00-04:00</updated>
+    <updated>2012-03-28T13:39:00-07:00</updated>
     <id>http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman</id>
     <content type="html"><![CDATA[<p>It is very convenient to build a static website using middleman along with some
 tools like compass, twitter&#8217;s bootstrap framework. You can easily build a
@@ -480,7 +480,7 @@ after the path should be just fine. The result code would look like this:</p>
   <entry>
     <title type="html"><![CDATA[Trying out the impress.js]]></title>
     <link href="http://itszero.github.com/blog/2012/01/06/try-out-impress-js/"/>
-    <updated>2012-01-06T02:25:00-05:00</updated>
+    <updated>2012-01-06T02:25:00-08:00</updated>
     <id>http://itszero.github.com/blog/2012/01/06/try-out-impress-js</id>
     <content type="html"><![CDATA[<p>There is a interesting javacsript library being released on the github these
 days, the <a href="http://bartaz.github.com/impress.js/">impress.js</a>. Impress.js is a
@@ -525,7 +525,7 @@ better, contribute some patches back to the project.</p>
   <entry>
     <title type="html"><![CDATA[Git Dashboard]]></title>
     <link href="http://itszero.github.com/blog/2011/11/18/git-dashboard/"/>
-    <updated>2011-11-18T08:57:00-05:00</updated>
+    <updated>2011-11-18T08:57:00-08:00</updated>
     <id>http://itszero.github.com/blog/2011/11/18/git-dashboard</id>
     <content type="html"><![CDATA[<p><a href="http://itszero.github.com/images/posts/git-dashboard.png" class="fancybox"><img src="http://itszero.github.com/images/posts/git-dashboard.png"></a></p>
 
@@ -563,7 +563,7 @@ format string. You could add the following entries to your <code>~/.gitconfig</c
   <entry>
     <title type="html"><![CDATA[MetaWatch meets Google Maps]]></title>
     <link href="http://itszero.github.com/blog/2011/11/18/meta-watch-meets-google-maps/"/>
-    <updated>2011-11-18T08:42:00-05:00</updated>
+    <updated>2011-11-18T08:42:00-08:00</updated>
     <id>http://itszero.github.com/blog/2011/11/18/meta-watch-meets-google-maps</id>
     <content type="html"><![CDATA[<p><a href="http://itszero.github.com/images/posts/MetaPlay.jpg" class="fancybox"><img class="right" src="http://itszero.github.com/images/posts/MetaPlay.jpg" width="200" title="MetaPlay" ></a></p>
 
@@ -583,7 +583,7 @@ done next..</p>
   <entry>
     <title type="html"><![CDATA[Moved to Octopress]]></title>
     <link href="http://itszero.github.com/blog/2011/10/06/my-octopress-blog/"/>
-    <updated>2011-10-06T07:23:00-04:00</updated>
+    <updated>2011-10-06T07:23:00-07:00</updated>
     <id>http://itszero.github.com/blog/2011/10/06/my-octopress-blog</id>
     <content type="html"><![CDATA[<p>Just saw this new blogging system and I think I like the idea. :)
 I think I&#8217;ll move to this blog and try to write posts in English here.</p>
