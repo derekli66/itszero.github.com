@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: android | [Zero setLogger: self];]]></title>
+  <link href="http://itszero.github.com/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://itszero.github.com/"/>
+  <updated>2013-09-13T16:05:34-04:00</updated>
+  <id>http://itszero.github.com/</id>
+  <author>
+    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Migrate Android Project to Gradle Build System]]></title>
+    <link href="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/"/>
+    <updated>2013-09-13T13:57:00-04:00</updated>
+    <id>http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle</id>
+    <content type="html"><![CDATA[<p><a href="http://www.gradle.org/">Gradle</a> is a new build system that Android is currently promoting. It can be
+used to build Android project by adding a <a href="http://tools.android.com/tech-docs/new-build-system/user-guide">Gradle Android plugin</a>. It is also
+possible that Android would move to Gradle-only build system, ditching the old
+ant-way to build things. The <a href="http://developer.android.com/sdk/installing/studio.html">Android Studio</a> only supports Gradle projects.</p>
+
+<h3>Quickstart</h3>
+
+<p>To join the new family, we need to write a new build.gradle file in project
+root. An general example of build.gradle would look like the snippet below.
+Please note that the system is still in active development, version numbers
+could change very soon. I'm using Gradle 1.7, plugin 0.5.6, Android Build Tools
+17 and my target SDK version is 15.</p>
+
+<p>``` groovy A simple build.gradle for Android project
+buildscript {
+  repositories {
+    mavenCentral()
+  }</p>
+
+<p>dependencies {
+    classpath 'com.android.tools.build:gradle:0.5.6'
+  }
+}</p>
+
+<p>apply plugin: 'android'</p>
+
+<p>android {
+  compileSdkVersion 15
+  buildToolsVersion &quot;17&quot;</p>
+
+<p>sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        res.srcDirs = ['res']
+    }
+  }
+}
+```</p>
+
+<p>This simple gradle file should be able to build most of standard Android
+projects. But what if I have special need? I'm going to talk about how to
+add support for AndroidAnnotation and token replacement below.</p>
+
+<h3>Android Annotation</h3>
+
+<p><a href="https://github.com/excilys/androidannotations">AndroidAnnotation</a> is a set of very useful annotations that you could use in
+your code to make your code shorter and more easier to read. The framework
+utilize a annotation processor to scan through your source code file and
+generate helper classes. To integrate it, we need to do 2 things:</p>
+
+<ul>
+<li>Add processor flags to Java compiler</li>
+<li>Add androidannotation-api dependency</li>
+</ul>
+
+<h4>Manipulating Compile Task</h4>
+
+<p>To add extra flags to compiler, we need to use the interface Android Gradle
+plugin exposed to access relevant tasks. The build plugin organize tasks into
+different &quot;variants&quot;, some basic variants includes debug and release. To
+iterate through all variants, we could use <code>android.applicationVariants.all</code>.</p>
+
+<p>``` groovy Add support of Android annotation
+// Code based on https://github.com/excilys/androidannotations/issues/676
+def getSourceSetName(variant) {
+  return new File(variant.dirName).getName();
+}</p>
+
+<p>android.applicationVariants.all { variant -&gt;</p>
+
+<p>def aptOutputDir = project.file(&quot;build/source/apt&quot;)
+  def aptOutput = new File(aptOutputDir, variant.dirName)</p>
+
+<p>android.sourceSets[getSourceSetName(variant)].java.srcDirs += aptOutput.getPath()</p>
+
+<p>variant.javaCompile.options.compilerArgs += [
+    '-processorpath', configurations.apt.getAsPath(),
+    '-s', aptOutput
+  ]</p>
+
+<p>variant.javaCompile.source = variant.javaCompile.source.filter { p -&gt;
+    return !p.getPath().startsWith(aptOutputDir.getPath())
+  }</p>
+
+<p>variant.javaCompile.doFirst {
+    aptOutput.mkdirs()
+  }</p>
+
+<p>}
+```</p>
+
+<p>The <code>configurations.apt</code> is missing at the moment. We used the variable to
+store path to Android Annotation processor and we use Gradle's dependencies
+managing feature to resolve the path for us.</p>
+
+<p>``` groovy Resolve Android Annotation processor path
+configurations {
+  apt
+}</p>
+
+<p>dependencies {
+  apt files('compile-libs/androidannotations-2.7.1.jar')
+}
+```</p>
+
+<h3>Add dependencies</h3>
+
+<p>For managing dependencies, Gradle uses a <code>dependencies</code> block. The following
+code snippets shows different ways to include dependencies. <code>fileTree</code> can be
+used to iterate files in directory, <code>string</code> will be resolved using
+repositories(default includes Maven Central) and <code>project</code> is used to reference
+dependent local projects. We will talk about multi-project build support later.</p>
+
+<p><code>groovy Different ways to specify dependencies
+dependencies {
+  compile fileTree(dir: 'libs', include: '*.jar', exclude: 'android-support-v4.jar')
+  compile 'com.android.support:support-v4:18.0.+'
+  compile project(':extra:actionbarsherlock')
+  compile project(':extra:ViewPagerIndicator')
+}
+</code></p>
+
+<p>Say if you put the Android Annotation API jar into libs directory, the build
+system should picked it up by now.</p>
+
+<h2>Token Replacement</h2>
+
+<p>Sometimes we would like to have a way to reference build version, git revisions
+from Java code. To accomplish this, we need to collect those informations and
+put it in a Java source file which will be picked out later during compilation.</p>
+
+<p>Let's say if you have a AppBuild.java looks like below and we put it in
+<code>compile-libs</code> directory.</p>
+
+<p>``` java Template of AppBuild.java
+package idv.Zero.example;</p>
+
+<p>public class AppBuild {
+  public static final String GIT_REV = &quot;@git-rev@&quot;;
+}
+```</p>
+
+<p>Note the <code>@git-rev@</code> is the token we will replace with current git revision
+number each time we build the project. Now we have the template, we need to rig
+it into the build system. The way I'm doing this is by adding a generation task
+per variant and setup the dependency for compiling task to be depend on this
+generation task.</p>
+
+<p>``` groovy Rig token replacement into the build system
+import org.apache.tools.ant.filters.ReplaceTokens</p>
+
+<p>android.applicationVariants.all { variant -&gt;
+  def taskName = &quot;generateAppBuild${variant.dirName.capitalize()}&quot;</p>
+
+<p>task (taskName, type: Copy) {
+    def todir = &quot;build/source/AppBuild/${variant.dirName}/cc/hypo/pieceroids&quot;
+    new File(todir).mkdirs()</p>
+
+<pre><code>from project.file('compile-libs/AppBuild.java')
+into todir
+outputs.upToDateWhen { false }
+
+def proc = &quot;git rev-parse --verify HEAD&quot;.execute()
+proc.waitFor()
+
+filter(ReplaceTokens, tokens:['git-rev': proc.in.text.trim()])
+</code></pre>
+
+<p>}
+  tasks[&quot;compile${variant.dirName.capitalize()}&quot;].dependsOn(taskName)
+}
+```</p>
+
+<p>What this code snippets do is to initiate a copy task by the name
+<code>generateAppBuild${variant}</code>. Note the outputs.upToDateWhen line would cause
+the task to always run, otherwise it'll be skipped if the source file is not
+changed, which is not what we want. You'll also need to import ReplaceTokens
+filter from our good old friend, <code>ant</code>.</p>
+
+<h2>Conclusion</h2>
+
+<p>In this article, I showed how to migrate your android project to utilize Gradle
+as the build system. Additionally, I also showed a way to integrate
+Android Annotations and build information generation. I hope these would be
+enough to get your started with Gradle. Here is the final build.gradle you
+should have after all these extra codes.</p>
+
+<p>``` groovy Final build.gradle
+import org.apache.tools.ant.filters.ReplaceTokens</p>
+
+<p>buildscript {
+  repositories {
+    mavenCentral()
+  }</p>
+
+<p>dependencies {
+    classpath 'com.android.tools.build:gradle:0.5.6'
+  }
+}</p>
+
+<p>apply plugin: 'android'</p>
+
+<p>configurations {
+  apt
+}</p>
+
+<p>dependencies {
+  compile fileTree(dir: 'libs', include: '*.jar', exclude: 'android-support-v4.jar')
+  compile 'com.android.support:support-v4:18.0.+'
+  compile project(':extra:actionbarsherlock')
+  compile project(':extra:ViewPagerIndicator')</p>
+
+<p>apt files('compile-libs/androidannotations-2.7.1.jar')
+}</p>
+
+<p>def getSourceSetName(variant) {
+    return new File(variant.dirName).getName();
+}</p>
+
+<p>android.applicationVariants.all { variant -&gt;
+  def aptOutputDir = project.file(&quot;build/source/apt&quot;)
+  def aptOutput = new File(aptOutputDir, variant.dirName)</p>
+
+<p>android.sourceSets[getSourceSetName(variant)].java.srcDirs += aptOutput.getPath()</p>
+
+<p>variant.javaCompile.options.compilerArgs += [
+    '-processorpath', configurations.apt.getAsPath(),
+    '-s', aptOutput
+  ]</p>
+
+<p>variant.javaCompile.source = variant.javaCompile.source.filter { p -&gt;
+    return !p.getPath().startsWith(aptOutputDir.getPath())
+  }</p>
+
+<p>variant.javaCompile.doFirst {
+    aptOutput.mkdirs()
+  }</p>
+
+<p>android.sourceSets[getSourceSetName(variant)].java.srcDirs += &quot;build/source/AppBuild/${variant.dirName}&quot;</p>
+
+<p>def taskName = &quot;generateAppBuild${variant.dirName.capitalize()}&quot;
+  task (taskName, type: Copy) {
+    def todir = &quot;build/source/AppBuild/${variant.dirName}/cc/hypo/pieceroids&quot;
+    new File(todir).mkdirs()</p>
+
+<pre><code>from project.file('compile-libs/AppBuild.java')
+into todir
+outputs.upToDateWhen { false }
+
+def proc = &quot;git rev-parse --verify HEAD&quot;.execute()
+proc.waitFor()
+
+filter(ReplaceTokens, tokens:['git-rev': proc.in.text.trim()])
+</code></pre>
+
+<p>}
+  tasks[&quot;compile${variant.dirName.capitalize()}&quot;].dependsOn(taskName)
+}</p>
+
+<p>android {
+  compileSdkVersion 15
+  buildToolsVersion &quot;17&quot;</p>
+
+<p>sourceSets {
+    main {
+      manifest.srcFile 'AndroidManifest.xml'
+        java.srcDirs = ['src']
+        res.srcDirs = ['res']
+    }
+  }
+}
+```</p>
+]]></content>
+  </entry>
+  
+</feed>

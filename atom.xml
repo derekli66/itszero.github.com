@@ -4,7 +4,7 @@
   <title><![CDATA[[Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-06-04T22:06:34-07:00</updated>
+  <updated>2013-09-13T16:05:34-04:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
     <name><![CDATA[Chien-An "Zero" Cho]]></name>
@@ -14,9 +14,448 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Migrate Android Project to Gradle Build System]]></title>
+    <link href="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/"/>
+    <updated>2013-09-13T13:57:00-04:00</updated>
+    <id>http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle</id>
+    <content type="html"><![CDATA[<p><a href="http://www.gradle.org/">Gradle</a> is a new build system that Android is currently promoting. It can be
+used to build Android project by adding a <a href="http://tools.android.com/tech-docs/new-build-system/user-guide">Gradle Android plugin</a>. It is also
+possible that Android would move to Gradle-only build system, ditching the old
+ant-way to build things. The <a href="http://developer.android.com/sdk/installing/studio.html">Android Studio</a> only supports Gradle projects.</p>
+
+<h3>Quickstart</h3>
+
+<p>To join the new family, we need to write a new build.gradle file in project
+root. An general example of build.gradle would look like the snippet below.
+Please note that the system is still in active development, version numbers
+could change very soon. I&#8217;m using Gradle 1.7, plugin 0.5.6, Android Build Tools
+17 and my target SDK version is 15.</p>
+
+<figure class='code'><figcaption><span>A simple build.gradle for Android project</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">buildscript</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">repositories</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">mavenCentral</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">classpath</span> <span class="s1">&#39;com.android.tools.build:gradle:0.5.6&#39;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;android&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">android</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">compileSdkVersion</span> <span class="mi">15</span>
+</span><span class='line'>  <span class="n">buildToolsVersion</span> <span class="s2">&quot;17&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">sourceSets</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">main</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">manifest</span><span class="o">.</span><span class="na">srcFile</span> <span class="s1">&#39;AndroidManifest.xml&#39;</span>
+</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;src&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">res</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;res&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This simple gradle file should be able to build most of standard Android
+projects. But what if I have special need? I&#8217;m going to talk about how to
+add support for AndroidAnnotation and token replacement below.</p>
+
+<h3>Android Annotation</h3>
+
+<p><a href="https://github.com/excilys/androidannotations">AndroidAnnotation</a> is a set of very useful annotations that you could use in
+your code to make your code shorter and more easier to read. The framework
+utilize a annotation processor to scan through your source code file and
+generate helper classes. To integrate it, we need to do 2 things:</p>
+
+<ul>
+<li>Add processor flags to Java compiler</li>
+<li>Add androidannotation-api dependency</li>
+</ul>
+
+<h4>Manipulating Compile Task</h4>
+
+<p>To add extra flags to compiler, we need to use the interface Android Gradle
+plugin exposed to access relevant tasks. The build plugin organize tasks into
+different &quot;variants&quot;, some basic variants includes debug and release. To
+iterate through all variants, we could use <code>android.applicationVariants.all</code>.</p>
+
+<figure class='code'><figcaption><span>Add support of Android annotation</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="c1">// Code based on https://github.com/excilys/androidannotations/issues/676</span>
+</span><span class='line'><span class="kt">def</span> <span class="nf">getSourceSetName</span><span class="o">(</span><span class="n">variant</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">variant</span><span class="o">.</span><span class="na">dirName</span><span class="o">).</span><span class="na">getName</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">android</span><span class="o">.</span><span class="na">applicationVariants</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span> <span class="n">variant</span> <span class="o">-&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">aptOutputDir</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="na">file</span><span class="o">(</span><span class="s2">&quot;build/source/apt&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">aptOutput</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">aptOutputDir</span><span class="o">,</span> <span class="n">variant</span><span class="o">.</span><span class="na">dirName</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">android</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">[</span><span class="n">getSourceSetName</span><span class="o">(</span><span class="n">variant</span><span class="o">)].</span><span class="na">java</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">+=</span> <span class="n">aptOutput</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">options</span><span class="o">.</span><span class="na">compilerArgs</span> <span class="o">+=</span> <span class="o">[</span>
+</span><span class='line'>    <span class="s1">&#39;-processorpath&#39;</span><span class="o">,</span> <span class="n">configurations</span><span class="o">.</span><span class="na">apt</span><span class="o">.</span><span class="na">getAsPath</span><span class="o">(),</span>
+</span><span class='line'>    <span class="s1">&#39;-s&#39;</span><span class="o">,</span> <span class="n">aptOutput</span>
+</span><span class='line'>  <span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">source</span><span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">p</span> <span class="o">-&gt;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">!</span><span class="n">p</span><span class="o">.</span><span class="na">getPath</span><span class="o">().</span><span class="na">startsWith</span><span class="o">(</span><span class="n">aptOutputDir</span><span class="o">.</span><span class="na">getPath</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">doFirst</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">aptOutput</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>configurations.apt</code> is missing at the moment. We used the variable to
+store path to Android Annotation processor and we use Gradle&#8217;s dependencies
+managing feature to resolve the path for us.</p>
+
+<figure class='code'><figcaption><span>Resolve Android Annotation processor path</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">configurations</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">apt</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">apt</span> <span class="nf">files</span><span class="o">(</span><span class="s1">&#39;compile-libs/androidannotations-2.7.1.jar&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Add dependencies</h3>
+
+<p>For managing dependencies, Gradle uses a <code>dependencies</code> block. The following
+code snippets shows different ways to include dependencies. <code>fileTree</code> can be
+used to iterate files in directory, <code>string</code> will be resolved using
+repositories(default includes Maven Central) and <code>project</code> is used to reference
+dependent local projects. We will talk about multi-project build support later.</p>
+
+<figure class='code'><figcaption><span>Different ways to specify dependencies</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="nf">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">&#39;libs&#39;</span><span class="o">,</span> <span class="nl">include:</span> <span class="s1">&#39;*.jar&#39;</span><span class="o">,</span> <span class="nl">exclude:</span> <span class="s1">&#39;android-support-v4.jar&#39;</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.android.support:support-v4:18.0.+&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="nf">project</span><span class="o">(</span><span class="s1">&#39;:extra:actionbarsherlock&#39;</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="nf">project</span><span class="o">(</span><span class="s1">&#39;:extra:ViewPagerIndicator&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Say if you put the Android Annotation API jar into libs directory, the build
+system should picked it up by now.</p>
+
+<h2>Token Replacement</h2>
+
+<p>Sometimes we would like to have a way to reference build version, git revisions
+from Java code. To accomplish this, we need to collect those informations and
+put it in a Java source file which will be picked out later during compilation.</p>
+
+<p>Let&#8217;s say if you have a AppBuild.java looks like below and we put it in
+<code>compile-libs</code> directory.</p>
+
+<figure class='code'><figcaption><span>Template of AppBuild.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kn">package</span> <span class="n">idv</span><span class="o">.</span><span class="na">Zero</span><span class="o">.</span><span class="na">example</span><span class="o">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">public</span> <span class="kd">class</span> <span class="nc">AppBuild</span> <span class="o">{</span>
+</span><span class='line'>  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">GIT_REV</span> <span class="o">=</span> <span class="s">&quot;@git-rev@&quot;</span><span class="o">;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note the <code>@git-rev@</code> is the token we will replace with current git revision
+number each time we build the project. Now we have the template, we need to rig
+it into the build system. The way I&#8217;m doing this is by adding a generation task
+per variant and setup the dependency for compiling task to be depend on this
+generation task.</p>
+
+<figure class='code'><figcaption><span>Rig token replacement into the build system</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">org.apache.tools.ant.filters.ReplaceTokens</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">android</span><span class="o">.</span><span class="na">applicationVariants</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span> <span class="n">variant</span> <span class="o">-&gt;</span>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">taskName</span> <span class="o">=</span> <span class="s2">&quot;generateAppBuild${variant.dirName.capitalize()}&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">task</span> <span class="o">(</span><span class="n">taskName</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Copy</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kt">def</span> <span class="n">todir</span> <span class="o">=</span> <span class="s2">&quot;build/source/AppBuild/${variant.dirName}/cc/hypo/pieceroids&quot;</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">todir</span><span class="o">).</span><span class="na">mkdirs</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">from</span> <span class="n">project</span><span class="o">.</span><span class="na">file</span><span class="o">(</span><span class="s1">&#39;compile-libs/AppBuild.java&#39;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">into</span> <span class="n">todir</span>
+</span><span class='line'>    <span class="n">outputs</span><span class="o">.</span><span class="na">upToDateWhen</span> <span class="o">{</span> <span class="kc">false</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">def</span> <span class="n">proc</span> <span class="o">=</span> <span class="s2">&quot;git rev-parse --verify HEAD&quot;</span><span class="o">.</span><span class="na">execute</span><span class="o">()</span>
+</span><span class='line'>    <span class="n">proc</span><span class="o">.</span><span class="na">waitFor</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">filter</span><span class="o">(</span><span class="n">ReplaceTokens</span><span class="o">,</span> <span class="nl">tokens:</span><span class="o">[</span><span class="s1">&#39;git-rev&#39;</span><span class="o">:</span> <span class="n">proc</span><span class="o">.</span><span class="na">in</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">trim</span><span class="o">()])</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="n">tasks</span><span class="o">[</span><span class="s2">&quot;compile${variant.dirName.capitalize()}&quot;</span><span class="o">].</span><span class="na">dependsOn</span><span class="o">(</span><span class="n">taskName</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What this code snippets do is to initiate a copy task by the name
+<code>generateAppBuild${variant}</code>. Note the outputs.upToDateWhen line would cause
+the task to always run, otherwise it&#8217;ll be skipped if the source file is not
+changed, which is not what we want. You&#8217;ll also need to import ReplaceTokens
+filter from our good old friend, <code>ant</code>.</p>
+
+<h2>Conclusion</h2>
+
+<p>In this article, I showed how to migrate your android project to utilize Gradle
+as the build system. Additionally, I also showed a way to integrate
+Android Annotations and build information generation. I hope these would be
+enough to get your started with Gradle. Here is the final build.gradle you
+should have after all these extra codes.</p>
+
+<figure class='code'><figcaption><span>Final build.gradle</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="kn">import</span> <span class="nn">org.apache.tools.ant.filters.ReplaceTokens</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">buildscript</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">repositories</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">mavenCentral</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">classpath</span> <span class="s1">&#39;com.android.tools.build:gradle:0.5.6&#39;</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">apply</span> <span class="nl">plugin:</span> <span class="s1">&#39;android&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">configurations</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">apt</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="nf">fileTree</span><span class="o">(</span><span class="nl">dir:</span> <span class="s1">&#39;libs&#39;</span><span class="o">,</span> <span class="nl">include:</span> <span class="s1">&#39;*.jar&#39;</span><span class="o">,</span> <span class="nl">exclude:</span> <span class="s1">&#39;android-support-v4.jar&#39;</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.android.support:support-v4:18.0.+&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="nf">project</span><span class="o">(</span><span class="s1">&#39;:extra:actionbarsherlock&#39;</span><span class="o">)</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="nf">project</span><span class="o">(</span><span class="s1">&#39;:extra:ViewPagerIndicator&#39;</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">apt</span> <span class="nf">files</span><span class="o">(</span><span class="s1">&#39;compile-libs/androidannotations-2.7.1.jar&#39;</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">def</span> <span class="nf">getSourceSetName</span><span class="o">(</span><span class="n">variant</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">variant</span><span class="o">.</span><span class="na">dirName</span><span class="o">).</span><span class="na">getName</span><span class="o">();</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">android</span><span class="o">.</span><span class="na">applicationVariants</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span> <span class="n">variant</span> <span class="o">-&gt;</span>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">aptOutputDir</span> <span class="o">=</span> <span class="n">project</span><span class="o">.</span><span class="na">file</span><span class="o">(</span><span class="s2">&quot;build/source/apt&quot;</span><span class="o">)</span>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">aptOutput</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="n">aptOutputDir</span><span class="o">,</span> <span class="n">variant</span><span class="o">.</span><span class="na">dirName</span><span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">android</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">[</span><span class="n">getSourceSetName</span><span class="o">(</span><span class="n">variant</span><span class="o">)].</span><span class="na">java</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">+=</span> <span class="n">aptOutput</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">options</span><span class="o">.</span><span class="na">compilerArgs</span> <span class="o">+=</span> <span class="o">[</span>
+</span><span class='line'>    <span class="s1">&#39;-processorpath&#39;</span><span class="o">,</span> <span class="n">configurations</span><span class="o">.</span><span class="na">apt</span><span class="o">.</span><span class="na">getAsPath</span><span class="o">(),</span>
+</span><span class='line'>    <span class="s1">&#39;-s&#39;</span><span class="o">,</span> <span class="n">aptOutput</span>
+</span><span class='line'>  <span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">source</span> <span class="o">=</span> <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">source</span><span class="o">.</span><span class="na">filter</span> <span class="o">{</span> <span class="n">p</span> <span class="o">-&gt;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="o">!</span><span class="n">p</span><span class="o">.</span><span class="na">getPath</span><span class="o">().</span><span class="na">startsWith</span><span class="o">(</span><span class="n">aptOutputDir</span><span class="o">.</span><span class="na">getPath</span><span class="o">())</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">variant</span><span class="o">.</span><span class="na">javaCompile</span><span class="o">.</span><span class="na">doFirst</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">aptOutput</span><span class="o">.</span><span class="na">mkdirs</span><span class="o">()</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">android</span><span class="o">.</span><span class="na">sourceSets</span><span class="o">[</span><span class="n">getSourceSetName</span><span class="o">(</span><span class="n">variant</span><span class="o">)].</span><span class="na">java</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">+=</span> <span class="s2">&quot;build/source/AppBuild/${variant.dirName}&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kt">def</span> <span class="n">taskName</span> <span class="o">=</span> <span class="s2">&quot;generateAppBuild${variant.dirName.capitalize()}&quot;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="o">(</span><span class="n">taskName</span><span class="o">,</span> <span class="nl">type:</span> <span class="n">Copy</span><span class="o">)</span> <span class="o">{</span>
+</span><span class='line'>    <span class="kt">def</span> <span class="n">todir</span> <span class="o">=</span> <span class="s2">&quot;build/source/AppBuild/${variant.dirName}/cc/hypo/pieceroids&quot;</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nf">File</span><span class="o">(</span><span class="n">todir</span><span class="o">).</span><span class="na">mkdirs</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">from</span> <span class="n">project</span><span class="o">.</span><span class="na">file</span><span class="o">(</span><span class="s1">&#39;compile-libs/AppBuild.java&#39;</span><span class="o">)</span>
+</span><span class='line'>    <span class="n">into</span> <span class="n">todir</span>
+</span><span class='line'>    <span class="n">outputs</span><span class="o">.</span><span class="na">upToDateWhen</span> <span class="o">{</span> <span class="kc">false</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">def</span> <span class="n">proc</span> <span class="o">=</span> <span class="s2">&quot;git rev-parse --verify HEAD&quot;</span><span class="o">.</span><span class="na">execute</span><span class="o">()</span>
+</span><span class='line'>    <span class="n">proc</span><span class="o">.</span><span class="na">waitFor</span><span class="o">()</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">filter</span><span class="o">(</span><span class="n">ReplaceTokens</span><span class="o">,</span> <span class="nl">tokens:</span><span class="o">[</span><span class="s1">&#39;git-rev&#39;</span><span class="o">:</span> <span class="n">proc</span><span class="o">.</span><span class="na">in</span><span class="o">.</span><span class="na">text</span><span class="o">.</span><span class="na">trim</span><span class="o">()])</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'>  <span class="n">tasks</span><span class="o">[</span><span class="s2">&quot;compile${variant.dirName.capitalize()}&quot;</span><span class="o">].</span><span class="na">dependsOn</span><span class="o">(</span><span class="n">taskName</span><span class="o">)</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">android</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">compileSdkVersion</span> <span class="mi">15</span>
+</span><span class='line'>  <span class="n">buildToolsVersion</span> <span class="s2">&quot;17&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">sourceSets</span> <span class="o">{</span>
+</span><span class='line'>    <span class="n">main</span> <span class="o">{</span>
+</span><span class='line'>      <span class="n">manifest</span><span class="o">.</span><span class="na">srcFile</span> <span class="s1">&#39;AndroidManifest.xml&#39;</span>
+</span><span class='line'>        <span class="n">java</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;src&#39;</span><span class="o">]</span>
+</span><span class='line'>        <span class="n">res</span><span class="o">.</span><span class="na">srcDirs</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;res&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="o">}</span>
+</span><span class='line'>  <span class="o">}</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Two-factor Authentication for Windows]]></title>
     <link href="http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows/"/>
-    <updated>2013-04-24T15:25:00-07:00</updated>
+    <updated>2013-04-24T15:25:00-04:00</updated>
     <id>http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows</id>
     <content type="html"><![CDATA[<p>I had a remote running Windows with Remote Desktop enabled. I&#8217;m really
 comfortable about just putting it online with the bare minimal Windows
@@ -56,7 +495,7 @@ Simple as that!</p>
   <entry>
     <title type="html"><![CDATA[(my way to) Write a Hangman AI]]></title>
     <link href="http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/"/>
-    <updated>2012-10-29T20:17:00-07:00</updated>
+    <updated>2012-10-29T20:17:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai</id>
     <content type="html"><![CDATA[<p>I was asked to write a hangman AI as a challenge last week. I was asked not to
 leak the detail, so I will not post my solution here. However, the hangman
@@ -209,7 +648,7 @@ think it is really a fun challenge. If you got some spare time, try it!</p>
   <entry>
     <title type="html"><![CDATA[Applying PhD for dummies]]></title>
     <link href="http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies/"/>
-    <updated>2012-09-04T14:57:00-07:00</updated>
+    <updated>2012-09-04T14:57:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies</id>
     <content type="html"><![CDATA[<p>Applying for a PhD degree can be troublesome. There are agencies out there
 helping people deal with the process. Is it really necessary to pay lots of
@@ -349,7 +788,7 @@ favorite school. ;)</p>
   <entry>
     <title type="html"><![CDATA[the Solarized Dark Vim]]></title>
     <link href="http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim/"/>
-    <updated>2012-04-19T22:38:00-07:00</updated>
+    <updated>2012-04-19T22:38:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim</id>
     <content type="html"><![CDATA[<p>Today, I spent a whole day on reconfigure my Vim. Vim is a powerful monster
 that needs care. Once you feed it with (your precious) time, Vim will pay you
@@ -429,7 +868,7 @@ journey of becoming a power Vim user. :-)</p>
   <entry>
     <title type="html"><![CDATA[Show last modified date in Middleman]]></title>
     <link href="http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman/"/>
-    <updated>2012-03-28T13:39:00-07:00</updated>
+    <updated>2012-03-28T13:39:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman</id>
     <content type="html"><![CDATA[<p>It is very convenient to build a static website using middleman along with some
 tools like compass, twitter&#8217;s bootstrap framework. You can easily build a
@@ -480,7 +919,7 @@ after the path should be just fine. The result code would look like this:</p>
   <entry>
     <title type="html"><![CDATA[Trying out the impress.js]]></title>
     <link href="http://itszero.github.com/blog/2012/01/06/try-out-impress-js/"/>
-    <updated>2012-01-06T02:25:00-08:00</updated>
+    <updated>2012-01-06T02:25:00-05:00</updated>
     <id>http://itszero.github.com/blog/2012/01/06/try-out-impress-js</id>
     <content type="html"><![CDATA[<p>There is a interesting javacsript library being released on the github these
 days, the <a href="http://bartaz.github.com/impress.js/">impress.js</a>. Impress.js is a
@@ -525,7 +964,7 @@ better, contribute some patches back to the project.</p>
   <entry>
     <title type="html"><![CDATA[Git Dashboard]]></title>
     <link href="http://itszero.github.com/blog/2011/11/18/git-dashboard/"/>
-    <updated>2011-11-18T08:57:00-08:00</updated>
+    <updated>2011-11-18T08:57:00-05:00</updated>
     <id>http://itszero.github.com/blog/2011/11/18/git-dashboard</id>
     <content type="html"><![CDATA[<p><a href="http://itszero.github.com/images/posts/git-dashboard.png" class="fancybox"><img src="http://itszero.github.com/images/posts/git-dashboard.png"></a></p>
 
@@ -563,7 +1002,7 @@ format string. You could add the following entries to your <code>~/.gitconfig</c
   <entry>
     <title type="html"><![CDATA[MetaWatch meets Google Maps]]></title>
     <link href="http://itszero.github.com/blog/2011/11/18/meta-watch-meets-google-maps/"/>
-    <updated>2011-11-18T08:42:00-08:00</updated>
+    <updated>2011-11-18T08:42:00-05:00</updated>
     <id>http://itszero.github.com/blog/2011/11/18/meta-watch-meets-google-maps</id>
     <content type="html"><![CDATA[<p><a href="http://itszero.github.com/images/posts/MetaPlay.jpg" class="fancybox"><img class="right" src="http://itszero.github.com/images/posts/MetaPlay.jpg" width="200" title="MetaPlay" ></a></p>
 
@@ -583,7 +1022,7 @@ done next..</p>
   <entry>
     <title type="html"><![CDATA[Moved to Octopress]]></title>
     <link href="http://itszero.github.com/blog/2011/10/06/my-octopress-blog/"/>
-    <updated>2011-10-06T07:23:00-07:00</updated>
+    <updated>2011-10-06T07:23:00-04:00</updated>
     <id>http://itszero.github.com/blog/2011/10/06/my-octopress-blog</id>
     <content type="html"><![CDATA[<p>Just saw this new blogging system and I think I like the idea. :)
 I think I&#8217;ll move to this blog and try to write posts in English here.</p>

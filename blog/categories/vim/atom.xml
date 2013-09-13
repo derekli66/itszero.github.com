@@ -4,7 +4,7 @@
   <title><![CDATA[Category: vim | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/vim/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-06-04T22:06:34-07:00</updated>
+  <updated>2013-09-13T16:05:34-04:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
     <name><![CDATA[Chien-An "Zero" Cho]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[the Solarized Dark Vim]]></title>
     <link href="http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim/"/>
-    <updated>2012-04-19T22:38:00-07:00</updated>
+    <updated>2012-04-19T22:38:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim</id>
     <content type="html"><![CDATA[<p>Today, I spent a whole day on reconfigure my Vim. Vim is a powerful monster
 that needs care. Once you feed it with (your precious) time, Vim will pay you

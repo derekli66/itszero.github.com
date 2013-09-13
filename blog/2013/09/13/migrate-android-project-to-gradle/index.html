@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>[Zero setLogger: self];</title>
+  <title>Migrate Android Project to Gradle Build System - [Zero setLogger: self];</title>
   <meta name="author" content="Chien-An "Zero" Cho">
 
   
@@ -19,7 +19,7 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://itszero.github.com/">
+  <link rel="canonical" href="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -95,15 +95,12 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2013/09/13/migrate-android-project-to-gradle/">Migrate Android Project to Gradle Build System</a></h1>
+      <h1 class="entry-title">Migrate Android Project to Gradle Build System</h1>
     
     
       <p class="meta">
@@ -126,7 +123,7 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
   </header>
 
 
-  <div class="entry-content"><p><a href="http://www.gradle.org/">Gradle</a> is a new build system that Android is currently promoting. It can be
+<div class="entry-content"><p><a href="http://www.gradle.org/">Gradle</a> is a new build system that Android is currently promoting. It can be
 used to build Android project by adding a <a href="http://tools.android.com/tech-docs/new-build-system/user-guide">Gradle Android plugin</a>. It is also
 possible that Android would move to Gradle-only build system, ditching the old
 ant-way to build things. The <a href="http://developer.android.com/sdk/installing/studio.html">Android Studio</a> only supports Gradle projects.</p>
@@ -558,89 +555,16 @@ should have after all these extra codes.</p>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/24/two-factor-authentication-for-windows/">Two-factor Authentication for Windows</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Chien-An "Zero" Cho</span></span>
 
-<time datetime="2013-04-24T15:25:00-04:00" pubdate data-updated="true">Apr 24<span>th</span>, 2013</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I had a remote running Windows with Remote Desktop enabled. I&#8217;m really
-comfortable about just putting it online with the bare minimal Windows
-authentication protection. So I went online to do a little research and I found
-out that the algorithm Google Authenticator is using (it&#8217;s called TOTP) could
-be integrated to Windows authentication system. Here is how to do it.</p>
-
-<p>The key thing here is <a href="http://code.google.com/p/multi-one-time-password--credential-provider/">MultiOTP-CP</a>, it&#8217;s a credential provider for Windows to
-enable two-factor authentication. Before we get into that, we will need to
-install its dependency, <a href="http://www.multiotp.net">MultiOTP</a>. MultiOTP is a library to deal with one-time
-passwords. You can download it from [http://www.multiotp.net]. Extract it to
-<code>C:\multiotp</code>. Now, we need to tie your Windows account with a proper key for
-TOTP elgorithm. Open your command prompt and switch to <code>C:\multiotp</code>. Type the
-following command to setup two-factor auth.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>multiotp -debug -create test [user name] [20-bytes(160bits) key] [4 digit pin, doesn't matter.] 6 30</span></code></pre></td></tr></table></div></figure>
-
-<p>If it says success, try you could verify it by using</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>multiotp -debug [user name] [OTP generated on your phone]</span></code></pre></td></tr></table></div></figure>
-
-<p>If you need some help with generating key, I recommend <a href="https://github.com/markbao/speakeasy">speakeasy</a>. It&#8217;s not
-exactly a tool but a two-factor authentication library for node.js. It could
-generate key and url to QR code for your phone to scan in one line. If you
-don&#8217;t mind go through installing node.js, try it!</p>
-
-<p>Once that&#8217;s done, install multiotp-cp and it&#8217;s done! Next time you need to
-login to Windows, you&#8217;ll see an extra field for you to input one-time password.
-Simple as that!</p>
-
-<p><a href="/images/posts/multiotp-login.png" class="fancybox"><img src="/images/posts/multiotp-login.png" width="554" title="&#34;MulitOTP-CP login screen&#34;" alt="&#34;MulitOTP-CP login screen&#34;"></a></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/10/29/my-way-to-write-a-hangman-ai/">(my way to) Write a Hangman AI</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -652,744 +576,48 @@ Simple as that!</p>
   
 
 
-<time datetime="2012-10-29T20:17:00-04:00" pubdate data-updated="true">Oct 29<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>I was asked to write a hangman AI as a challenge last week. I was asked not to
-leak the detail, so I will not post my solution here. However, the hangman
-problem itself is a well-known problem, I would like to share some thoughts
-that I used to build my hangman solver.</p>
-
-<h2>Preface</h2>
-
-<p>There is a <a href="http://en.wikipedia.org/wiki/Hangman_(game)">hangman</a> page provides detailed information for hangman
-game. However, I would like to describe it in a shorter, more programmer&#8217;s way.</p>
-
-<h3>Input</h3>
-
-<p>You will receive an serialized object containing following information:</p>
-
-<ul>
-<li><p>state: The state is a string that reveals your correctly guessed characters
-in the string. For those unrevealed characters, a <code>_</code> is placed in those
-positions. For example, say the answer is &quot;apple&quot; and you guessed <em>p</em>, the
-state string will be <code>_pp__</code>. Please note that the state could contain
-multiple words, a sentence.</p></li>
-<li><p>remaining_guesses: How many times you can make a wrong guess before the game
-is over.</p></li>
-<li><p>status: It could be one of {<strong>WIN</strong>, <strong>ONGOING</strong>, <strong>LOSE</strong>}. The game will
-start as <strong>ONGOING</strong>.  If you reveal all characters before you used up all
-guesses, you <strong>WIN</strong> the game. If you make too many wrong guesses, you
-<strong>LOSE</strong> the game.</p></li>
-</ul>
-
-<h3>Output</h3>
-
-<p>For each game, you will start with a empty state. You must keep giving out a
-character as a guess until the status is <strong>WIN</strong> or <strong>LOSE</strong>.</p>
-
-<h2>Thoughts</h2>
-
-<p>Before we talk about anything, I need to clarify one thing: I am not familiar
-with NLP(Natural Language Processing) techniques. I might use some dumb way to
-solve this problem, but, well, it&#8217;s at least something that my intuition leads
-me to.</p>
-
-<h3>Initial Guess</h3>
-
-<p>If the state is all unrevealed, I will do an initial guess. The initial guess
-uses vowels, the famous a-e-i-o-u. However, I use a little variation here. I do
-not guess the vowels in this order, I sort it by the frequency of characters
-appearing in dictionary. I guess by e-i-o-u-a. The initial guess stops whenever
-a character works, then we go to word attack mode.</p>
-
-<h3>Word Attack</h3>
-
-<p>Since I don&#8217;t have any knowledge in the language model, I will launch a
-word-based attack. In my implementation, I only attack one word at a time. It
-is very important that we choose the right word to attack. If we pick the wrong
-word to guess, the probability to produce a correct guess will decrease. First,
-I assume that, in most cases, the word-to-be-attacked will be included in my
-dictionary. If we don&#8217;t make this assumption, it is hard to do optimization
-since you have to assume you have no knowledge regarding the context.</p>
-
-<h4>Which Word?</h4>
-
-<p>The best word to attack, in my opinion, is the word having most characters
-solved and having longest length as possible. Now, to decide it, the formula I
-used is:</p>
-
-<div class="mathjax">
-$$
-f_{cost}(w_i) = \frac{f_{unsolved}(w_i)}{f_{strlen}(w_i)^2}
-$$
-</div>
-
-<p>The best word to attack will have smallest cost from this formula. It first
-calculate the percentage of unsolved characters in the word, so the word with
-most portion of its characters revealed now having the smallest cost now. However, say we have a
-word <code>a_</code>, the word is now 50% solved but to finish the second character, you
-only need one move. It sounds good, but it does not generate any <em>side-effect</em>.
-Say now we have a word <code>co__ec__e__</code> and you already know the full word is
-<code>correctness</code>. You can now confidently send answers <code>[r, t, n, s]</code>. You may
-reveal characters in other words in the process, thus increase the overall
-probability of making right guesses.</p>
-
-<h4>The n-grams</h4>
-
-<blockquote><p>In the fields of computational linguistics and probability, an n-gram is a<br/>contiguous sequence of n items from a given sequence of text or speech. An<br/>n-gram could be any combination of letters. However, the items in question can<br/>be phonemes, syllables, letters, words or base pairs according to the<br/>application. The n-grams typically are collected from a text or speech corpus.</p><footer><strong>Wikipedia</strong> <cite><a href='http://en.wikipedia.org/wiki/N-gram'>N-gram</a></cite></footer></blockquote>
-
-<p>Since I&#8217;m not a NLP guy, I will just quote the definition of n-gram from
-Wikipedia. In my solver, I use two type of n-grams: A bigram table and a
-unigram table. Before I calculate those, I will filter the dictionary to a
-smaller version by eliminating words using the current state and guessed words.
-For example, the state of the word I&#8217;m attacking is <code>a__le</code>, and I haven&#8217;t
-guessed <code>[p, z]</code>. I will generate a regular expression of <code>a[pz][pz]le</code> and
-apply it on my dictionary. Then, I calculate those n-grams table in current
-reduced context.</p>
-
-<h5>Unigram table</h5>
-
-<p>My usage for unigram is very simple. I merely calculate the frequency of a
-characters shows in my dictionary.</p>
-
-<h5>Bigram table</h5>
-
-<p>The bigram I&#8217;m trying to build is based on the connection for two continuous
-characters. I will split each word into bigrams using the following ruby code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">bigram_split</span><span class="p">(</span><span class="n">str</span><span class="p">)</span>
-</span><span class='line'>  <span class="s2">&quot;^</span><span class="si">#{</span><span class="n">str</span><span class="si">}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each_cons</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
-</span><span class='line'><span class="k">end</span>
-</span><span class='line'>
-</span><span class='line'><span class="o">&gt;&gt;</span> <span class="n">bigram_split</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
-</span><span class='line'><span class="o">=&gt;</span> <span class="o">[[</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;$&quot;</span><span class="o">]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>I collect those bigrams and calculate the frequency for each of those showing
-up among whole bigrams space for current dictionary.</p>
-
-<h4>The Attack</h4>
-
-<p>Now everything that we need before launching the attack is prepared, we can
-start to work on a guess. The first step is to acquire bigrams from the word
-state. The only bigrams we need is those with one of the character unsolved,
-but not all unsolved. In a more direct way, what we need is <code>[*, '_'] ['_',
-*]</code> but not <code>['_', '_']</code>. For those unsolved bigrams, I use the bigram table
-I just calculated to get a count on how frequent of a character shows up after
-or before a known character. I then sum the count for all bigrams in the word
-state and pick the character with highest count as the guess. It&#8217;s that simple.</p>
-
-<h4>Falling back</h4>
-
-<p>Well, sometimes you just don&#8217;t have any clue. In that case, my program will
-first falls back to attack on second best word and so on. If all words are
-tried, but we still have no clue. I&#8217;ll just fire a random guess using unigram
-table. However, it is really a wild guess, the success rate of making a correct
-guess using unigram table is not high.</p>
-
-<h2>Future Work</h2>
-
-<p>There are many ideas that can be implemented to improve my solution. Like
-implementing a word bigrams to further weight the possibility of characters
-bigrams could be useful, but it would require more research into NLP field. I
-think it is really a fun challenge. If you got some spare time, try it!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2013-09-13T13:57:00-04:00" pubdate data-updated="true">Sep 13<span>th</span>, 2013</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/09/04/applying-phd-for-dummies/">Applying PhD for dummies</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/gradle/'>gradle</a>
+  
+</span>
 
 
-<time datetime="2012-09-04T14:57:00-04:00" pubdate data-updated="true">Sep 4<span>th</span>, 2012</time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>Applying for a PhD degree can be troublesome. There are agencies out there
-helping people deal with the process. Is it really necessary to pay lots of
-money for it? My answer is simply negative. All you need is a right set of tool
-to track the progress. I will share my experience of applying both the PhD and
-F-1 VISA (this part only applies to students in Taiwan, as your experience may
-vary). I started working on my application very late and it resulted in a rush
-application process. Hope by sharing my experience, you can apply for PhD
-programs more easily. :)</p>
-
-<h1>What do you need?</h1>
-
-<p>Before you begin, there are some prerequisites you need to take care of. Here
-is a short list:</p>
-
-<ul>
-<li>The TOEFL examination</li>
-<li>The GRE examination</li>
-<li>Résumé</li>
-<li>Statement of Purpose (and/or Personal Statement)</li>
-<li>Financial support document</li>
-<li>Transcripts for your BS and MS degree</li>
-</ul>
-
-<p>Please note that this may not be a complete list of everything you will need
-for every school.  Some schools may ask for additional documents, for example,
-some schools may requires you to take the Subject GRE examination as well. If
-you want to apply for the Fall semester, the deadline is usually in December of
-previous year. For example, you want to apply for Fall 2012. The application
-deadline would be around December 2011 to January 2012. I would suggest you to
-take care all of the examinations before November and leave a whole month for
-getting your application ready as you will need to wait for the deliveries of
-every documents and letters of recommendation(LoR).</p>
-
-<h2>TOEFL/GRE</h2>
-
-<p>You usually need to have your examinations scores delivered to the school by
-the end of the application deadline. Some schools may have one to two weeks
-extension for test scores. Since the ETS can sometimes be very unproductive,
-I would suggest you to finish the test before November. Oh, please take a note
-of the TOEFL/GRE institution code of your target schools. You can request a few
-free copies on the spot after taking the tests to save money. :P</p>
-
-<p>I don&#8217;t really have tips for preparing, as I wan&#8217;t very well prepared. However,
-there is some insights I can share. If you go to PTT, Taiwan&#8217;s largest
-electronic bulletin board system, popular among the university students, and
-read those test-taking experience shared in TOEFL/GRE board. You will see that
-many people are complaining about the noise during the oral part of tests. Here
-is one thing I can tell you, do your tests quickly. If you&#8217;re quick enough, you
-can be the first one to answer the speaking questions before everyone else, so
-you can relax and do your tests at the best you can.</p>
-
-<p>If you have friends who lives in the States, you can talk to him/her in for
-practice, you will have no problem on TOEFL test. However, GRE is a lot
-different. Though the verbal part of GRE may be a pain in the ass, the
-quantitative part is usually easy for Taiwanese students. We all have that
-miserable experience preparing for college entrance exam, right? You will
-definitely need some time to memorize some advanced vocabulary for GRE. Another
-thing that you may want to practice is AWA. AWA is like writing a small thesis
-on a given topic. There is no right or wrong. However, you will need to express
-your opinion systematically and defense your prospective with solid reasons. My
-tips? Write, write, and read. Find some time to write things down in English,
-preferably a long blog post or diaries. Read some articles from some well-known
-journals or magazines. Once you get used to the way of Americans thinking, you
-should not have problem on AWA.</p>
-
-<p>Last thing to do before taking tests: Spend a day to read some example test
-questions. It is not your objective to memorize all the questions. What you
-need to do is to get used to different kind of questions and know how to rush
-to an answer in no time.</p>
-
-<h2>Résumé</h2>
-
-<p>I think that you should have your résumé prepared all the time. Trust me. You
-will not want to write down your whole life in a day. It will be an erroneous
-and boring process. I would suggest you to write in Markdown syntax (or any
-plain text formatting syntax you prefer). Writing things down in plain text
-format can help you to organize things more quickly. If you use Markdown, you
-can easily convert it into a web page and put it online for display. I will
-suggest that you do a separate print version using LaTeX, as the template based
-on LaTeX gives a professional look. It is so easy to maintain compared to those
-made using Word, Pages or even InDesign.</p>
-
-<p>You can find my résumé <a href="http://itszero.github.com/resume">here</a>. Make sure you
-include those sections: basic personal information, education histories, work
-experiences, publications, some projects that you involved in before. You may
-want to put as much as possible to show your strength, but do not make it more
-than 2 pages. Professors and your future employers simply do not have time to
-read a long résumé. Keep it clean and simple. Highlights the most
-important things in your life! (Update: If you&#8217;re preparing resume for job
-application, make it in one page.)</p>
-
-<h2>SoP and PS</h2>
-
-<p>SoP (Statement of Purpose) and PS (Personal Statement) aws quite confusing for
-me. The purpose of the two documents is actually the same. It presents your
-background and personality. I distinguish those two by applying more personal
-touch to the personal statement. You may want to use one or two paragraph to
-state a personal experience that leads you to your current study, while focus
-your SoP solely on the what you want to do in the future. I think it should be
-able to fit in a page or two. I doubt professors would have much time to read,
-so make it simple and clear.</p>
-
-<h2>Financial Document</h2>
-
-<p>Hmm, this should be the easiest part. I&#8217;m not going to waste much time here.
-You just deposit money into an account, and apply for the &quot;Certificate of
-Deposit&quot;, or 存款證明 in Chinese. For the amount, please ask your school for
-the details.  However, an average number would be USD$20000~30000. Some school
-may not request for it until they&#8217;re applying I-20 for you. If that is the
-case, and you have a scholarship or assistantship offering, you may ask your
-department or graduate office for the correct amount you will need to prepare.</p>
-
-<h2>Some Tips</h2>
-
-<p>During the process, I would suggest you to use some spreadsheets software for
-managing application process of all the different schools. <a href="http://docs.google.com/">Google
-Docs</a> would be a good choice. Make sure you print (as
-PDF, to save papers) and archive everything. Track every letter of
-recommendations, TOEFL/GRE scores and results. If you do this, you will always
-have a dashboard for all those different applications. Likewise, since you will
-need to log into many systems during the application. I would suggest you to
-use some password manager like <a href="https://agilebits.com/onepassword">1Password</a>,
-<a href="http://keepass.info/">KeePass</a> to track every used password, because every
-system will have its own requirement on password. It will help a lot.</p>
-
-<h2>Conclusions</h2>
-
-<p>You should have everything you need to know by now. For the things I didn&#8217;t
-mentioned above, look for your desired school. You might find some help on the
-internet as well. Try StudyAbroad on PTT BBS if you&#8217;re a Taiwanese student. I
-hope this experience can be of help. I also hope that you will be admitted by your
-favorite school. ;)</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/" data-via="itszero" data-counturl="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/04/19/the-solarized-dark-vim/">the Solarized Dark Vim</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-04-19T22:38:00-04:00" pubdate data-updated="true">Apr 19<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Today, I spent a whole day on reconfigure my Vim. Vim is a powerful monster
-that needs care. Once you feed it with (your precious) time, Vim will pay you
-back with a nice and pretty editing experience.</p>
-
-<p><a href="/images/posts/solarized-dark-vim.png" class="fancybox"><img src="/images/posts/solarized-dark-vim.png" width="600" title="&#34;Solarized Dark vim&#34;" alt="&#34;Solarized Dark vim&#34;"></a></p>
-
-<p>Two things I&#8217;ll talk about today: Solarized Dark and Powerline.</p>
-
-<h2>Solarized Dark</h2>
-
-<p><a href="http://ethanschoonover.com/solarized">Solarized Dark</a> is a color palette designed by <a href="http://ethanschoonover.com/">Ethan Schoonover</a>. From my
-experiences, this color scheme proves to be usable across many kinds of
-computers and monitors. The colors are smooth and clear. Color settings for
-most of daily use apps are provided on the official website. Even if it doesn&#8217;t
-provided officially, you usually still can find it somewhere on the Internet.
-:-p In short, pretty color for your eyes and large userbase. Go get it now!</p>
-
-<p>To use this color scheme (properly) in Vim, some prerequisites must be met.</p>
-
-<ul>
-<li>A decent terminal emulator with properly configured 256-colors support</li>
-<li>Install vim-colors-solarized plugin</li>
-</ul>
-
-<p>Since there are way too many terminal apps to be introduced one-by-one, I&#8217;ll
-save your time from that. I can tell you that I&#8217;m using this color scheme on
-<a href="https://github.com/brantb/solarized/tree/master/iterm2-colors-solarized">iTerm2</a>, <a href="https://github.com/mavnn/mintty-colors-solarized">mintty</a>, <a href="https://github.com/sigurdga/gnome-terminal-colors-solarized">gnome-terminal</a>. Oh, Did I mention that I just gave your
-links to those color scheme files? :-D</p>
-
-<p>P.S. OSX&#8217;s Terminal is no good, try iTerm2 if you&#8217;re using OSX.</p>
-
-<p>Once you prepared your terminal environment for colorful life, we can get to
-the business. The vim-colors-solarized plugin can be installed by adding this
-line to your .vimrc, given that you&#8217;re using <a href="https://github.com/gmarik/vundle">Vundle</a>, and please do use it.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'>Bundle <span class="s1">&#39;altercation/vim-colors-solarized&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">colorscheme</span> solarized
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Save, reopen your vim, and run <code>:BundleInstall</code>. Do reopen your vim again, then
-Voilà!</p>
-
-<h2>Powerline</h2>
-
-<p><a href="https://github.com/Lokaltog/vim-powerline">Powerline</a> is a plugin designed to power your Vim&#8217;s <strong>laststatus</strong>. It gives
-you a super pretty and useful statusbar right after installation. If you want
-to install this plugin, add those to your .vimrc.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='vim'><span class='line'>Bundle <span class="s1">&#39;Lokaltog/vim-powerline&#39;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">let</span> <span class="k">g</span>:Powerline_symbols <span class="p">=</span> <span class="s1">&#39;fancy&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Set g:Powerline_symbols to <strong>fancy</strong> gives you best look, but it requires you
-to use a patched font. You can find those fonts
-<a href="https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts">here</a>.
-To use those fonts, simple download it and change your favorite terminal app&#8217;s
-fonts to &#8220;[Your favorite font name here] for Powerline&#8221;.</p>
-
-<h2>Conclusions</h2>
-
-<p>Your Vim should now be look liked mine in the screenshot. However, this is just
-a start. The real power of vim lies in the plugins. Maybe I&#8217;ll write another
-post to talk about my favorite vim plugins sometimes later. Bon voyage, on the
-journey of becoming a power Vim user. :-)</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2013/04/24/two-factor-authentication-for-windows/" title="Previous Post: Two-factor Authentication for Windows">&laquo; Two-factor Authentication for Windows</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/03/28/show-last-modified-date-in-middleman/">Show last modified date in Middleman</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-03-28T13:39:00-04:00" pubdate data-updated="true">Mar 28<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>It is very convenient to build a static website using middleman along with some
-tools like compass, twitter&#8217;s bootstrap framework. You can easily build a
-professional looking website while maintaining high code readability and
-maintainability.</p>
-
-<p>When you&#8217;re designing a website for a conference or event, one thing that you
-might want to put in the footer is the &quot;last modified date&quot;. The first way come
-in to my mind to do this is very simple. Just put a line to output current date
-in ruby code.</p>
-
-<figure class='code'><figcaption><span>Wrong way to do last modified date</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'>  Some website™
-</span><span class='line'>  <span class="si">#{</span><span class="s2">&quot;Last Modified: %s  &quot;</span> <span class="o">%</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/%d&quot;</span><span class="p">)</span><span class="si">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-<p>I was thinking that the middleman will only build changed file. Though this
-code will show the last `build time&#8217;, but it&#8217;ll act effectively as last
-modified time for file. I was wrong. :( If you build the website in different
-date, you&#8217;ll find out hat middleman is smart enough to know that the evaluated
-result of ruby code in the layout has changed. It will then rebuild every file
-that includes this layout. However, it is very hard to know which file is being
-generated in middleman. I tried lots of way and finally find this. When
-middleman building a website, it simulates a Sinatra request in the following
-format:</p>
-
-<figure class='code'><figcaption><span>Wrong way to do last modified date</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'>http://example.org/your_page.html
-</span></code></pre></td></tr></table></div></figure>
-
-<p>In sinatra, you can get the request via `request&#8217; object in page. This works in
-middleman too. However, it gives you no clue about the real filename since the
-engine extension has been stripped in output. Fortunatly, in most condition,
-one file is going to use only one engine to build, so just append a * operator
-after the path should be just fine. The result code would look like this:</p>
-
-<figure class='code'><figcaption><span>Right way to do last modified date</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='haml'><span class='line'>  Some website™
-</span><span class='line'>  <span class="si">#{</span><span class="s2">&quot;Last Modified: %s  &quot;</span> <span class="o">%</span> <span class="no">File</span><span class="o">.</span><span class="n">mtime</span><span class="p">(</span><span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;source/</span><span class="si">#{</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="si">}</span>*&quot;)[0]).strftime(&quot;%m/%d/%Y&quot;)}
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Voila, now you have it. :) If you have a better way to do this, please share with me!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2012/01/06/try-out-impress-js/">Trying out the impress.js</a></h1>
-    
-    
-      <p class="meta">
-        
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2012-01-06T02:25:00-05:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>There is a interesting javacsript library being released on the github these
-days, the <a href="http://bartaz.github.com/impress.js/">impress.js</a>. Impress.js is a
-framework for making presentations on a open canvas, or so called the
-<a href="http://prezi.com">Prezi-style</a>. I tried out the Prezi few years ago. It&#8217;s
-cool, but as the README from the impress.js said: &#8220;impress.js may not help you
-if you have nothing interesting to say ;)&#8221;. I don&#8217;t really have a chance to
-make a will-use-on-the-stage presentation on a Prezi.</p>
-
-<p>Fortunately, there is a regular meeting of my lab, and it&#8217;s just my turn to
-present a read paper this week. I spent a whole night and messed around with
-the impress.js. You can find my result here: <a href="/attic/dynamic-ua-for-wsn/">A dynamic user authentication
-scheme for wireless sensor network</a>. I&#8217;m not really
-get used to arrange contents flat, so the result is not perfect yet.</p>
-
-<p><a href="/images/impressjs_dynamic_ua.png" class="fancybox"><img src="/images/impressjs_dynamic_ua.png" width="600" title="&#34;A presentation made using impress.js&#34;" alt="&#34;A presentation made using impress.js&#34;"></a></p>
-
-<p>It&#8217;s really fun to make slides using HTML5/CSS3, and make them <em>alive</em> through
-impress.js. For example, I made that Smartcard entirely in the CSS3, which used
-border-radius and linear-gradient properties. I also used some CSS3 animation
-property in the Security Analysis section. Once you enter the slide, <em>Login
-Replay</em> becomes larger and the other two fade out. Next slide zooms in on the
-detail of login replay, the text will rotate for a little bit to give you a
-visual clue. You can use whatever CSS3 trick you know to make a presentation.
-Best of it? You can host it on whatever provider you want since it&#8217;s just some
-plain HTML/CSS/JS files. Dropbox? Sure. Github? Done.</p>
-
-<p>However, it does have some strange quirk. First, the relative location and
-zoom-on-active of slides seems not necessarily remain constant across
-different computer / resolution / browser configuration set. My slides did
-need some tweak to make sure no text being blocked out on both my iMac 27&quot; and
-MacBook Air 13&quot;. You&#8217;ll need to manually align your slides to the center, so
-you can expect some negative values on X, Y values. It would be awesome if the
-library can take care of this of me. :P</p>
-
-<p>In any case, this is still a fascinating library worth you to play with.
-Get it now on the github and perhaps you can make your own slides, or
-better, contribute some patches back to the project.</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
+  </section>
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/18/git-dashboard/">Git Dashboard</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-18T08:57:00-05:00" pubdate data-updated="true">Nov 18<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/images/posts/git-dashboard.png" class="fancybox"><img src="/images/posts/git-dashboard.png"></a></p>
-
-<p>I actually made this dashboard few weeks ago, I&#8217;m just too lazy to write this
-down. /me <em>flee</em></p>
-
-<p>This dashboard is made for collaboration with teams. I was a hackthon-ing with
-<a href="http://o0o.cse.tw">bizkit</a> and <a href="http://www.facebook.com/itsftt">ftt</a>. We set
-up the dashboard to pulls new data from the repository automatically and
-display in this <em>pretty format</em>. It was only intended for fun but it turns out
-very useful when merging works from everyone. The tool we used to make it
-display on the desktop is called
-<a href="http://mutablecode.com/apps/nerdtool">NerdTool</a>, and it was very easy to
-setup. You just need to add a new entry with the following command. We have
-another repository put under <code>~/.gitwatch</code> to prevent the work being interfered
-when pulling new changes and to eliminate all local branches.</p>
-
-<figure class='code'><figcaption><span>Command for git dashboard</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>date; <span class="nb">cd</span> /Users/Zero/.gitwatch/fun-taipei-fork-of-csim-saycheese; git pull &gt;/dev/null 2&gt;&amp;1; git lp2 --all | head -n 34
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Oh, and for the lp2, it&#8217;s actually abbrev. of log command with customized
-format string. You could add the following entries to your <code>~/.gitconfig</code> file.</p>
-
-<figure class='code'><figcaption><span>Add these to ~/.gitconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='text'><span class='line'>[alias]
-</span><span class='line'>  lp2 = log --abbrev-commit --decorate --graph --color --pretty=&quot;format:%C(yellow)%h%Cred%d\\ %C(cyan)%an%Creset:\\ %Cgreen%s%Creset\\ %ar&quot; --all
-</span></code></pre></td></tr></table></div></figure>
-
-<p>Now, have fun! :)</p>
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/18/meta-watch-meets-google-maps/">MetaWatch meets Google Maps</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-18T08:42:00-05:00" pubdate data-updated="true">Nov 18<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><a href="/images/posts/MetaPlay.jpg" class="fancybox"><img class="right" src="/images/posts/MetaPlay.jpg" width="200" title="MetaPlay" ></a></p>
-
-<p>MetaWatch just shipped out few days ago. Once I got the watch, I starts to play
-with it, and to see what it is capable to do. I tried to use the intent-based
-API and put together this little experiment. I use the phone to acquire current
-location then retrieve Google Maps image for 96x96 display. Before you could
-deliver images to the watch, you&#8217;ll need to convert it to Black &amp; White image.
-I used a threshold filter on the luminance channel for this, and the photo
-above is the result. Kinda fun, but not really useful. Let&#8217;s see what can be
-done next..</p>
-
-<p>Update: Source code are now available <a href="https://github.com/itszero/MetaLoc">here</a>!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/06/my-octopress-blog/">Moved to Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-06T07:23:00-04:00" pubdate data-updated="true">Oct 6<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Just saw this new blogging system and I think I like the idea. :)
-I think I&#8217;ll move to this blog and try to write posts in English here.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
-</div>
 <aside class="sidebar">
   
     <section>
@@ -1430,7 +658,7 @@ I think I&#8217;ll move to this blog and try to write posts in English here.</p>
 <section>
   <h1>GitHub Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/itszero">@itszero</a> on GitHub
@@ -1460,7 +688,7 @@ I think I&#8217;ll move to this blog and try to write posts in English here.</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -1488,6 +716,7 @@ I think I&#8217;ll move to this blog and try to write posts in English here.</p>
 
   
 </aside>
+
 
     </div>
   </div>
@@ -1531,7 +760,10 @@ MathJax.Hub.Config({
       var disqus_shortname = 'zerogithub';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/';
+        var disqus_url = 'http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
