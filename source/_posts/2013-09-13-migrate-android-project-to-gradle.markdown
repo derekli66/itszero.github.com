@@ -182,6 +182,24 @@ the task to always run, otherwise it'll be skipped if the source file is not
 changed, which is not what we want. You'll also need to import ReplaceTokens
 filter from our good old friend, `ant`.
 
+## Multi-Projects
+
+It is very common that you might have some sub-projects that needs to be build
+together. Previously, I showed that you could have `compile
+project(':path:to:project')` in `dependencies` block to have it being included
+during compile time. However, you need some extra setup to make it work. You
+need an extra file called `settings.gradle` with those lines.
+
+``` groovy settings.gradle for multi-projects
+include ":extra:actionbarsherlock"
+include ":extra:ViewPagerIndicator"
+```
+
+This indicates you have two sub-projects, they're located at
+`${project.root}/extra/actionbarsherlock` and
+`${project.root}/extra/ViewPagerIndicator`. Gradle will look for build.gradle
+inside those directories and set up project dependencies automatically.
+
 ## Conclusion
 
 In this article, I showed how to migrate your android project to utilize Gradle
