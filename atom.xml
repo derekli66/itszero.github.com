@@ -4,7 +4,7 @@
   <title><![CDATA[[Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:05:34-04:00</updated>
+  <updated>2013-09-13T16:12:54-04:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
     <name><![CDATA[Chien-An "Zero" Cho]]></name>
@@ -277,6 +277,25 @@ generation task.</p>
 the task to always run, otherwise it&#8217;ll be skipped if the source file is not
 changed, which is not what we want. You&#8217;ll also need to import ReplaceTokens
 filter from our good old friend, <code>ant</code>.</p>
+
+<h2>Multi-Projects</h2>
+
+<p>It is very common that you might have some sub-projects that needs to be build
+together. Previously, I showed that you could have <code>compile
+project(':path:to:project')</code> in <code>dependencies</code> block to have it being included
+during compile time. However, you need some extra setup to make it work. You
+need an extra file called <code>settings.gradle</code> with those lines.</p>
+
+<figure class='code'><figcaption><span>settings.gradle for multi-projects</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">include</span> <span class="s2">&quot;:extra:actionbarsherlock&quot;</span>
+</span><span class='line'><span class="n">include</span> <span class="s2">&quot;:extra:ViewPagerIndicator&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This indicates you have two sub-projects, they&#8217;re located at
+<code>${project.root}/extra/actionbarsherlock</code> and
+<code>${project.root}/extra/ViewPagerIndicator</code>. Gradle will look for build.gradle
+inside those directories and set up project dependencies automatically.</p>
 
 <h2>Conclusion</h2>
 

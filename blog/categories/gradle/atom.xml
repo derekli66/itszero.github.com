@@ -4,7 +4,7 @@
   <title><![CDATA[Category: gradle | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/gradle/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:05:34-04:00</updated>
+  <updated>2013-09-13T16:12:54-04:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
     <name><![CDATA[Chien-An "Zero" Cho]]></name>
@@ -197,6 +197,24 @@ filter(ReplaceTokens, tokens:['git-rev': proc.in.text.trim()])
 the task to always run, otherwise it'll be skipped if the source file is not
 changed, which is not what we want. You'll also need to import ReplaceTokens
 filter from our good old friend, <code>ant</code>.</p>
+
+<h2>Multi-Projects</h2>
+
+<p>It is very common that you might have some sub-projects that needs to be build
+together. Previously, I showed that you could have <code>compile
+project(':path:to:project')</code> in <code>dependencies</code> block to have it being included
+during compile time. However, you need some extra setup to make it work. You
+need an extra file called <code>settings.gradle</code> with those lines.</p>
+
+<p><code>groovy settings.gradle for multi-projects
+include &quot;:extra:actionbarsherlock&quot;
+include &quot;:extra:ViewPagerIndicator&quot;
+</code></p>
+
+<p>This indicates you have two sub-projects, they're located at
+<code>${project.root}/extra/actionbarsherlock</code> and
+<code>${project.root}/extra/ViewPagerIndicator</code>. Gradle will look for build.gradle
+inside those directories and set up project dependencies automatically.</p>
 
 <h2>Conclusion</h2>
 
