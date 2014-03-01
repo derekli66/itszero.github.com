@@ -1,0 +1,9 @@
+{
+	"folders":
+	[
+		{
+			"path": "/Users/Zero/Dropbox/Sites/zerogithub",
+      "folder_exclude_patterns": [".themes", ".sass-cache", "_deploy", ".pygments-cache", "public", "tmp", "source/stylesheets"]
+		}
+	]
+}

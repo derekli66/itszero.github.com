@@ -1,0 +1,113 @@
+@import "compass/css3/user-interface";
+
+$resume-h1-font-size: 140px;
+
+.resume-wrapper header {
+  text-align: center;
+  margin: 0 auto 25px;
+
+  .name {
+    font-weight: 100;
+    @include adjust-font-size-to($resume-h1-font-size);
+    border: none;
+    margin: 0;
+  }
+
+  .contact {
+    color: #5A5C59;
+    @include adjust-font-size-to(16px);
+    margin: 0 auto rhythm(0.25, 16px);
+  }
+
+  .links {
+    font-size: 1.5em;
+    a { text-decoration: none; }
+  }
+}
+
+.resume-wrapper .resume-body {
+  .left-track {
+    float: left;
+    width: 312px;
+  }
+
+  .right-track {
+    float: right;
+    width: 312px;
+  }
+
+  .box {
+    position: relative;
+    margin: 0 auto rhythm(1, 16px);
+  }
+
+  h2 {
+    @include adjust-font-size-to(24px);
+    text-align: center;
+    border-bottom: 5px solid $resume-accent-color;
+  }
+
+  .collapser {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    font-size: 24px;
+    color: #5A5C59;
+    cursor: pointer;
+
+    @include user-select(none);
+    @include transition-duration(0.5s);
+
+    &:hover {
+      @include transform(rotate(-25deg));
+    }
+
+    &.active {
+      @include transform(rotate(-90deg));
+    }
+  }
+
+  h3 {
+    @include adjust-font-size-to(18px);
+
+    .lsf {
+      font-size: 24px;
+    }
+  }
+
+  header {
+    margin: 0;
+  }
+
+  article {
+    margin: 0;
+    overflow: hidden;
+    @include transition(max-height 0.5s ease);
+    &.collapsed {
+      max-height: 0 !important;
+    }
+
+    ul {
+      margin-left: 20px;
+      margin-top: 5px;
+      li {
+        margin: 0;
+      }
+    }
+  }
+
+  .entry {
+    margin: 0 auto rhythm(0.5, 16px);
+  }
+
+  .meta {
+    .left {
+      float: left;
+    }
+
+    .right {
+      float: right;
+      text-align: right;
+    }
+  }
+}

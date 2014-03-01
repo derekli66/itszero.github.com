@@ -11,8 +11,7 @@ leak the detail, so I will not post my solution here. However, the hangman
 problem itself is a well-known problem, I would like to share some thoughts
 that I used to build my hangman solver.
 
-Preface
--------
+## Preface
 
 There is a [hangman] page provides detailed information for hangman
 game. However, I would like to describe it in a shorter, more programmer's way.
@@ -40,8 +39,7 @@ You will receive an serialized object containing following information:
 For each game, you will start with a empty state. You must keep giving out a
 character as a guess until the status is __WIN__ or __LOSE__.
 
-Thoughts
---------
+## Thoughts
 
 Before we talk about anything, I need to clarify one thing: I am not familiar
 with NLP(Natural Language Processing) techniques. I might use some dumb way to
@@ -150,8 +148,7 @@ tried, but we still have no clue. I'll just fire a random guess using unigram
 table. However, it is really a wild guess, the success rate of making a correct
 guess using unigram table is not high.
 
-Future Work
------------
+## Future Work
 
 There are many ideas that can be implemented to improve my solution. Like
 implementing a word bigrams to further weight the possibility of characters

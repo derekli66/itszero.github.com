@@ -1,10 +1,11 @@
 ---
 layout: page
 title: "Zero's Résumé"
-date: 2011-10-05 03:08
+date: 2014-03-01 03:08
 comments: false
 sharing: false
 footer: true
+class: resume
 ---
 Grab the PDF version [here](/resume/resume.pdf).
 
@@ -48,7 +49,7 @@ Email: itszero at gmail dot com
 PhD Degree / Computer Science    
 Working with Calton Pu on Cloud Computing project    
 
-* National Tsing Hua University 2010/09 - 2012/06 (expected)    
+* National Tsing Hua University 2010/09 - 2012/06
 Master Degree / Computer Science  
 Embedded Platform Lab, Advisor: Pai H. Chou  
 Overall GPA: 4.0/4.0

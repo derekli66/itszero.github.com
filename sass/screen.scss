@@ -2,9 +2,8 @@
 @include global-reset;
 @include reset-html5;
 
-@import "custom/colors";
-@import "custom/fonts";
-@import "custom/layout";
 @import "base";
-@import "partials";
-@import "custom/styles";
+@import "partial/syntax";
+@import "partial/portfolio";
+@import "partial/resume";
+@import "partial/about";

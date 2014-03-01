@@ -3,7 +3,7 @@ layout: post
 title: "Two-factor Authentication for Windows"
 date: 2013-04-24 15:25
 comments: true
-categories: RDP, two-factor authentication, Windows, MultiOTP
+categories: [RDP, two-factor authentication, Windows, MultiOTP]
 ---
 
 I had a remote running Windows with Remote Desktop enabled. I'm really

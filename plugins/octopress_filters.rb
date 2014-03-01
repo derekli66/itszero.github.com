@@ -1,5 +1,4 @@
-#custom filters for Octopress
-require './plugins/backtick_code_block'
+4require './plugins/backtick_code_block'
 require './plugins/post_filters'
 require './plugins/raw'
 require './plugins/date'

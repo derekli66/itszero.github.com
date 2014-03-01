@@ -15,8 +15,7 @@ vary). I started working on my application very late and it resulted in a rush
 application process. Hope by sharing my experience, you can apply for PhD
 programs more easily. :)
 
-What do you need?
-=======================================
+## What do you need?
 
 Before you begin, there are some prerequisites you need to take care of. Here
 is a short list:
@@ -38,8 +37,7 @@ take care all of the examinations before November and leave a whole month for
 getting your application ready as you will need to wait for the deliveries of
 every documents and letters of recommendation(LoR).
 
-TOEFL/GRE
----------
+## TOEFL/GRE
 
 You usually need to have your examinations scores delivered to the school by
 the end of the application deadline. Some schools may have one to two weeks
@@ -76,8 +74,7 @@ questions. It is not your objective to memorize all the questions. What you
 need to do is to get used to different kind of questions and know how to rush
 to an answer in no time.
 
-Résumé
-------
+## Résumé
 
 I think that you should have your résumé prepared all the time. Trust me. You
 will not want to write down your whole life in a day. It will be an erroneous
@@ -98,8 +95,7 @@ read a long résumé. Keep it clean and simple. Highlights the most
 important things in your life! (Update: If you're preparing resume for job
 application, make it in one page.)
 
-SoP and PS
-----------
+## SoP and PS
 
 SoP (Statement of Purpose) and PS (Personal Statement) aws quite confusing for
 me. The purpose of the two documents is actually the same. It presents your
@@ -110,8 +106,7 @@ your SoP solely on the what you want to do in the future. I think it should be
 able to fit in a page or two. I doubt professors would have much time to read,
 so make it simple and clear.
 
-Financial Document
-------------------
+## Financial Document
 
 Hmm, this should be the easiest part. I'm not going to waste much time here.
 You just deposit money into an account, and apply for the "Certificate of
@@ -121,8 +116,7 @@ may not request for it until they're applying I-20 for you. If that is the
 case, and you have a scholarship or assistantship offering, you may ask your
 department or graduate office for the correct amount you will need to prepare.
 
-Some Tips
----------
+## Some Tips
 
 During the process, I would suggest you to use some spreadsheets software for
 managing application process of all the different schools. [Google
@@ -135,8 +129,7 @@ use some password manager like [1Password](https://agilebits.com/onepassword),
 [KeePass](http://keepass.info/) to track every used password, because every
 system will have its own requirement on password. It will help a lot.
 
-Conclusions
------------
+## Conclusions
 
 You should have everything you need to know by now. For the things I didn't
 mentioned above, look for your desired school. You might find some help on the

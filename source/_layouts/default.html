@@ -1,9 +1,17 @@
 {% capture root_url %}{{ site.root | strip_slash }}{% endcapture %}
 {% include head.html %}
-<body {% if page.body_id %} id="{{ page.body_id }}" {% endif %} {% if page.sidebar == false %} class="no-sidebar" {% endif %} {% if page.sidebar == 'collapse' or site.sidebar == 'collapse' %} class="collapse-sidebar sidebar-footer" {% endif %}>
-  <header role="banner">{% include header.html %}</header>
-  <nav role="navigation">{% include navigation.html %}</nav>
+<body {% if page.body_id %} id="{{ page.body_id }}" {% endif %}>
   <div id="main">
+    <aside class="site-nav">
+      <div class="logo">Z</div>
+      <div class="logo-text">ero</div>
+      <ul>
+        <a href="{{ root_url }}/"><li class="link-blog">blog</li></a>
+        <a href="{{ root_url }}/resume"><li class="link-resume">resume</li></a>
+        <a href="{{ root_url }}/portfolio"><li class="link-portfolio">portfolio</li></a>
+        <a href="{{ root_url }}/about"><li class="link-contact">about</li></a>
+      </ul>
+    </aside>
     <div id="content">
       {{ content | expand_urls: root_url }}
     </div>

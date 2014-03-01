@@ -11,7 +11,7 @@ used to build Android project by adding a [Gradle Android plugin]. It is also
 possible that Android would move to Gradle-only build system, ditching the old
 ant-way to build things. The [Android Studio] only supports Gradle projects.
 
-### Quickstart
+## Quickstart
 
 To join the new family, we need to write a new build.gradle file in project
 root. An general example of build.gradle would look like the snippet below.
@@ -110,7 +110,7 @@ dependencies {
 }
 ```
 
-### Add dependencies
+## Add dependencies
 
 For managing dependencies, Gradle uses a `dependencies` block. The following
 code snippets shows different ways to include dependencies. `fileTree` can be
