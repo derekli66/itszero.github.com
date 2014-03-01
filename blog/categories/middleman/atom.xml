@@ -4,10 +4,10 @@
   <title><![CDATA[Category: middleman | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/middleman/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:12:54-04:00</updated>
+  <updated>2014-03-01T18:25:27-05:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
-    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    <name><![CDATA[Zero Cho]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -19,24 +19,24 @@
     <updated>2012-03-28T13:39:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman</id>
     <content type="html"><![CDATA[<p>It is very convenient to build a static website using middleman along with some
-tools like compass, twitter's bootstrap framework. You can easily build a
+tools like compass, twitter&rsquo;s bootstrap framework. You can easily build a
 professional looking website while maintaining high code readability and
 maintainability.</p>
 
-<p>When you're designing a website for a conference or event, one thing that you
-might want to put in the footer is the &quot;last modified date&quot;. The first way come
+<p>When you&rsquo;re designing a website for a conference or event, one thing that you
+might want to put in the footer is the &ldquo;last modified date&rdquo;. The first way come
 in to my mind to do this is very simple. Just put a line to output current date
 in ruby code.</p>
 
 <p><code>haml Wrong way to do last modified date
   Some website™
-  #{&quot;Last Modified: %s  &quot; % DateTime.now.strftime(&quot;%Y/%m/%d&quot;)}
+  #{"Last Modified: %s  " % DateTime.now.strftime("%Y/%m/%d")}
 </code></p>
 
 <p>I was thinking that the middleman will only build changed file. Though this
-code will show the last `build time', but it'll act effectively as last
+code will show the last `build time', but it&rsquo;ll act effectively as last
 modified time for file. I was wrong. :( If you build the website in different
-date, you'll find out hat middleman is smart enough to know that the evaluated
+date, you&rsquo;ll find out hat middleman is smart enough to know that the evaluated
 result of ruby code in the layout has changed. It will then rebuild every file
 that includes this layout. However, it is very hard to know which file is being
 generated in middleman. I tried lots of way and finally find this. When
@@ -55,7 +55,7 @@ after the path should be just fine. The result code would look like this:</p>
 
 <p><code>haml Right way to do last modified date
   Some website™
-  #{&quot;Last Modified: %s  &quot; % File.mtime(Dir.glob(&quot;source/#{request.path}*&quot;)[0]).strftime(&quot;%m/%d/%Y&quot;)}
+  #{"Last Modified: %s  " % File.mtime(Dir.glob("source/#{request.path}*")[0]).strftime("%m/%d/%Y")}
 </code></p>
 
 <p>Voila, now you have it. :) If you have a better way to do this, please share with me!</p>

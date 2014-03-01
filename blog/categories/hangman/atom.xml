@@ -4,10 +4,10 @@
   <title><![CDATA[Category: hangman | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/hangman/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:12:54-04:00</updated>
+  <updated>2014-03-01T18:25:27-05:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
-    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    <name><![CDATA[Zero Cho]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -26,7 +26,7 @@ that I used to build my hangman solver.</p>
 <h2>Preface</h2>
 
 <p>There is a <a href="http://en.wikipedia.org/wiki/Hangman_(game)">hangman</a> page provides detailed information for hangman
-game. However, I would like to describe it in a shorter, more programmer's way.</p>
+game. However, I would like to describe it in a shorter, more programmer&rsquo;s way.</p>
 
 <h3>Input</h3>
 
@@ -35,7 +35,7 @@ game. However, I would like to describe it in a shorter, more programmer's way.<
 <ul>
 <li><p>state: The state is a string that reveals your correctly guessed characters
 in the string. For those unrevealed characters, a <code>_</code> is placed in those
-positions. For example, say the answer is &quot;apple&quot; and you guessed <em>p</em>, the
+positions. For example, say the answer is &ldquo;apple&rdquo; and you guessed <em>p</em>, the
 state string will be <code>_pp__</code>. Please note that the state could contain
 multiple words, a sentence.</p></li>
 <li><p>remaining_guesses: How many times you can make a wrong guess before the game
@@ -46,6 +46,7 @@ guesses, you <strong>WIN</strong> the game. If you make too many wrong guesses, 
 <strong>LOSE</strong> the game.</p></li>
 </ul>
 
+
 <h3>Output</h3>
 
 <p>For each game, you will start with a empty state. You must keep giving out a
@@ -55,7 +56,7 @@ character as a guess until the status is <strong>WIN</strong> or <strong>LOSE</s
 
 <p>Before we talk about anything, I need to clarify one thing: I am not familiar
 with NLP(Natural Language Processing) techniques. I might use some dumb way to
-solve this problem, but, well, it's at least something that my intuition leads
+solve this problem, but, well, it&rsquo;s at least something that my intuition leads
 me to.</p>
 
 <h3>Initial Guess</h3>
@@ -68,12 +69,12 @@ a character works, then we go to word attack mode.</p>
 
 <h3>Word Attack</h3>
 
-<p>Since I don't have any knowledge in the language model, I will launch a
+<p>Since I don&rsquo;t have any knowledge in the language model, I will launch a
 word-based attack. In my implementation, I only attack one word at a time. It
 is very important that we choose the right word to attack. If we pick the wrong
 word to guess, the probability to produce a correct guess will decrease. First,
 I assume that, in most cases, the word-to-be-attacked will be included in my
-dictionary. If we don't make this assumption, it is hard to do optimization
+dictionary. If we don&rsquo;t make this assumption, it is hard to do optimization
 since you have to assume you have no knowledge regarding the context.</p>
 
 <h4>Which Word?</h4>
@@ -82,13 +83,16 @@ since you have to assume you have no knowledge regarding the context.</p>
 solved and having longest length as possible. Now, to decide it, the formula I
 used is:</p>
 
-<p>
+<p></p>
+
 <div class="mathjax">
 $$
-f<em>{cost}(w</em>i) = \frac{f<em>{unsolved}(w</em>i)}{f<em>{strlen}(w</em>i)^2}
+f_{cost}(w_i) = \frac{f_{unsolved}(w_i)}{f_{strlen}(w_i)^2}
 $$
 </div>
-</p>
+
+
+<p></p>
 
 <p>The best word to attack will have smallest cost from this formula. It first
 calculate the percentage of unsolved characters in the word, so the word with
@@ -102,13 +106,13 @@ probability of making right guesses.</p>
 
 <h4>The n-grams</h4>
 
-<p><blockquote><p>In the fields of computational linguistics and probability, an n-gram is a<br/>contiguous sequence of n items from a given sequence of text or speech. An<br/>n-gram could be any combination of letters. However, the items in question can<br/>be phonemes, syllables, letters, words or base pairs according to the<br/>application. The n-grams typically are collected from a text or speech corpus.</p><footer><strong>Wikipedia</strong> <cite><a href='http://en.wikipedia.org/wiki/N-gram'>N-gram</a></cite></footer></blockquote></p>
+<p><blockquote><p>In the fields of computational linguistics and probability, an n-gram is a<br/>contiguous sequence of n items from a given sequence of text or speech. An<br/>n-gram could be any combination of letters. However, the items in question can<br/>be phonemes, syllables, letters, words or base pairs according to the<br/>application. The n-grams typically are collected from a text or speech corpus.</p><footer><strong>Wikipedia <a href="http://en.wikipedia.org/wiki/N-gram">http://en.wikipedia.org/wiki/N-gram</a> N-gram</strong></footer></blockquote></p>
 
-<p>Since I'm not a NLP guy, I will just quote the definition of n-gram from
+<p>Since I&rsquo;m not a NLP guy, I will just quote the definition of n-gram from
 Wikipedia. In my solver, I use two type of n-grams: A bigram table and a
 unigram table. Before I calculate those, I will filter the dictionary to a
 smaller version by eliminating words using the current state and guessed words.
-For example, the state of the word I'm attacking is <code>a__le</code>, and I haven't
+For example, the state of the word I&rsquo;m attacking is <code>a__le</code>, and I haven&rsquo;t
 guessed <code>[p, z]</code>. I will generate a regular expression of <code>a[pz][pz]le</code> and
 apply it on my dictionary. Then, I calculate those n-grams table in current
 reduced context.</p>
@@ -120,19 +124,18 @@ characters shows in my dictionary.</p>
 
 <h5>Bigram table</h5>
 
-<p>The bigram I'm trying to build is based on the connection for two continuous
+<p>The bigram I&rsquo;m trying to build is based on the connection for two continuous
 characters. I will split each word into bigrams using the following ruby code:</p>
 
-<p>```ruby
-def bigram<em>split(str)
-  &quot;^#{str}$&quot;.split('').each</em>cons(2).to_a
+<p>`&ldquo;ruby
+def bigram_split(str)
+  &ldquo;^#{str}$&rdquo;.split(&rdquo;).each_cons(2).to_a
 end</p>
-<blockquote>
-<blockquote>
-<p>bigram_split(&quot;hello&quot;)
-=&gt; [[&quot;^&quot;, &quot;h&quot;], [&quot;h&quot;, &quot;e&quot;], [&quot;e&quot;, &quot;l&quot;], [&quot;l&quot;, &quot;l&quot;], [&quot;l&quot;, &quot;o&quot;], [&quot;o&quot;, &quot;$&quot;]]
-```</p>
-</blockquote></blockquote>
+
+<blockquote><blockquote><p>bigram_split(&ldquo;hello&rdquo;)
+=> [[&ldquo;^&rdquo;, &ldquo;h&rdquo;], [&ldquo;h&rdquo;, &ldquo;e&rdquo;], [&ldquo;e&rdquo;, &ldquo;l&rdquo;], [&ldquo;l&rdquo;, &ldquo;l&rdquo;], [&ldquo;l&rdquo;, &ldquo;o&rdquo;], [&ldquo;o&rdquo;, &ldquo;$&rdquo;]]
+```</p></blockquote></blockquote>
+
 <p>I collect those bigrams and calculate the frequency for each of those showing
 up among whole bigrams space for current dictionary.</p>
 
@@ -145,13 +148,13 @@ but not all unsolved. In a more direct way, what we need is <code>[*, '_'] ['_',
 *]</code> but not <code>['_', '_']</code>. For those unsolved bigrams, I use the bigram table
 I just calculated to get a count on how frequent of a character shows up after
 or before a known character. I then sum the count for all bigrams in the word
-state and pick the character with highest count as the guess. It's that simple.</p>
+state and pick the character with highest count as the guess. It&rsquo;s that simple.</p>
 
 <h4>Falling back</h4>
 
-<p>Well, sometimes you just don't have any clue. In that case, my program will
+<p>Well, sometimes you just don&rsquo;t have any clue. In that case, my program will
 first falls back to attack on second best word and so on. If all words are
-tried, but we still have no clue. I'll just fire a random guess using unigram
+tried, but we still have no clue. I&rsquo;ll just fire a random guess using unigram
 table. However, it is really a wild guess, the success rate of making a correct
 guess using unigram table is not high.</p>
 

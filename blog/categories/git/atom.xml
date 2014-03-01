@@ -4,10 +4,10 @@
   <title><![CDATA[Category: Git | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:12:54-04:00</updated>
+  <updated>2014-03-01T18:25:27-05:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
-    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    <name><![CDATA[Zero Cho]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -20,7 +20,7 @@
     <id>http://itszero.github.com/blog/2011/11/18/git-dashboard</id>
     <content type="html"><![CDATA[<p><a href="/images/posts/git-dashboard.png" class="fancybox"><img src="/images/posts/git-dashboard.png"></a></p>
 
-<p>I actually made this dashboard few weeks ago, I'm just too lazy to write this
+<p>I actually made this dashboard few weeks ago, I&rsquo;m just too lazy to write this
 down. /me <em>flee</em></p>
 
 <p>This dashboard is made for collaboration with teams. I was a hackthon-ing with
@@ -38,12 +38,12 @@ when pulling new changes and to eliminate all local branches.</p>
 date; cd /Users/Zero/.gitwatch/fun-taipei-fork-of-csim-saycheese; git pull &gt;/dev/null 2&gt;&amp;1; git lp2 --all | head -n 34
 </code></p>
 
-<p>Oh, and for the lp2, it's actually abbrev. of log command with customized
+<p>Oh, and for the lp2, it&rsquo;s actually abbrev. of log command with customized
 format string. You could add the following entries to your <code>~/.gitconfig</code> file.</p>
 
 <p><code>text Add these to ~/.gitconfig
 [alias]
-  lp2 = log --abbrev-commit --decorate --graph --color --pretty=&quot;format:%C(yellow)%h%Cred%d\\ %C(cyan)%an%Creset:\\ %Cgreen%s%Creset\\ %ar&quot; --all
+  lp2 = log --abbrev-commit --decorate --graph --color --pretty="format:%C(yellow)%h%Cred%d\\ %C(cyan)%an%Creset:\\ %Cgreen%s%Creset\\ %ar" --all
 </code></p>
 
 <p>Now, have fun! :)</p>

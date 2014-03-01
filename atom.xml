@@ -4,10 +4,10 @@
   <title><![CDATA[[Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:12:54-04:00</updated>
+  <updated>2014-03-01T18:25:27-05:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
-    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    <name><![CDATA[Zero Cho]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -23,12 +23,12 @@ used to build Android project by adding a <a href="http://tools.android.com/tech
 possible that Android would move to Gradle-only build system, ditching the old
 ant-way to build things. The <a href="http://developer.android.com/sdk/installing/studio.html">Android Studio</a> only supports Gradle projects.</p>
 
-<h3>Quickstart</h3>
+<h2>Quickstart</h2>
 
 <p>To join the new family, we need to write a new build.gradle file in project
 root. An general example of build.gradle would look like the snippet below.
 Please note that the system is still in active development, version numbers
-could change very soon. I&#8217;m using Gradle 1.7, plugin 0.5.6, Android Build Tools
+could change very soon. I&rsquo;m using Gradle 1.7, plugin 0.5.6, Android Build Tools
 17 and my target SDK version is 15.</p>
 
 <figure class='code'><figcaption><span>A simple build.gradle for Android project</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -81,8 +81,9 @@ could change very soon. I&#8217;m using Gradle 1.7, plugin 0.5.6, Android Build 
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>This simple gradle file should be able to build most of standard Android
-projects. But what if I have special need? I&#8217;m going to talk about how to
+projects. But what if I have special need? I&rsquo;m going to talk about how to
 add support for AndroidAnnotation and token replacement below.</p>
 
 <h3>Android Annotation</h3>
@@ -97,11 +98,12 @@ generate helper classes. To integrate it, we need to do 2 things:</p>
 <li>Add androidannotation-api dependency</li>
 </ul>
 
+
 <h4>Manipulating Compile Task</h4>
 
 <p>To add extra flags to compiler, we need to use the interface Android Gradle
 plugin exposed to access relevant tasks. The build plugin organize tasks into
-different &quot;variants&quot;, some basic variants includes debug and release. To
+different &ldquo;variants&rdquo;, some basic variants includes debug and release. To
 iterate through all variants, we could use <code>android.applicationVariants.all</code>.</p>
 
 <figure class='code'><figcaption><span>Add support of Android annotation</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -158,8 +160,9 @@ iterate through all variants, we could use <code>android.applicationVariants.all
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>The <code>configurations.apt</code> is missing at the moment. We used the variable to
-store path to Android Annotation processor and we use Gradle&#8217;s dependencies
+store path to Android Annotation processor and we use Gradle&rsquo;s dependencies
 managing feature to resolve the path for us.</p>
 
 <figure class='code'><figcaption><span>Resolve Android Annotation processor path</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -178,7 +181,8 @@ managing feature to resolve the path for us.</p>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h3>Add dependencies</h3>
+
+<h2>Add dependencies</h2>
 
 <p>For managing dependencies, Gradle uses a <code>dependencies</code> block. The following
 code snippets shows different ways to include dependencies. <code>fileTree</code> can be
@@ -200,6 +204,7 @@ dependent local projects. We will talk about multi-project build support later.<
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Say if you put the Android Annotation API jar into libs directory, the build
 system should picked it up by now.</p>
 
@@ -209,7 +214,7 @@ system should picked it up by now.</p>
 from Java code. To accomplish this, we need to collect those informations and
 put it in a Java source file which will be picked out later during compilation.</p>
 
-<p>Let&#8217;s say if you have a AppBuild.java looks like below and we put it in
+<p>Let&rsquo;s say if you have a AppBuild.java looks like below and we put it in
 <code>compile-libs</code> directory.</p>
 
 <figure class='code'><figcaption><span>Template of AppBuild.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -224,9 +229,10 @@ put it in a Java source file which will be picked out later during compilation.<
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Note the <code>@git-rev@</code> is the token we will replace with current git revision
 number each time we build the project. Now we have the template, we need to rig
-it into the build system. The way I&#8217;m doing this is by adding a generation task
+it into the build system. The way I&rsquo;m doing this is by adding a generation task
 per variant and setup the dependency for compiling task to be depend on this
 generation task.</p>
 
@@ -272,10 +278,11 @@ generation task.</p>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>What this code snippets do is to initiate a copy task by the name
 <code>generateAppBuild${variant}</code>. Note the outputs.upToDateWhen line would cause
-the task to always run, otherwise it&#8217;ll be skipped if the source file is not
-changed, which is not what we want. You&#8217;ll also need to import ReplaceTokens
+the task to always run, otherwise it&rsquo;ll be skipped if the source file is not
+changed, which is not what we want. You&rsquo;ll also need to import ReplaceTokens
 filter from our good old friend, <code>ant</code>.</p>
 
 <h2>Multi-Projects</h2>
@@ -292,7 +299,8 @@ need an extra file called <code>settings.gradle</code> with those lines.</p>
 </span><span class='line'><span class="n">include</span> <span class="s2">&quot;:extra:ViewPagerIndicator&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This indicates you have two sub-projects, they&#8217;re located at
+
+<p>This indicates you have two sub-projects, they&rsquo;re located at
 <code>${project.root}/extra/actionbarsherlock</code> and
 <code>${project.root}/extra/ViewPagerIndicator</code>. Gradle will look for build.gradle
 inside those directories and set up project dependencies automatically.</p>
@@ -468,6 +476,9 @@ should have after all these extra codes.</p>
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
@@ -476,16 +487,16 @@ should have after all these extra codes.</p>
     <link href="http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows/"/>
     <updated>2013-04-24T15:25:00-04:00</updated>
     <id>http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows</id>
-    <content type="html"><![CDATA[<p>I had a remote running Windows with Remote Desktop enabled. I&#8217;m really
+    <content type="html"><![CDATA[<p>I had a remote running Windows with Remote Desktop enabled. I&rsquo;m really
 comfortable about just putting it online with the bare minimal Windows
 authentication protection. So I went online to do a little research and I found
-out that the algorithm Google Authenticator is using (it&#8217;s called TOTP) could
+out that the algorithm Google Authenticator is using (it&rsquo;s called TOTP) could
 be integrated to Windows authentication system. Here is how to do it.</p>
 
-<p>The key thing here is <a href="http://code.google.com/p/multi-one-time-password--credential-provider/">MultiOTP-CP</a>, it&#8217;s a credential provider for Windows to
+<p>The key thing here is <a href="http://code.google.com/p/multi-one-time-password--credential-provider/">MultiOTP-CP</a>, it&rsquo;s a credential provider for Windows to
 enable two-factor authentication. Before we get into that, we will need to
 install its dependency, <a href="http://www.multiotp.net">MultiOTP</a>. MultiOTP is a library to deal with one-time
-passwords. You can download it from [http://www.multiotp.net]. Extract it to
+passwords. You can download it from [<a href="http://www.multiotp.net">http://www.multiotp.net</a>]. Extract it to
 <code>C:\multiotp</code>. Now, we need to tie your Windows account with a proper key for
 TOTP elgorithm. Open your command prompt and switch to <code>C:\multiotp</code>. Type the
 following command to setup two-factor auth.</p>
@@ -493,18 +504,20 @@ following command to setup two-factor auth.</p>
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>multiotp -debug -create test [user name] [20-bytes(160bits) key] [4 digit pin, doesn't matter.] 6 30</span></code></pre></td></tr></table></div></figure>
 
+
 <p>If it says success, try you could verify it by using</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>multiotp -debug [user name] [OTP generated on your phone]</span></code></pre></td></tr></table></div></figure>
 
-<p>If you need some help with generating key, I recommend <a href="https://github.com/markbao/speakeasy">speakeasy</a>. It&#8217;s not
+
+<p>If you need some help with generating key, I recommend <a href="https://github.com/markbao/speakeasy">speakeasy</a>. It&rsquo;s not
 exactly a tool but a two-factor authentication library for node.js. It could
 generate key and url to QR code for your phone to scan in one line. If you
-don&#8217;t mind go through installing node.js, try it!</p>
+don&rsquo;t mind go through installing node.js, try it!</p>
 
-<p>Once that&#8217;s done, install multiotp-cp and it&#8217;s done! Next time you need to
-login to Windows, you&#8217;ll see an extra field for you to input one-time password.
+<p>Once that&rsquo;s done, install multiotp-cp and it&rsquo;s done! Next time you need to
+login to Windows, you&rsquo;ll see an extra field for you to input one-time password.
 Simple as that!</p>
 
 <p><a href="http://itszero.github.com/images/posts/multiotp-login.png" class="fancybox"><img src="http://itszero.github.com/images/posts/multiotp-login.png" width="554" title="&#34;MulitOTP-CP login screen&#34;" alt="&#34;MulitOTP-CP login screen&#34;"></a></p>
@@ -524,7 +537,7 @@ that I used to build my hangman solver.</p>
 <h2>Preface</h2>
 
 <p>There is a <a href="http://en.wikipedia.org/wiki/Hangman_(game)">hangman</a> page provides detailed information for hangman
-game. However, I would like to describe it in a shorter, more programmer&#8217;s way.</p>
+game. However, I would like to describe it in a shorter, more programmer&rsquo;s way.</p>
 
 <h3>Input</h3>
 
@@ -533,7 +546,7 @@ game. However, I would like to describe it in a shorter, more programmer&#8217;s
 <ul>
 <li><p>state: The state is a string that reveals your correctly guessed characters
 in the string. For those unrevealed characters, a <code>_</code> is placed in those
-positions. For example, say the answer is &quot;apple&quot; and you guessed <em>p</em>, the
+positions. For example, say the answer is &ldquo;apple&rdquo; and you guessed <em>p</em>, the
 state string will be <code>_pp__</code>. Please note that the state could contain
 multiple words, a sentence.</p></li>
 <li><p>remaining_guesses: How many times you can make a wrong guess before the game
@@ -544,6 +557,7 @@ guesses, you <strong>WIN</strong> the game. If you make too many wrong guesses, 
 <strong>LOSE</strong> the game.</p></li>
 </ul>
 
+
 <h3>Output</h3>
 
 <p>For each game, you will start with a empty state. You must keep giving out a
@@ -553,7 +567,7 @@ character as a guess until the status is <strong>WIN</strong> or <strong>LOSE</s
 
 <p>Before we talk about anything, I need to clarify one thing: I am not familiar
 with NLP(Natural Language Processing) techniques. I might use some dumb way to
-solve this problem, but, well, it&#8217;s at least something that my intuition leads
+solve this problem, but, well, it&rsquo;s at least something that my intuition leads
 me to.</p>
 
 <h3>Initial Guess</h3>
@@ -566,12 +580,12 @@ a character works, then we go to word attack mode.</p>
 
 <h3>Word Attack</h3>
 
-<p>Since I don&#8217;t have any knowledge in the language model, I will launch a
+<p>Since I don&rsquo;t have any knowledge in the language model, I will launch a
 word-based attack. In my implementation, I only attack one word at a time. It
 is very important that we choose the right word to attack. If we pick the wrong
 word to guess, the probability to produce a correct guess will decrease. First,
 I assume that, in most cases, the word-to-be-attacked will be included in my
-dictionary. If we don&#8217;t make this assumption, it is hard to do optimization
+dictionary. If we don&rsquo;t make this assumption, it is hard to do optimization
 since you have to assume you have no knowledge regarding the context.</p>
 
 <h4>Which Word?</h4>
@@ -585,6 +599,7 @@ $$
 f_{cost}(w_i) = \frac{f_{unsolved}(w_i)}{f_{strlen}(w_i)^2}
 $$
 </div>
+
 
 <p>The best word to attack will have smallest cost from this formula. It first
 calculate the percentage of unsolved characters in the word, so the word with
@@ -600,11 +615,12 @@ probability of making right guesses.</p>
 
 <blockquote><p>In the fields of computational linguistics and probability, an n-gram is a<br/>contiguous sequence of n items from a given sequence of text or speech. An<br/>n-gram could be any combination of letters. However, the items in question can<br/>be phonemes, syllables, letters, words or base pairs according to the<br/>application. The n-grams typically are collected from a text or speech corpus.</p><footer><strong>Wikipedia</strong> <cite><a href='http://en.wikipedia.org/wiki/N-gram'>N-gram</a></cite></footer></blockquote>
 
-<p>Since I&#8217;m not a NLP guy, I will just quote the definition of n-gram from
+
+<p>Since I&rsquo;m not a NLP guy, I will just quote the definition of n-gram from
 Wikipedia. In my solver, I use two type of n-grams: A bigram table and a
 unigram table. Before I calculate those, I will filter the dictionary to a
 smaller version by eliminating words using the current state and guessed words.
-For example, the state of the word I&#8217;m attacking is <code>a__le</code>, and I haven&#8217;t
+For example, the state of the word I&rsquo;m attacking is <code>a__le</code>, and I haven&rsquo;t
 guessed <code>[p, z]</code>. I will generate a regular expression of <code>a[pz][pz]le</code> and
 apply it on my dictionary. Then, I calculate those n-grams table in current
 reduced context.</p>
@@ -616,7 +632,7 @@ characters shows in my dictionary.</p>
 
 <h5>Bigram table</h5>
 
-<p>The bigram I&#8217;m trying to build is based on the connection for two continuous
+<p>The bigram I&rsquo;m trying to build is based on the connection for two continuous
 characters. I will split each word into bigrams using the following ruby code:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -633,6 +649,7 @@ characters. I will split each word into bigrams using the following ruby code:</
 </span><span class='line'><span class="o">=&gt;</span> <span class="o">[[</span><span class="s2">&quot;^&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="o">]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;$&quot;</span><span class="o">]]</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>I collect those bigrams and calculate the frequency for each of those showing
 up among whole bigrams space for current dictionary.</p>
 
@@ -645,13 +662,13 @@ but not all unsolved. In a more direct way, what we need is <code>[*, '_'] ['_',
 *]</code> but not <code>['_', '_']</code>. For those unsolved bigrams, I use the bigram table
 I just calculated to get a count on how frequent of a character shows up after
 or before a known character. I then sum the count for all bigrams in the word
-state and pick the character with highest count as the guess. It&#8217;s that simple.</p>
+state and pick the character with highest count as the guess. It&rsquo;s that simple.</p>
 
 <h4>Falling back</h4>
 
-<p>Well, sometimes you just don&#8217;t have any clue. In that case, my program will
+<p>Well, sometimes you just don&rsquo;t have any clue. In that case, my program will
 first falls back to attack on second best word and so on. If all words are
-tried, but we still have no clue. I&#8217;ll just fire a random guess using unigram
+tried, but we still have no clue. I&rsquo;ll just fire a random guess using unigram
 table. However, it is really a wild guess, the success rate of making a correct
 guess using unigram table is not high.</p>
 
@@ -678,7 +695,7 @@ vary). I started working on my application very late and it resulted in a rush
 application process. Hope by sharing my experience, you can apply for PhD
 programs more easily. :)</p>
 
-<h1>What do you need?</h1>
+<h2>What do you need?</h2>
 
 <p>Before you begin, there are some prerequisites you need to take care of. Here
 is a short list:</p>
@@ -691,6 +708,7 @@ is a short list:</p>
 <li>Financial support document</li>
 <li>Transcripts for your BS and MS degree</li>
 </ul>
+
 
 <p>Please note that this may not be a complete list of everything you will need
 for every school.  Some schools may ask for additional documents, for example,
@@ -711,12 +729,12 @@ I would suggest you to finish the test before November. Oh, please take a note
 of the TOEFL/GRE institution code of your target schools. You can request a few
 free copies on the spot after taking the tests to save money. :P</p>
 
-<p>I don&#8217;t really have tips for preparing, as I wan&#8217;t very well prepared. However,
-there is some insights I can share. If you go to PTT, Taiwan&#8217;s largest
+<p>I don&rsquo;t really have tips for preparing, as I wan&rsquo;t very well prepared. However,
+there is some insights I can share. If you go to PTT, Taiwan&rsquo;s largest
 electronic bulletin board system, popular among the university students, and
 read those test-taking experience shared in TOEFL/GRE board. You will see that
 many people are complaining about the noise during the oral part of tests. Here
-is one thing I can tell you, do your tests quickly. If you&#8217;re quick enough, you
+is one thing I can tell you, do your tests quickly. If you&rsquo;re quick enough, you
 can be the first one to answer the speaking questions before everyone else, so
 you can relax and do your tests at the best you can.</p>
 
@@ -757,7 +775,7 @@ experiences, publications, some projects that you involved in before. You may
 want to put as much as possible to show your strength, but do not make it more
 than 2 pages. Professors and your future employers simply do not have time to
 read a long résumé. Keep it clean and simple. Highlights the most
-important things in your life! (Update: If you&#8217;re preparing resume for job
+important things in your life! (Update: If you&rsquo;re preparing resume for job
 application, make it in one page.)</p>
 
 <h2>SoP and PS</h2>
@@ -773,11 +791,11 @@ so make it simple and clear.</p>
 
 <h2>Financial Document</h2>
 
-<p>Hmm, this should be the easiest part. I&#8217;m not going to waste much time here.
-You just deposit money into an account, and apply for the &quot;Certificate of
-Deposit&quot;, or 存款證明 in Chinese. For the amount, please ask your school for
+<p>Hmm, this should be the easiest part. I&rsquo;m not going to waste much time here.
+You just deposit money into an account, and apply for the &ldquo;Certificate of
+Deposit&rdquo;, or 存款證明 in Chinese. For the amount, please ask your school for
 the details.  However, an average number would be USD$20000~30000. Some school
-may not request for it until they&#8217;re applying I-20 for you. If that is the
+may not request for it until they&rsquo;re applying I-20 for you. If that is the
 case, and you have a scholarship or assistantship offering, you may ask your
 department or graduate office for the correct amount you will need to prepare.</p>
 
@@ -796,9 +814,9 @@ system will have its own requirement on password. It will help a lot.</p>
 
 <h2>Conclusions</h2>
 
-<p>You should have everything you need to know by now. For the things I didn&#8217;t
+<p>You should have everything you need to know by now. For the things I didn&rsquo;t
 mentioned above, look for your desired school. You might find some help on the
-internet as well. Try StudyAbroad on PTT BBS if you&#8217;re a Taiwanese student. I
+internet as well. Try StudyAbroad on PTT BBS if you&rsquo;re a Taiwanese student. I
 hope this experience can be of help. I also hope that you will be admitted by your
 favorite school. ;)</p>
 ]]></content>
@@ -815,14 +833,14 @@ back with a nice and pretty editing experience.</p>
 
 <p><a href="http://itszero.github.com/images/posts/solarized-dark-vim.png" class="fancybox"><img src="http://itszero.github.com/images/posts/solarized-dark-vim.png" width="600" title="&#34;Solarized Dark vim&#34;" alt="&#34;Solarized Dark vim&#34;"></a></p>
 
-<p>Two things I&#8217;ll talk about today: Solarized Dark and Powerline.</p>
+<p>Two things I&rsquo;ll talk about today: Solarized Dark and Powerline.</p>
 
 <h2>Solarized Dark</h2>
 
 <p><a href="http://ethanschoonover.com/solarized">Solarized Dark</a> is a color palette designed by <a href="http://ethanschoonover.com/">Ethan Schoonover</a>. From my
 experiences, this color scheme proves to be usable across many kinds of
 computers and monitors. The colors are smooth and clear. Color settings for
-most of daily use apps are provided on the official website. Even if it doesn&#8217;t
+most of daily use apps are provided on the official website. Even if it doesn&rsquo;t
 provided officially, you usually still can find it somewhere on the Internet.
 :-p In short, pretty color for your eyes and large userbase. Go get it now!</p>
 
@@ -833,16 +851,17 @@ provided officially, you usually still can find it somewhere on the Internet.
 <li>Install vim-colors-solarized plugin</li>
 </ul>
 
-<p>Since there are way too many terminal apps to be introduced one-by-one, I&#8217;ll
-save your time from that. I can tell you that I&#8217;m using this color scheme on
+
+<p>Since there are way too many terminal apps to be introduced one-by-one, I&rsquo;ll
+save your time from that. I can tell you that I&rsquo;m using this color scheme on
 <a href="https://github.com/brantb/solarized/tree/master/iterm2-colors-solarized">iTerm2</a>, <a href="https://github.com/mavnn/mintty-colors-solarized">mintty</a>, <a href="https://github.com/sigurdga/gnome-terminal-colors-solarized">gnome-terminal</a>. Oh, Did I mention that I just gave your
 links to those color scheme files? :-D</p>
 
-<p>P.S. OSX&#8217;s Terminal is no good, try iTerm2 if you&#8217;re using OSX.</p>
+<p>P.S. OSX&rsquo;s Terminal is no good, try iTerm2 if you&rsquo;re using OSX.</p>
 
 <p>Once you prepared your terminal environment for colorful life, we can get to
 the business. The vim-colors-solarized plugin can be installed by adding this
-line to your .vimrc, given that you&#8217;re using <a href="https://github.com/gmarik/vundle">Vundle</a>, and please do use it.</p>
+line to your .vimrc, given that you&rsquo;re using <a href="https://github.com/gmarik/vundle">Vundle</a>, and please do use it.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -852,12 +871,13 @@ line to your .vimrc, given that you&#8217;re using <a href="https://github.com/g
 </span><span class='line'><span class="k">colorscheme</span> solarized
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Save, reopen your vim, and run <code>:BundleInstall</code>. Do reopen your vim again, then
 Voilà!</p>
 
 <h2>Powerline</h2>
 
-<p><a href="https://github.com/Lokaltog/vim-powerline">Powerline</a> is a plugin designed to power your Vim&#8217;s <strong>laststatus</strong>. It gives
+<p><a href="https://github.com/Lokaltog/vim-powerline">Powerline</a> is a plugin designed to power your Vim&rsquo;s <strong>laststatus</strong>. It gives
 you a super pretty and useful statusbar right after installation. If you want
 to install this plugin, add those to your .vimrc.</p>
 
@@ -869,18 +889,19 @@ to install this plugin, add those to your .vimrc.</p>
 </span><span class='line'><span class="k">let</span> <span class="k">g</span>:Powerline_symbols <span class="p">=</span> <span class="s1">&#39;fancy&#39;</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Set g:Powerline_symbols to <strong>fancy</strong> gives you best look, but it requires you
 to use a patched font. You can find those fonts
 <a href="https://github.com/Lokaltog/vim-powerline/wiki/Patched-fonts">here</a>.
-To use those fonts, simple download it and change your favorite terminal app&#8217;s
-fonts to &#8220;[Your favorite font name here] for Powerline&#8221;.</p>
+To use those fonts, simple download it and change your favorite terminal app&rsquo;s
+fonts to &ldquo;[Your favorite font name here] for Powerline&rdquo;.</p>
 
 <h2>Conclusions</h2>
 
 <p>Your Vim should now be look liked mine in the screenshot. However, this is just
-a start. The real power of vim lies in the plugins. Maybe I&#8217;ll write another
+a start. The real power of vim lies in the plugins. Maybe I&rsquo;ll write another
 post to talk about my favorite vim plugins sometimes later. Bon voyage, on the
-journey of becoming a power Vim user. :-)</p>
+journey of becoming a power Vim user. :&ndash;)</p>
 ]]></content>
   </entry>
   
@@ -890,12 +911,12 @@ journey of becoming a power Vim user. :-)</p>
     <updated>2012-03-28T13:39:00-04:00</updated>
     <id>http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman</id>
     <content type="html"><![CDATA[<p>It is very convenient to build a static website using middleman along with some
-tools like compass, twitter&#8217;s bootstrap framework. You can easily build a
+tools like compass, twitter&rsquo;s bootstrap framework. You can easily build a
 professional looking website while maintaining high code readability and
 maintainability.</p>
 
-<p>When you&#8217;re designing a website for a conference or event, one thing that you
-might want to put in the footer is the &quot;last modified date&quot;. The first way come
+<p>When you&rsquo;re designing a website for a conference or event, one thing that you
+might want to put in the footer is the &ldquo;last modified date&rdquo;. The first way come
 in to my mind to do this is very simple. Just put a line to output current date
 in ruby code.</p>
 
@@ -905,10 +926,11 @@ in ruby code.</p>
 </span><span class='line'>  <span class="si">#{</span><span class="s2">&quot;Last Modified: %s  &quot;</span> <span class="o">%</span> <span class="no">DateTime</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y/%m/%d&quot;</span><span class="p">)</span><span class="si">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>I was thinking that the middleman will only build changed file. Though this
-code will show the last `build time&#8217;, but it&#8217;ll act effectively as last
+code will show the last `build time&#8217;, but it&rsquo;ll act effectively as last
 modified time for file. I was wrong. :( If you build the website in different
-date, you&#8217;ll find out hat middleman is smart enough to know that the evaluated
+date, you&rsquo;ll find out hat middleman is smart enough to know that the evaluated
 result of ruby code in the layout has changed. It will then rebuild every file
 that includes this layout. However, it is very hard to know which file is being
 generated in middleman. I tried lots of way and finally find this. When
@@ -918,6 +940,7 @@ format:</p>
 <figure class='code'><figcaption><span>Wrong way to do last modified date</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 </pre></td><td class='code'><pre><code class='haml'><span class='line'>http://example.org/your_page.html
 </span></code></pre></td></tr></table></div></figure>
+
 
 <p>In sinatra, you can get the request via `request&#8217; object in page. This works in
 middleman too. However, it gives you no clue about the real filename since the
@@ -931,6 +954,7 @@ after the path should be just fine. The result code would look like this:</p>
 </span><span class='line'>  <span class="si">#{</span><span class="s2">&quot;Last Modified: %s  &quot;</span> <span class="o">%</span> <span class="no">File</span><span class="o">.</span><span class="n">mtime</span><span class="p">(</span><span class="no">Dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;source/</span><span class="si">#{</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="si">}</span>*&quot;)[0]).strftime(&quot;%m/%d/%Y&quot;)}
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Voila, now you have it. :) If you have a better way to do this, please share with me!</p>
 ]]></content>
   </entry>
@@ -943,34 +967,34 @@ after the path should be just fine. The result code would look like this:</p>
     <content type="html"><![CDATA[<p>There is a interesting javacsript library being released on the github these
 days, the <a href="http://bartaz.github.com/impress.js/">impress.js</a>. Impress.js is a
 framework for making presentations on a open canvas, or so called the
-<a href="http://prezi.com">Prezi-style</a>. I tried out the Prezi few years ago. It&#8217;s
-cool, but as the README from the impress.js said: &#8220;impress.js may not help you
-if you have nothing interesting to say ;)&#8221;. I don&#8217;t really have a chance to
+<a href="http://prezi.com">Prezi-style</a>. I tried out the Prezi few years ago. It&rsquo;s
+cool, but as the README from the impress.js said: &ldquo;impress.js may not help you
+if you have nothing interesting to say ;)&rdquo;. I don&rsquo;t really have a chance to
 make a will-use-on-the-stage presentation on a Prezi.</p>
 
-<p>Fortunately, there is a regular meeting of my lab, and it&#8217;s just my turn to
+<p>Fortunately, there is a regular meeting of my lab, and it&rsquo;s just my turn to
 present a read paper this week. I spent a whole night and messed around with
 the impress.js. You can find my result here: <a href="http://itszero.github.com/attic/dynamic-ua-for-wsn/">A dynamic user authentication
-scheme for wireless sensor network</a>. I&#8217;m not really
+scheme for wireless sensor network</a>. I&rsquo;m not really
 get used to arrange contents flat, so the result is not perfect yet.</p>
 
 <p><a href="http://itszero.github.com/images/impressjs_dynamic_ua.png" class="fancybox"><img src="http://itszero.github.com/images/impressjs_dynamic_ua.png" width="600" title="&#34;A presentation made using impress.js&#34;" alt="&#34;A presentation made using impress.js&#34;"></a></p>
 
-<p>It&#8217;s really fun to make slides using HTML5/CSS3, and make them <em>alive</em> through
+<p>It&rsquo;s really fun to make slides using HTML5/CSS3, and make them <em>alive</em> through
 impress.js. For example, I made that Smartcard entirely in the CSS3, which used
 border-radius and linear-gradient properties. I also used some CSS3 animation
 property in the Security Analysis section. Once you enter the slide, <em>Login
 Replay</em> becomes larger and the other two fade out. Next slide zooms in on the
 detail of login replay, the text will rotate for a little bit to give you a
 visual clue. You can use whatever CSS3 trick you know to make a presentation.
-Best of it? You can host it on whatever provider you want since it&#8217;s just some
+Best of it? You can host it on whatever provider you want since it&rsquo;s just some
 plain HTML/CSS/JS files. Dropbox? Sure. Github? Done.</p>
 
 <p>However, it does have some strange quirk. First, the relative location and
 zoom-on-active of slides seems not necessarily remain constant across
 different computer / resolution / browser configuration set. My slides did
-need some tweak to make sure no text being blocked out on both my iMac 27&quot; and
-MacBook Air 13&quot;. You&#8217;ll need to manually align your slides to the center, so
+need some tweak to make sure no text being blocked out on both my iMac 27&#8221; and
+MacBook Air 13&#8221;. You&rsquo;ll need to manually align your slides to the center, so
 you can expect some negative values on X, Y values. It would be awesome if the
 library can take care of this of me. :P</p>
 
@@ -987,7 +1011,7 @@ better, contribute some patches back to the project.</p>
     <id>http://itszero.github.com/blog/2011/11/18/git-dashboard</id>
     <content type="html"><![CDATA[<p><a href="http://itszero.github.com/images/posts/git-dashboard.png" class="fancybox"><img src="http://itszero.github.com/images/posts/git-dashboard.png"></a></p>
 
-<p>I actually made this dashboard few weeks ago, I&#8217;m just too lazy to write this
+<p>I actually made this dashboard few weeks ago, I&rsquo;m just too lazy to write this
 down. /me <em>flee</em></p>
 
 <p>This dashboard is made for collaboration with teams. I was a hackthon-ing with
@@ -1005,7 +1029,8 @@ when pulling new changes and to eliminate all local branches.</p>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'>date; <span class="nb">cd</span> /Users/Zero/.gitwatch/fun-taipei-fork-of-csim-saycheese; git pull &gt;/dev/null 2&gt;&amp;1; git lp2 --all | head -n 34
 </span></code></pre></td></tr></table></div></figure>
 
-<p>Oh, and for the lp2, it&#8217;s actually abbrev. of log command with customized
+
+<p>Oh, and for the lp2, it&rsquo;s actually abbrev. of log command with customized
 format string. You could add the following entries to your <code>~/.gitconfig</code> file.</p>
 
 <figure class='code'><figcaption><span>Add these to ~/.gitconfig</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1013,6 +1038,7 @@ format string. You could add the following entries to your <code>~/.gitconfig</c
 </pre></td><td class='code'><pre><code class='text'><span class='line'>[alias]
 </span><span class='line'>  lp2 = log --abbrev-commit --decorate --graph --color --pretty=&quot;format:%C(yellow)%h%Cred%d\\ %C(cyan)%an%Creset:\\ %Cgreen%s%Creset\\ %ar&quot; --all
 </span></code></pre></td></tr></table></div></figure>
+
 
 <p>Now, have fun! :)</p>
 ]]></content>
@@ -1029,9 +1055,9 @@ format string. You could add the following entries to your <code>~/.gitconfig</c
 with it, and to see what it is capable to do. I tried to use the intent-based
 API and put together this little experiment. I use the phone to acquire current
 location then retrieve Google Maps image for 96x96 display. Before you could
-deliver images to the watch, you&#8217;ll need to convert it to Black &amp; White image.
+deliver images to the watch, you&rsquo;ll need to convert it to Black &amp; White image.
 I used a threshold filter on the luminance channel for this, and the photo
-above is the result. Kinda fun, but not really useful. Let&#8217;s see what can be
+above is the result. Kinda fun, but not really useful. Let&rsquo;s see what can be
 done next..</p>
 
 <p>Update: Source code are now available <a href="https://github.com/itszero/MetaLoc">here</a>!</p>
@@ -1044,7 +1070,7 @@ done next..</p>
     <updated>2011-10-06T07:23:00-04:00</updated>
     <id>http://itszero.github.com/blog/2011/10/06/my-octopress-blog</id>
     <content type="html"><![CDATA[<p>Just saw this new blogging system and I think I like the idea. :)
-I think I&#8217;ll move to this blog and try to write posts in English here.</p>
+I think I&rsquo;ll move to this blog and try to write posts in English here.</p>
 ]]></content>
   </entry>
   

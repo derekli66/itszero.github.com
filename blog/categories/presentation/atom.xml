@@ -4,10 +4,10 @@
   <title><![CDATA[Category: presentation | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/presentation/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:12:54-04:00</updated>
+  <updated>2014-03-01T18:25:27-05:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
-    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    <name><![CDATA[Zero Cho]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -21,34 +21,34 @@
     <content type="html"><![CDATA[<p>There is a interesting javacsript library being released on the github these
 days, the <a href="http://bartaz.github.com/impress.js/">impress.js</a>. Impress.js is a
 framework for making presentations on a open canvas, or so called the
-<a href="http://prezi.com">Prezi-style</a>. I tried out the Prezi few years ago. It's
-cool, but as the README from the impress.js said: ``impress.js may not help you
-if you have nothing interesting to say ;)''. I don't really have a chance to
+<a href="http://prezi.com">Prezi-style</a>. I tried out the Prezi few years ago. It&rsquo;s
+cool, but as the README from the impress.js said: &ldquo;impress.js may not help you
+if you have nothing interesting to say ;)&rdquo;. I don&rsquo;t really have a chance to
 make a will-use-on-the-stage presentation on a Prezi.</p>
 
-<p>Fortunately, there is a regular meeting of my lab, and it's just my turn to
+<p>Fortunately, there is a regular meeting of my lab, and it&rsquo;s just my turn to
 present a read paper this week. I spent a whole night and messed around with
 the impress.js. You can find my result here: <a href="/attic/dynamic-ua-for-wsn/">A dynamic user authentication
-scheme for wireless sensor network</a>. I'm not really
+scheme for wireless sensor network</a>. I&rsquo;m not really
 get used to arrange contents flat, so the result is not perfect yet.</p>
 
-<p><a href="/images/impressjs<em>dynamic</em>ua.png" class="fancybox"><img src="/images/impressjs<em>dynamic</em>ua.png" width="600" title="&quot;A presentation made using impress.js&quot;" ></a></p>
+<p><a href="/images/impressjs_dynamic_ua.png" class="fancybox"><img src="/images/impressjs_dynamic_ua.png" width="600" title="&ldquo;A presentation made using impress.js&rdquo;" ></a></p>
 
-<p>It's really fun to make slides using HTML5/CSS3, and make them <em>alive</em> through
+<p>It&rsquo;s really fun to make slides using HTML5/CSS3, and make them <em>alive</em> through
 impress.js. For example, I made that Smartcard entirely in the CSS3, which used
 border-radius and linear-gradient properties. I also used some CSS3 animation
 property in the Security Analysis section. Once you enter the slide, <em>Login
 Replay</em> becomes larger and the other two fade out. Next slide zooms in on the
 detail of login replay, the text will rotate for a little bit to give you a
 visual clue. You can use whatever CSS3 trick you know to make a presentation.
-Best of it? You can host it on whatever provider you want since it's just some
+Best of it? You can host it on whatever provider you want since it&rsquo;s just some
 plain HTML/CSS/JS files. Dropbox? Sure. Github? Done.</p>
 
 <p>However, it does have some strange quirk. First, the relative location and
 zoom-on-active of slides seems not necessarily remain constant across
 different computer / resolution / browser configuration set. My slides did
-need some tweak to make sure no text being blocked out on both my iMac 27&quot; and
-MacBook Air 13&quot;. You'll need to manually align your slides to the center, so
+need some tweak to make sure no text being blocked out on both my iMac 27" and
+MacBook Air 13". You&rsquo;ll need to manually align your slides to the center, so
 you can expect some negative values on X, Y values. It would be awesome if the
 library can take care of this of me. :P</p>
 

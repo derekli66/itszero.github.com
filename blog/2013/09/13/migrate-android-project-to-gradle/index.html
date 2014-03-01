@@ -1,12 +1,10 @@
 
 <!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <title>Migrate Android Project to Gradle Build System - [Zero setLogger: self];</title>
-  <meta name="author" content="Chien-An "Zero" Cho">
+  <meta name="author" content="Zero Cho">
 
   
   <meta name="description" content="Gradle is a new build system that Android is currently promoting. It can be
@@ -22,86 +20,28 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
   <link rel="canonical" href="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="/javascripts/ender.js"></script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <link href="/atom.xml" rel="alternate" title="[Zero setLogger: self];" type="application/atom+xml">
-    
-  <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
-  <link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
-  <!-- fancyBox -->
-  <!-- Add jQuery library -->
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-  <!-- Add fancyBox -->
-  <link rel="stylesheet" href="/stylesheets/jquery.fancybox.css?v=2.0.4" type="text/css" media="screen" />
-  <script type="text/javascript" src="/javascripts/jquery.fancybox.pack.js?v=2.0.4"></script>
-  <!-- Add fancyBox jQuery -->
-  <script type="text/javascript">
-    jQuery.noConflict();    // prevents conflicts with Ender.js, use jQuery instead of $
-    jQuery(document).ready(function() {
-        jQuery(".fancybox").fancybox();
-    });
-  </script>
-  <!-- End fancyBox insert -->
-
-  
-  
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-7277533-4']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
-
 </head>
 
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">[Zero setLogger: self];</a></h1>
-  
-    <h2></h2>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:itszero.github.com" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-  <li><a href="/resume">Résumé</a></li>
-  <li><a href="/portfolio">Portfolio</a></li>
-</ul>
-
-</nav>
+<body >
   <div id="main">
+    <aside class="site-nav">
+      <div class="logo">Z</div>
+      <div class="logo-text">ero</div>
+      <ul>
+        <a href="/"><li class="link-blog">blog</li></a>
+        <a href="/resume"><li class="link-resume">resume</li></a>
+        <a href="/portfolio"><li class="link-portfolio">portfolio</li></a>
+        <a href="/about"><li class="link-contact">about</li></a>
+      </ul>
+    </aside>
     <div id="content">
       <div>
 <article class="hentry" role="article">
   
   <header>
-    
-      <h1 class="entry-title">Migrate Android Project to Gradle Build System</h1>
-    
     
       <p class="meta">
         
@@ -116,9 +56,20 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
   
 
 
-<time datetime="2013-09-13T13:57:00-04:00" pubdate data-updated="true">Sep 13<span>th</span>, 2013</time>
+<time datetime="2013-09-13T13:57:00-04:00" pubdate data-updated="true">Sep 13<span>th</span>, 2013</time> | 
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/gradle/'>gradle</a>
+  
+</span>
+
+
         
       </p>
+    
+    
+      <h1 class="entry-title">Migrate Android Project to Gradle Build System</h1>
     
   </header>
 
@@ -128,12 +79,12 @@ used to build Android project by adding a <a href="http://tools.android.com/tech
 possible that Android would move to Gradle-only build system, ditching the old
 ant-way to build things. The <a href="http://developer.android.com/sdk/installing/studio.html">Android Studio</a> only supports Gradle projects.</p>
 
-<h3>Quickstart</h3>
+<h2>Quickstart</h2>
 
 <p>To join the new family, we need to write a new build.gradle file in project
 root. An general example of build.gradle would look like the snippet below.
 Please note that the system is still in active development, version numbers
-could change very soon. I&#8217;m using Gradle 1.7, plugin 0.5.6, Android Build Tools
+could change very soon. I&rsquo;m using Gradle 1.7, plugin 0.5.6, Android Build Tools
 17 and my target SDK version is 15.</p>
 
 <figure class='code'><figcaption><span>A simple build.gradle for Android project</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -186,8 +137,9 @@ could change very soon. I&#8217;m using Gradle 1.7, plugin 0.5.6, Android Build 
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>This simple gradle file should be able to build most of standard Android
-projects. But what if I have special need? I&#8217;m going to talk about how to
+projects. But what if I have special need? I&rsquo;m going to talk about how to
 add support for AndroidAnnotation and token replacement below.</p>
 
 <h3>Android Annotation</h3>
@@ -202,11 +154,12 @@ generate helper classes. To integrate it, we need to do 2 things:</p>
 <li>Add androidannotation-api dependency</li>
 </ul>
 
+
 <h4>Manipulating Compile Task</h4>
 
 <p>To add extra flags to compiler, we need to use the interface Android Gradle
 plugin exposed to access relevant tasks. The build plugin organize tasks into
-different &quot;variants&quot;, some basic variants includes debug and release. To
+different &ldquo;variants&rdquo;, some basic variants includes debug and release. To
 iterate through all variants, we could use <code>android.applicationVariants.all</code>.</p>
 
 <figure class='code'><figcaption><span>Add support of Android annotation</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -263,8 +216,9 @@ iterate through all variants, we could use <code>android.applicationVariants.all
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>The <code>configurations.apt</code> is missing at the moment. We used the variable to
-store path to Android Annotation processor and we use Gradle&#8217;s dependencies
+store path to Android Annotation processor and we use Gradle&rsquo;s dependencies
 managing feature to resolve the path for us.</p>
 
 <figure class='code'><figcaption><span>Resolve Android Annotation processor path</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -283,7 +237,8 @@ managing feature to resolve the path for us.</p>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<h3>Add dependencies</h3>
+
+<h2>Add dependencies</h2>
 
 <p>For managing dependencies, Gradle uses a <code>dependencies</code> block. The following
 code snippets shows different ways to include dependencies. <code>fileTree</code> can be
@@ -305,6 +260,7 @@ dependent local projects. We will talk about multi-project build support later.<
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Say if you put the Android Annotation API jar into libs directory, the build
 system should picked it up by now.</p>
 
@@ -314,7 +270,7 @@ system should picked it up by now.</p>
 from Java code. To accomplish this, we need to collect those informations and
 put it in a Java source file which will be picked out later during compilation.</p>
 
-<p>Let&#8217;s say if you have a AppBuild.java looks like below and we put it in
+<p>Let&rsquo;s say if you have a AppBuild.java looks like below and we put it in
 <code>compile-libs</code> directory.</p>
 
 <figure class='code'><figcaption><span>Template of AppBuild.java</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -329,9 +285,10 @@ put it in a Java source file which will be picked out later during compilation.<
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>Note the <code>@git-rev@</code> is the token we will replace with current git revision
 number each time we build the project. Now we have the template, we need to rig
-it into the build system. The way I&#8217;m doing this is by adding a generation task
+it into the build system. The way I&rsquo;m doing this is by adding a generation task
 per variant and setup the dependency for compiling task to be depend on this
 generation task.</p>
 
@@ -377,10 +334,11 @@ generation task.</p>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
+
 <p>What this code snippets do is to initiate a copy task by the name
 <code>generateAppBuild${variant}</code>. Note the outputs.upToDateWhen line would cause
-the task to always run, otherwise it&#8217;ll be skipped if the source file is not
-changed, which is not what we want. You&#8217;ll also need to import ReplaceTokens
+the task to always run, otherwise it&rsquo;ll be skipped if the source file is not
+changed, which is not what we want. You&rsquo;ll also need to import ReplaceTokens
 filter from our good old friend, <code>ant</code>.</p>
 
 <h2>Multi-Projects</h2>
@@ -397,7 +355,8 @@ need an extra file called <code>settings.gradle</code> with those lines.</p>
 </span><span class='line'><span class="n">include</span> <span class="s2">&quot;:extra:ViewPagerIndicator&quot;</span>
 </span></code></pre></td></tr></table></div></figure>
 
-<p>This indicates you have two sub-projects, they&#8217;re located at
+
+<p>This indicates you have two sub-projects, they&rsquo;re located at
 <code>${project.root}/extra/actionbarsherlock</code> and
 <code>${project.root}/extra/ViewPagerIndicator</code>. Gradle will look for build.gradle
 inside those directories and set up project dependencies automatically.</p>
@@ -573,53 +532,13 @@ should have after all these extra codes.</p>
 </span><span class='line'>  <span class="o">}</span>
 </span><span class='line'><span class="o">}</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+
 </div>
 
 
   <footer>
-    <p class="meta">
-      
-  
-
-<span class="byline author vcard">Posted by <span class="fn">Chien-An "Zero" Cho</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-09-13T13:57:00-04:00" pubdate data-updated="true">Sep 13<span>th</span>, 2013</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/gradle/'>gradle</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/" data-via="itszero" data-counturl="http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/" >Tweet</a>
-  
-  
-  <div class="g-plusone" data-size="medium"></div>
-  
-  
-    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
-  
-</div>
-
-    
     <p class="meta">
       
         <a class="basic-alignment left" href="/blog/2013/04/24/two-factor-authentication-for-windows/" title="Previous Post: Two-factor Authentication for Windows">&laquo; Two-factor Authentication for Windows</a>
@@ -637,113 +556,9 @@ should have after all these extra codes.</p>
 
 </div>
 
-<aside class="sidebar">
-  
-    <section>
-  <h1>Categories</h1>
-  <ul id="categories">
-		<li>
-		<a class='category' href='/blog/categories/ai/'>AI</a>, <a class='category' href='/blog/categories/git/'>Git</a>, <a class='category' href='/blog/categories/google-maps/'>Google Maps</a>, <a class='category' href='/blog/categories/metawatch/'>MetaWatch</a>, <a class='category' href='/blog/categories/multiotp/'>MultiOTP</a>, <a class='category' href='/blog/categories/projects/'>Projects</a>, <a class='category' href='/blog/categories/rdp-/'>RDP,</a>, <a class='category' href='/blog/categories/windows-/'>Windows,</a>, <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/authentication-/'>authentication,</a>, <a class='category' href='/blog/categories/coding/'>coding</a>, <a class='category' href='/blog/categories/gradle/'>gradle</a>, <a class='category' href='/blog/categories/gre/'>gre</a>, <a class='category' href='/blog/categories/hangman/'>hangman</a>, <a class='category' href='/blog/categories/impress-js/'>impress.js</a>, <a class='category' href='/blog/categories/middleman/'>middleman</a>, <a class='category' href='/blog/categories/new-technology/'>new technology</a>, <a class='category' href='/blog/categories/phd/'>phd</a>, <a class='category' href='/blog/categories/presentation/'>presentation</a>, <a class='category' href='/blog/categories/school/'>school</a>, <a class='category' href='/blog/categories/study/'>study</a>, <a class='category' href='/blog/categories/toefl/'>toefl</a>, <a class='category' href='/blog/categories/tricks/'>tricks</a>, <a class='category' href='/blog/categories/two-factor/'>two-factor</a>, <a class='category' href='/blog/categories/vim/'>vim</a>
-		</li>
-  </ul>
-</section>
-<section>
-  <h1>Recent Posts</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2013/09/13/migrate-android-project-to-gradle/">Migrate Android Project to Gradle Build System</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/04/24/two-factor-authentication-for-windows/">Two-factor Authentication for Windows</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/10/29/my-way-to-write-a-hangman-ai/">(my way to) Write a Hangman AI</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/09/04/applying-phd-for-dummies/">Applying PhD for dummies</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2012/04/19/the-solarized-dark-vim/">the Solarized Dark Vim</a>
-      </li>
-    
-  </ul>
-</section>
-
-<section>
-  <h1>GitHub Repos</h1>
-  <ul id="gh_repos">
-    <li class="loading">Status updating...</li>
-  </ul>
-  
-  <a href="https://github.com/itszero">@itszero</a> on GitHub
-  
-  <script type="text/javascript">
-    $.domReady(function(){
-        if (!window.jXHR){
-            var jxhr = document.createElement('script');
-            jxhr.type = 'text/javascript';
-            jxhr.src = '/javascripts/libs/jXHR.js';
-            var s = document.getElementsByTagName('script')[0];
-            s.parentNode.insertBefore(jxhr, s);
-        }
-
-        github.showRepos({
-            user: 'itszero',
-            count: 10,
-            skip_forks: true,
-            target: '#gh_repos'
-        });
-    });
-  </script>
-  <script src="/javascripts/github.js" type="text/javascript"> </script>
-</section>
-
-
-<section>
-  <h1>Latest Tweets</h1>
-  <ul id="tweets">
-    <li class="loading">Status updating...</li>
-  </ul>
-  <script type="text/javascript">
-    $.domReady(function(){
-      getTwitterFeed("itszero", 4, false);
-    });
-  </script>
-  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
-  
-    <a href="http://twitter.com/itszero" class="twitter-follow-button" data-show-count="false">Follow @itszero</a>
-  
-</section>
-
-
-
-<section class="googleplus googleplus-hidden">
-  <h1>
-    <a href="https://plus.google.com/105273004135130660497?rel=author">
-      <img src="http://www.google.com/images/icons/ui/gprofile_button-32.png" width="32" height="32">
-      Google+
-    </a>
-  </h1>
-</section>
-
-
-
-  
-</aside>
-
-
     </div>
   </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Chien-An "Zero" Cho -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-<!-- mathjax config similar to math.stackexchange -->
+  <footer role="contentinfo"><!-- mathjax config similar to math.stackexchange -->
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   jax: ["input/TeX", "output/HTML-CSS"],
@@ -758,6 +573,7 @@ MathJax.Hub.Config({
 });
 </script>
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+
 <script type="text/javascript">
   var _gauges = _gauges || [];
   (function() {
@@ -771,7 +587,6 @@ MathJax.Hub.Config({
     s.parentNode.insertBefore(t, s);
   })();
 </script>
-
 </footer>
   
 
@@ -790,41 +605,6 @@ MathJax.Hub.Config({
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     }());
 </script>
-
-
-
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) {return;}
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
-
-
-
-  <script type="text/javascript">
-    (function(){
-      var twitterWidgets = document.createElement('script');
-      twitterWidgets.type = 'text/javascript';
-      twitterWidgets.async = true;
-      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
-      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
-    })();
-  </script>
-
-
 
 
 

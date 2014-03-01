@@ -2,60 +2,68 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://itszero.github.com/blog/2011/10/06/my-octopress-blog/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2011/11/18/meta-watch-meets-google-maps/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2011/11/18/git-dashboard/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2012/01/06/try-out-impress-js/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2012/03/28/show-last-modified-date-in-middleman/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2012/04/19/the-solarized-dark-vim/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2012/09/04/applying-phd-for-dummies/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2012/10/29/my-way-to-write-a-hangman-ai/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>
             http://itszero.github.com/blog/2013/04/24/two-factor-authentication-for-windows/
         </loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/2013/09/13/migrate-android-project-to-gradle/</loc>
-        <lastmod>2013-09-13T16:12:54-04:00</lastmod>
+        <lastmod>2014-03-01T18:00:43-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://itszero.github.com/about/</loc>
+        <lastmod>2014-03-01T16:37:58-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/blog/archives/</loc>
-        <lastmod>2013-09-13T16:12:54-04:00</lastmod>
+        <lastmod>2014-03-01T16:37:58-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/</loc>
-        <lastmod>2013-09-13T16:12:54-04:00</lastmod>
+        <lastmod>2014-03-01T16:37:49-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/portfolio/</loc>
-        <lastmod>2013-09-13T16:12:54-04:00</lastmod>
+        <lastmod>2014-03-01T16:37:58-05:00</lastmod>
     </url>
     <url>
         <loc>http://itszero.github.com/resume/</loc>
-        <lastmod>2013-09-13T13:56:00-04:00</lastmod>
+        <lastmod>2014-03-01T18:15:25-05:00</lastmod>
+    </url>
+    <url>
+        <loc>http://itszero.github.com/resume/src.html</loc>
+        <lastmod>2014-03-01T18:07:43-05:00</lastmod>
     </url>
 </urlset>

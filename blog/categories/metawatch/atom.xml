@@ -4,10 +4,10 @@
   <title><![CDATA[Category: MetaWatch | [Zero setLogger: self];]]></title>
   <link href="http://itszero.github.com/blog/categories/metawatch/atom.xml" rel="self"/>
   <link href="http://itszero.github.com/"/>
-  <updated>2013-09-13T16:12:54-04:00</updated>
+  <updated>2014-03-01T18:25:27-05:00</updated>
   <id>http://itszero.github.com/</id>
   <author>
-    <name><![CDATA[Chien-An "Zero" Cho]]></name>
+    <name><![CDATA[Zero Cho]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
@@ -24,9 +24,9 @@
 with it, and to see what it is capable to do. I tried to use the intent-based
 API and put together this little experiment. I use the phone to acquire current
 location then retrieve Google Maps image for 96x96 display. Before you could
-deliver images to the watch, you'll need to convert it to Black &amp; White image.
+deliver images to the watch, you&rsquo;ll need to convert it to Black &amp; White image.
 I used a threshold filter on the luminance channel for this, and the photo
-above is the result. Kinda fun, but not really useful. Let's see what can be
+above is the result. Kinda fun, but not really useful. Let&rsquo;s see what can be
 done next..</p>
 
 <p>Update: Source code are now available <a href="https://github.com/itszero/MetaLoc">here</a>!</p>
