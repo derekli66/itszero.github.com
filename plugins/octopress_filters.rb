@@ -1,4 +1,4 @@
-4require './plugins/backtick_code_block'
+require './plugins/backtick_code_block'
 require './plugins/post_filters'
 require './plugins/raw'
 require './plugins/date'
