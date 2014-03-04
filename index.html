@@ -7,8 +7,8 @@
   <meta name="author" content="Zero Cho">
 
   
-  <meta name="description" content="Gradle is a new build system that Android is currently promoting. It can be
-used to build Android project by adding a Gradle Android plugin. It is &hellip;">
+  <meta name="description" content="Zipkin is the Twitter open-source implementation of Google&rsquo;s distributed
+tracing system, Dapper. It&rsquo;s a great tool for people who wants &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -28,8 +28,10 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
 <body >
   <div id="main">
     <aside class="site-nav">
-      <div class="logo">Z</div>
-      <div class="logo-text">ero</div>
+      <a href="/">
+        <div class="logo">Z</div>
+        <div class="logo-text">ero</div>
+      </a>
       <ul>
         <a href="/"><li class="link-blog">blog</li></a>
         <a href="/resume"><li class="link-resume">resume</li></a>
@@ -40,6 +42,525 @@ used to build Android project by adding a Gradle Android plugin. It is &hellip;"
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-03-03T15:35:33-05:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2014</time> | 
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/open-source/'>open-source</a>, <a class='category' href='/blog/categories/twitter/'>twitter</a>, <a class='category' href='/blog/categories/zipkin/'>zipkin</a>
+  
+</span>
+
+
+        
+      </p>
+    
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/03/introduction-to-twitters-zipkin/">Introduction to Twitter&#8217;s Zipkin</a></h1>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Zipkin is the Twitter open-source implementation of Google&rsquo;s distributed
+tracing system, <a href="http://research.google.com/pubs/pub36356.html">Dapper</a>. It&rsquo;s a great tool for people who wants to understand
+the bottleneck in their multi-services system. The only downside is that I
+found its documentation isn&rsquo;t quiet clear about the tracing format, so I
+decided to write a blog post that gives an overview of the system and its
+communication protocol.</p>
+
+<p>Before we continue, I would suggest you to take a glance at the paper. It would
+give you some background knowledges and the assumptions of the Zipkin. I will
+try to include relevant points in the post, but you may find it easier if you
+read the paper first.</p>
+
+<h2>Overview</h2>
+
+<p>Zipkin splits the roles of a tracing system into four parts: a collector, a
+query service, a database and a web interface. Zipkin is a passive tracing
+system, which means the app are responsible of sending the tracing information
+to the Zipkin. Zipkin itself does not actively listen to the traffic on the
+network, nor does it try to ping the application for statistics.</p>
+
+<h2>Architecture</h2>
+
+<p><a href="/images/posts/zipkin-arch.png" class="fancybox"><img src="/images/posts/zipkin-arch.png" width="650" title="&#34;Zipkin Architecture&#34;" alt="&#34;Zipkin Architecture&#34;"></a></p>
+
+<p>An usual Zipkin deployment looks like the figure above. The recommended
+database is Cassandra. The protocol between the applications and Zipkin
+collector is Zipkin/Scribe/Thrift (read Zipkin on Scribe on Thrift). If you
+want scalability, the zipkin project recommended to setup a full Scribe
+environment. You can run multiple copies of Zipkin collector and configure your
+server-local Scribe receiver to route Zipkin messages to the cluster for
+load-balancing. For testing or low workload environment, you can point your
+application directly to the Zipkin collector, as it supports Scribe protocol as
+well.</p>
+
+<h2>Tracing</h2>
+
+<p>Zipkin treats every user initiated request as a <strong>trace</strong>. Each trace contains
+several <strong>span</strong>s, and each span is correlated to a RPC call. In each span, you
+can have several annotations. There are four annotations the one span must have
+in order to construct a full-view of a RPC call (in chronological order):
+<strong>cs</strong>, <strong>sr</strong>, <strong>ss</strong>, <strong>cr</strong>, in which <em>c</em> stands for the client, <em>s</em> stands
+for the server and the second <em>s</em> stands for send, the second <em>r</em> stands for
+receive. Please note that these annotations does not have to be all present in
+one span. You can send Zipkin two spans of the same spanID and have (cs, cr)
+and (sr, ss) respectively, this is an useful property since you can do logging
+in the client and the server separately. Each of those annotations would also
+have a timestamp to denote when the event happened and an host for on which
+host this event happened.</p>
+
+<p>If you took a look at the Zipkin&rsquo;s thrift definition, you will also see that
+the span also carries a list of binary annotations. These are a special kind of
+annotations allows you to tag some request-specific information in the trace,
+for example, the HTTP request URI, the SQL query or the HTTP response code.</p>
+
+<h3>ID propagation</h3>
+
+<p>In the last section, we talked about trace and spans. Each trace is identified
+by a globally unique traceId. Each span is identified by the traceId it belongs
+to and an in-trace unique spanId. You may also specify an parentSpanId to
+represent another RPC call made during the parent span&rsquo;s duration. The spans
+should form an acyclic tree structure.</p>
+
+<p>Now think about how server handles a request. Let&rsquo;s say we have a nginx server
+as frontend, an application server and a database server. When nginx gets a
+request, it needs to generate a traceId and two spans. The first spans denotes
+the user requesting nginx, it will have <strong>spanId = traceId</strong> and <strong>parentSpanId
+= 0</strong> by convention for root spans. The second spans will be generated when
+nginx initiate the connection to the upstream. It would have a new spanId,
+parentSpanId set to the first span&rsquo;s id and reuse the same traceId.</p>
+
+<p>The nginx will then need to pass the second span&rsquo;s traceId and spanId to the
+upstream. Fortunately, there&rsquo;s a convention for HTTP. Zipkin uses HTTP header
+to carry those informations. The nginx would need to set <code>X-B3-TraceId</code>,
+<code>X-B3-SpanId</code> and <code>X-B3-ParentSpanId</code> for the upstream to pick up, and the same
+process goes on for each layer. If you&rsquo;re using other protocols, you might need
+to come up with your own creative solution. For example, you may use SQL
+comment to carry over those ids in database queries.</p>
+
+<h2>In Practical</h2>
+
+<p>You should have enough knowledge of Zipkin to get started by now. Let&rsquo;s see how
+these things would be use in code.</p>
+
+<h3>Setup</h3>
+
+<p>Before we dig into codes, you need to deploy the Zipkin first. You can download
+the Zipkin code and set it up yourself. To make things easier, I packaged
+Zipkin into Docker images, enabling one-liner deployment. Check out
+<a href="https://github.com/itszero/docker-zipkin">docker-zipkin</a> if you&rsquo;re interested.</p>
+
+<h3>Communications</h3>
+
+<p>We&rsquo;ve talked about how Zipkin processes traces and spans. Here we will use an
+example to show you what has been transferred to the collector under-the-hood.
+We will reuse the example before: nginx frontend and an application server.
+Note that you will not see any Trace object below, since trace is a virtual
+entity that only exists as <code>traceId</code> in Spans. In the following example, we
+will use JSON to denote an object since it&rsquo;s easier to write. Also, in the real
+world Zipkin communication, spans are being encapsulated in Scribe. It would
+look like this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span> <span class="err">category:</span> <span class="nt">&quot;Zipkin&quot;</span><span class="p">,</span> <span class="err">message:</span> <span class="err">&lt;Span-serialized-as-Binary-Thrift-Struct&gt;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When an user&rsquo;s request hits nginx, the nginx sends a span to the collector.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">traceId:</span> <span class="err">1,</span>      <span class="err">//</span> <span class="err">randomly</span> <span class="err">generated</span> <span class="err">globally</span> <span class="err">unique</span> <span class="err">ID</span>
+</span><span class='line'>  <span class="err">spanId:</span>  <span class="err">1,</span>      <span class="err">//</span> <span class="err">root</span> <span class="err">span</span> <span class="err">shares</span> <span class="err">spanId</span> <span class="err">with</span> <span class="err">traceId</span>
+</span><span class='line'>  <span class="err">parentSpanId:</span> <span class="err">0,</span> <span class="err">//</span> <span class="err">root</span> <span class="err">span</span> <span class="err">does</span> <span class="err">not</span> <span class="err">have</span> <span class="err">a</span> <span class="err">parent</span>
+</span><span class='line'>  <span class="err">name:</span> <span class="nt">&quot;GET&quot;</span><span class="p">,</span>     <span class="err">//</span> <span class="err">RPC</span> <span class="err">method</span> <span class="err">name</span>
+</span><span class='line'>  <span class="err">annotations:</span> <span class="err">[</span>
+</span><span class='line'>    <span class="err">{</span>
+</span><span class='line'>      <span class="err">timestamp:</span> <span class="nt">&quot;10&quot;</span><span class="p">,</span> <span class="err">//</span> <span class="err">a</span> <span class="err">UNIX</span> <span class="err">timestamp</span> <span class="err">in</span> <span class="err">**milliseconds**</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;sr&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80101,</span> <span class="err">//</span> <span class="err">IP</span> <span class="err">address,</span> <span class="err">but</span> <span class="err">as</span> <span class="err">an</span> <span class="err">Integer</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">80,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;nginx&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="err">],</span>
+</span><span class='line'>  <span class="err">binaryAnnotations:</span> <span class="p">[</span> <span class="err">//</span> <span class="err">It&#39;s</span> <span class="err">optional</span><span class="p">,</span> <span class="err">useful</span> <span class="err">for</span> <span class="err">store</span> <span class="err">metadata.</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="err">key:</span> <span class="nt">&quot;http.uri&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;/book/1990&quot;</span><span class="p">,</span> <span class="err">//</span> <span class="err">would</span> <span class="err">be</span> <span class="err">store</span> <span class="err">as</span> <span class="err">byte[]</span>
+</span><span class='line'>      <span class="err">annotationType:</span> <span class="nt">&quot;String&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80101,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">80,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;nginx&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The nginx would than figure out that it needs to contact the upstream
+application server to serve the content. Before it initiates a connection, it
+sends another span to the collector.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">traceId:</span> <span class="err">1,</span>       <span class="err">//</span> <span class="err">all</span> <span class="err">spans</span> <span class="err">in</span> <span class="err">this</span> <span class="err">request</span> <span class="err">shares</span> <span class="err">the</span> <span class="err">same</span> <span class="err">traceid</span>
+</span><span class='line'>  <span class="err">spanId:</span>  <span class="err">2,</span>       <span class="err">//</span> <span class="err">note</span> <span class="err">that</span> <span class="err">a</span> <span class="err">new</span> <span class="err">ID</span> <span class="err">is</span> <span class="err">being</span> <span class="err">used</span>
+</span><span class='line'>  <span class="err">parentSpanId:</span> <span class="err">1,</span>  <span class="err">//</span> <span class="err">the</span> <span class="err">user</span> <span class="err">&lt;-&gt;</span> <span class="err">nginx</span> <span class="err">span</span> <span class="err">is</span> <span class="err">now</span> <span class="err">our</span> <span class="err">parent</span>
+</span><span class='line'>  <span class="err">name:</span> <span class="nt">&quot;GET Book&quot;</span><span class="p">,</span> <span class="err">//</span> <span class="err">RPC</span> <span class="err">method</span> <span class="err">name</span>
+</span><span class='line'>  <span class="err">annotations:</span> <span class="err">[</span>
+</span><span class='line'>    <span class="err">{</span>
+</span><span class='line'>      <span class="err">timestamp:</span> <span class="nt">&quot;12&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;cs&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80101,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">80,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;nginx&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="err">],</span>
+</span><span class='line'>  <span class="err">binaryAnnotations:</span> <span class="p">[]</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The application server receives the request and, just like nginx, sends a
+<strong>server receive</strong> span to the collector.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">traceId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">spanId:</span>  <span class="err">2,</span>
+</span><span class='line'>  <span class="err">parentSpanId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">name:</span> <span class="nt">&quot;GET Book&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="err">annotations:</span> <span class="err">[</span>
+</span><span class='line'>    <span class="err">{</span>
+</span><span class='line'>      <span class="err">timestamp:</span> <span class="nt">&quot;14&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;sr&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80102,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">3000,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;thin&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="err">],</span>
+</span><span class='line'>  <span class="err">binaryAnnotations:</span> <span class="p">[]</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>After the request has been processed, the application server sends <strong>server
+send</strong> to the collector.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">traceId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">spanId:</span>  <span class="err">2,</span>
+</span><span class='line'>  <span class="err">parentSpanId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">name:</span> <span class="nt">&quot;GET Book&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="err">annotations:</span> <span class="err">[</span>
+</span><span class='line'>    <span class="err">{</span>
+</span><span class='line'>      <span class="err">timestamp:</span> <span class="nt">&quot;18&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;ss&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80102,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">3000,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;thin&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="err">],</span>
+</span><span class='line'>  <span class="err">binaryAnnotations:</span> <span class="p">[]</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The nginx now receives the response from the upstream, it will sends a <strong>cr</strong>
+to the collector. It also sends a <strong>ss</strong> before it proxies the response back to
+the user.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="err">//</span> <span class="err">client</span> <span class="err">receive</span> <span class="err">from</span> <span class="err">upstream</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">traceId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">spanId:</span>  <span class="err">2,</span>
+</span><span class='line'>  <span class="err">parentSpanId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">name:</span> <span class="nt">&quot;GET Book&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="err">annotations:</span> <span class="err">[</span>
+</span><span class='line'>    <span class="err">{</span>
+</span><span class='line'>      <span class="err">timestamp:</span> <span class="nt">&quot;20&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;cr&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80101,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">80,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;nginx&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="err">],</span>
+</span><span class='line'>  <span class="err">binaryAnnotations:</span> <span class="p">[]</span>
+</span><span class='line'><span class="err">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">//</span> <span class="err">server</span> <span class="err">send</span> <span class="err">to</span> <span class="err">the</span> <span class="err">user</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="err">traceId:</span> <span class="err">1,</span>
+</span><span class='line'>  <span class="err">spanId:</span>  <span class="err">1,</span>
+</span><span class='line'>  <span class="err">parentSpanId:</span> <span class="err">0,</span>
+</span><span class='line'>  <span class="err">name:</span> <span class="nt">&quot;/book/1990&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="err">annotations:</span> <span class="err">[</span>
+</span><span class='line'>    <span class="err">{</span>
+</span><span class='line'>      <span class="err">timestamp:</span> <span class="nt">&quot;21&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;ss&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80101,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">80,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;nginx&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="err">],</span>
+</span><span class='line'>  <span class="err">binaryAnnotations:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="err">key:</span> <span class="nt">&quot;http.responseCode&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">value:</span> <span class="nt">&quot;200&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">annotationType:</span> <span class="nt">&quot;int16&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="err">host:</span> <span class="err">{</span>
+</span><span class='line'>        <span class="err">ipv4:</span> <span class="err">0xC0A80101,</span>
+</span><span class='line'>        <span class="err">port:</span> <span class="err">80,</span>
+</span><span class='line'>        <span class="err">service_name:</span> <span class="nt">&quot;nginx&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="err">}</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Send trace to Zipkin</h3>
+
+<h4>Scala</h4>
+
+<p>Let&rsquo;s talk about Zipkin&rsquo;s native language: Scala first. Zipkin project
+published a client library based on Scrooge and Finagle. To use the library,
+you will need the following dependencies (shown in Gradle script format).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">repositories</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">mavenCentral</span><span class="o">()</span>
+</span><span class='line'>  <span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s2">&quot;http://maven.twttr.com/&quot;</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;org.apache.thrift:libthrift:0.9.1&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.twitter:finagle-core_2.10:6.12.1&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.twitter:zipkin-scrooge:1.0.0&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.twitter:util-core_2.10:6.12.1&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.twitter:util-app_2.10:6.12.1&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For the code example, Twitter already have an great example on the github.
+Please check out <a href="https://github.com/twitter/zipkin/blob/master/zipkin-test/src/main/scala/com/twitter/zipkin/tracegen/Requests.scala">zipkin-test</a>.</p>
+
+<h4>Java</h4>
+
+<p>For Java, I would not recommend to use the Finagle Java support just yet. (or
+maybe I&rsquo;m too dumb to figure it out. :( ) Fortunately, there is a Zipkin
+implementation in Java called, <a href="https://github.com/kristofa/brave">Brave</a>. The dependencies you&rsquo;re looking for are
+listed below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='groovy'><span class='line'><span class="n">repositories</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">mavenCentral</span><span class="o">()</span>
+</span><span class='line'>  <span class="n">maven</span> <span class="o">{</span> <span class="n">url</span> <span class="s2">&quot;http://maven.twttr.com/&quot;</span> <span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">dependencies</span> <span class="o">{</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.github.kristofa:brave-impl:2.1.1&#39;</span>
+</span><span class='line'>  <span class="n">compile</span> <span class="s1">&#39;com.github.kristofa:brave-zipkin-spancollector:2.1.1&#39;</span>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Brave provides an awesome <code>ZipkinSpanCollector</code> class which automagically
+handles queueing and threading for you.</p>
+
+<h2>Conclusion</h2>
+
+<p>Phew, finally we can conclude this long blog post. These are basically where I
+got lost when I tried to understand the Zipkin and tried to extend some other
+services such as nginx, MySQL to report traces back to the Zipkin. I hope these
+experiences would have you to get hands on the Zipkin faster. Zipkin actually
+have more feautres than we talked about here, please also take a look at the
+<a href="https://github.com/twitter/zipkin/tree/master/doc">doc</a> directory too. Have fun!</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1407,46 +1928,9 @@ done next..</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-10-06T07:23:00-04:00" pubdate data-updated="true">Oct 6<span>th</span>, 2011</time> | 
-
-
-        
-      </p>
-    
-    
-      <h1 class="entry-title"><a href="/blog/2011/10/06/my-octopress-blog/">Moved to Octopress</a></h1>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Just saw this new blogging system and I think I like the idea. :)
-I think I&rsquo;ll move to this blog and try to write posts in English here.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     

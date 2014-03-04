@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: zipkin | [Zero setLogger: self];]]></title>
+  <link href="http://itszero.github.com/blog/categories/zipkin/atom.xml" rel="self"/>
+  <link href="http://itszero.github.com/"/>
+  <updated>2014-03-03T19:59:06-05:00</updated>
+  <id>http://itszero.github.com/</id>
+  <author>
+    <name><![CDATA[Zero Cho]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction to Twitter's Zipkin]]></title>
+    <link href="http://itszero.github.com/blog/2014/03/03/introduction-to-twitters-zipkin/"/>
+    <updated>2014-03-03T15:35:33-05:00</updated>
+    <id>http://itszero.github.com/blog/2014/03/03/introduction-to-twitters-zipkin</id>
+    <content type="html"><![CDATA[<p>Zipkin is the Twitter open-source implementation of Google&rsquo;s distributed
+tracing system, <a href="http://research.google.com/pubs/pub36356.html">Dapper</a>. It&rsquo;s a great tool for people who wants to understand
+the bottleneck in their multi-services system. The only downside is that I
+found its documentation isn&rsquo;t quiet clear about the tracing format, so I
+decided to write a blog post that gives an overview of the system and its
+communication protocol.</p>
+
+<p>Before we continue, I would suggest you to take a glance at the paper. It would
+give you some background knowledges and the assumptions of the Zipkin. I will
+try to include relevant points in the post, but you may find it easier if you
+read the paper first.</p>
+
+<h2>Overview</h2>
+
+<p>Zipkin splits the roles of a tracing system into four parts: a collector, a
+query service, a database and a web interface. Zipkin is a passive tracing
+system, which means the app are responsible of sending the tracing information
+to the Zipkin. Zipkin itself does not actively listen to the traffic on the
+network, nor does it try to ping the application for statistics.</p>
+
+<h2>Architecture</h2>
+
+<p><a href="/images/posts/zipkin-arch.png" class="fancybox"><img src="/images/posts/zipkin-arch.png" width="650" title="&ldquo;Zipkin Architecture&rdquo;" ></a></p>
+
+<p>An usual Zipkin deployment looks like the figure above. The recommended
+database is Cassandra. The protocol between the applications and Zipkin
+collector is Zipkin/Scribe/Thrift (read Zipkin on Scribe on Thrift). If you
+want scalability, the zipkin project recommended to setup a full Scribe
+environment. You can run multiple copies of Zipkin collector and configure your
+server-local Scribe receiver to route Zipkin messages to the cluster for
+load-balancing. For testing or low workload environment, you can point your
+application directly to the Zipkin collector, as it supports Scribe protocol as
+well.</p>
+
+<h2>Tracing</h2>
+
+<p>Zipkin treats every user initiated request as a <strong>trace</strong>. Each trace contains
+several <strong>span</strong>s, and each span is correlated to a RPC call. In each span, you
+can have several annotations. There are four annotations the one span must have
+in order to construct a full-view of a RPC call (in chronological order):
+<strong>cs</strong>, <strong>sr</strong>, <strong>ss</strong>, <strong>cr</strong>, in which <em>c</em> stands for the client, <em>s</em> stands
+for the server and the second <em>s</em> stands for send, the second <em>r</em> stands for
+receive. Please note that these annotations does not have to be all present in
+one span. You can send Zipkin two spans of the same spanID and have (cs, cr)
+and (sr, ss) respectively, this is an useful property since you can do logging
+in the client and the server separately. Each of those annotations would also
+have a timestamp to denote when the event happened and an host for on which
+host this event happened.</p>
+
+<p>If you took a look at the Zipkin&rsquo;s thrift definition, you will also see that
+the span also carries a list of binary annotations. These are a special kind of
+annotations allows you to tag some request-specific information in the trace,
+for example, the HTTP request URI, the SQL query or the HTTP response code.</p>
+
+<h3>ID propagation</h3>
+
+<p>In the last section, we talked about trace and spans. Each trace is identified
+by a globally unique traceId. Each span is identified by the traceId it belongs
+to and an in-trace unique spanId. You may also specify an parentSpanId to
+represent another RPC call made during the parent span&rsquo;s duration. The spans
+should form an acyclic tree structure.</p>
+
+<p>Now think about how server handles a request. Let&rsquo;s say we have a nginx server
+as frontend, an application server and a database server. When nginx gets a
+request, it needs to generate a traceId and two spans. The first spans denotes
+the user requesting nginx, it will have <strong>spanId = traceId</strong> and <strong>parentSpanId
+= 0</strong> by convention for root spans. The second spans will be generated when
+nginx initiate the connection to the upstream. It would have a new spanId,
+parentSpanId set to the first span&rsquo;s id and reuse the same traceId.</p>
+
+<p>The nginx will then need to pass the second span&rsquo;s traceId and spanId to the
+upstream. Fortunately, there&rsquo;s a convention for HTTP. Zipkin uses HTTP header
+to carry those informations. The nginx would need to set <code>X-B3-TraceId</code>,
+<code>X-B3-SpanId</code> and <code>X-B3-ParentSpanId</code> for the upstream to pick up, and the same
+process goes on for each layer. If you&rsquo;re using other protocols, you might need
+to come up with your own creative solution. For example, you may use SQL
+comment to carry over those ids in database queries.</p>
+
+<h2>In Practical</h2>
+
+<p>You should have enough knowledge of Zipkin to get started by now. Let&rsquo;s see how
+these things would be use in code.</p>
+
+<h3>Setup</h3>
+
+<p>Before we dig into codes, you need to deploy the Zipkin first. You can download
+the Zipkin code and set it up yourself. To make things easier, I packaged
+Zipkin into Docker images, enabling one-liner deployment. Check out
+<a href="https://github.com/itszero/docker-zipkin">docker-zipkin</a> if you&rsquo;re interested.</p>
+
+<h3>Communications</h3>
+
+<p>We&rsquo;ve talked about how Zipkin processes traces and spans. Here we will use an
+example to show you what has been transferred to the collector under-the-hood.
+We will reuse the example before: nginx frontend and an application server.
+Note that you will not see any Trace object below, since trace is a virtual
+entity that only exists as <code>traceId</code> in Spans. In the following example, we
+will use JSON to denote an object since it&rsquo;s easier to write. Also, in the real
+world Zipkin communication, spans are being encapsulated in Scribe. It would
+look like this.</p>
+
+<p><code>json
+{ category: "Zipkin", message: &lt;Span-serialized-as-Binary-Thrift-Struct&gt; }
+</code></p>
+
+<p>When an user&rsquo;s request hits nginx, the nginx sends a span to the collector.</p>
+
+<p>```json
+{
+  traceId: 1,      // randomly generated globally unique ID
+  spanId:  1,      // root span shares spanId with traceId
+  parentSpanId: 0, // root span does not have a parent
+  name: &ldquo;GET&rdquo;,     // RPC method name
+  annotations: [</p>
+
+<pre><code>{
+  timestamp: "10", // a UNIX timestamp in **milliseconds**
+  value: "sr",
+  host: {
+    ipv4: 0xC0A80101, // IP address, but as an Integer
+    port: 80,
+    service_name: "nginx"
+  }
+}
+</code></pre>
+
+<p>  ],
+  binaryAnnotations: [ // It&rsquo;s optional, useful for store metadata.</p>
+
+<pre><code>{
+  key: "http.uri",
+  value: "/book/1990", // would be store as byte[]
+  annotationType: "String",
+  host: {
+    ipv4: 0xC0A80101,
+    port: 80,
+    service_name: "nginx"
+  }
+}
+</code></pre>
+
+<p>  ]
+}
+```</p>
+
+<p>The nginx would than figure out that it needs to contact the upstream
+application server to serve the content. Before it initiates a connection, it
+sends another span to the collector.</p>
+
+<p>```json
+{
+  traceId: 1,       // all spans in this request shares the same traceid
+  spanId:  2,       // note that a new ID is being used
+  parentSpanId: 1,  // the user &lt;&ndash;> nginx span is now our parent
+  name: &ldquo;GET Book&rdquo;, // RPC method name
+  annotations: [</p>
+
+<pre><code>{
+  timestamp: "12",
+  value: "cs",
+  host: {
+    ipv4: 0xC0A80101,
+    port: 80,
+    service_name: "nginx"
+  }
+}
+</code></pre>
+
+<p>  ],
+  binaryAnnotations: []
+}
+```</p>
+
+<p>The application server receives the request and, just like nginx, sends a
+<strong>server receive</strong> span to the collector.</p>
+
+<p>```json
+{
+  traceId: 1,
+  spanId:  2,
+  parentSpanId: 1,
+  name: &ldquo;GET Book&rdquo;,
+  annotations: [</p>
+
+<pre><code>{
+  timestamp: "14",
+  value: "sr",
+  host: {
+    ipv4: 0xC0A80102,
+    port: 3000,
+    service_name: "thin"
+  }
+}
+</code></pre>
+
+<p>  ],
+  binaryAnnotations: []
+}
+```</p>
+
+<p>After the request has been processed, the application server sends <strong>server
+send</strong> to the collector.</p>
+
+<p>```json
+{
+  traceId: 1,
+  spanId:  2,
+  parentSpanId: 1,
+  name: &ldquo;GET Book&rdquo;,
+  annotations: [</p>
+
+<pre><code>{
+  timestamp: "18",
+  value: "ss",
+  host: {
+    ipv4: 0xC0A80102,
+    port: 3000,
+    service_name: "thin"
+  }
+}
+</code></pre>
+
+<p>  ],
+  binaryAnnotations: []
+}
+```</p>
+
+<p>The nginx now receives the response from the upstream, it will sends a <strong>cr</strong>
+to the collector. It also sends a <strong>ss</strong> before it proxies the response back to
+the user.</p>
+
+<p>```json
+// client receive from upstream
+{
+  traceId: 1,
+  spanId:  2,
+  parentSpanId: 1,
+  name: &ldquo;GET Book&rdquo;,
+  annotations: [</p>
+
+<pre><code>{
+  timestamp: "20",
+  value: "cr",
+  host: {
+    ipv4: 0xC0A80101,
+    port: 80,
+    service_name: "nginx"
+  }
+}
+</code></pre>
+
+<p>  ],
+  binaryAnnotations: []
+}</p>
+
+<p>// server send to the user
+{
+  traceId: 1,
+  spanId:  1,
+  parentSpanId: 0,
+  name: &ldquo;/book/1990&rdquo;,
+  annotations: [</p>
+
+<pre><code>{
+  timestamp: "21",
+  value: "ss",
+  host: {
+    ipv4: 0xC0A80101,
+    port: 80,
+    service_name: "nginx"
+  }
+}
+</code></pre>
+
+<p>  ],
+  binaryAnnotations: [</p>
+
+<pre><code>{
+  key: "http.responseCode",
+  value: "200",
+  annotationType: "int16",
+  host: {
+    ipv4: 0xC0A80101,
+    port: 80,
+    service_name: "nginx"
+  }
+}
+</code></pre>
+
+<p>  ]
+}
+```</p>
+
+<h3>Send trace to Zipkin</h3>
+
+<h4>Scala</h4>
+
+<p>Let&rsquo;s talk about Zipkin&rsquo;s native language: Scala first. Zipkin project
+published a client library based on Scrooge and Finagle. To use the library,
+you will need the following dependencies (shown in Gradle script format).</p>
+
+<p>```groovy
+repositories {
+  mavenCentral()
+  maven { url &ldquo;<a href="http://maven.twttr.com/">http://maven.twttr.com/</a>&rdquo; }</p>
+
+<p>dependencies {
+  compile &lsquo;org.apache.thrift:libthrift:0.9.1&rsquo;
+  compile &lsquo;com.twitter:finagle-core_2.10:6.12.1&rsquo;
+  compile &lsquo;com.twitter:zipkin-scrooge:1.0.0&rsquo;
+  compile &lsquo;com.twitter:util-core_2.10:6.12.1&rsquo;
+  compile &lsquo;com.twitter:util-app_2.10:6.12.1&rsquo;
+}
+```</p>
+
+<p>For the code example, Twitter already have an great example on the github.
+Please check out <a href="https://github.com/twitter/zipkin/blob/master/zipkin-test/src/main/scala/com/twitter/zipkin/tracegen/Requests.scala">zipkin-test</a>.</p>
+
+<h4>Java</h4>
+
+<p>For Java, I would not recommend to use the Finagle Java support just yet. (or
+maybe I&rsquo;m too dumb to figure it out. :( ) Fortunately, there is a Zipkin
+implementation in Java called, <a href="https://github.com/kristofa/brave">Brave</a>. The dependencies you&rsquo;re looking for are
+listed below.</p>
+
+<p>```groovy
+repositories {
+  mavenCentral()
+  maven { url &ldquo;<a href="http://maven.twttr.com/">http://maven.twttr.com/</a>&rdquo; }</p>
+
+<p>dependencies {
+  compile &lsquo;com.github.kristofa:brave-impl:2.1.1&rsquo;
+  compile &lsquo;com.github.kristofa:brave-zipkin-spancollector:2.1.1&rsquo;
+}
+```</p>
+
+<p>Brave provides an awesome <code>ZipkinSpanCollector</code> class which automagically
+handles queueing and threading for you.</p>
+
+<h2>Conclusion</h2>
+
+<p>Phew, finally we can conclude this long blog post. These are basically where I
+got lost when I tried to understand the Zipkin and tried to extend some other
+services such as nginx, MySQL to report traces back to the Zipkin. I hope these
+experiences would have you to get hands on the Zipkin faster. Zipkin actually
+have more feautres than we talked about here, please also take a look at the
+<a href="https://github.com/twitter/zipkin/tree/master/doc">doc</a> directory too. Have fun!</p>
+]]></content>
+  </entry>
+  
+</feed>
