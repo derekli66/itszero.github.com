@@ -68,6 +68,14 @@ ul {
   }
 }
 
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
 @font-face {
     font-family: 'LigatureSymbols';
     src: url('/assets/ligaturesymbols/LigatureSymbols-2.09.eot');

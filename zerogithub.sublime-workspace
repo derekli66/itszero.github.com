@@ -4,16 +4,28 @@
 		"selected_items":
 		[
 			[
+				"margin-",
+				"margin-top"
+			],
+			[
+				"mar",
+				"margin-right"
+			],
+			[
+				"list-styl",
+				"list-style-type"
+			],
+			[
+				"pad",
+				"padding-bottom"
+			],
+			[
 				"padd",
 				"padding-right"
 			],
 			[
 				"text",
 				"text-transform"
-			],
-			[
-				"mar",
-				"margin-left"
 			],
 			[
 				"font",
@@ -234,10 +246,6 @@
 			[
 				"pr",
 				"properties"
-			],
-			[
-				"pad",
-				"padding-left"
 			],
 			[
 				"VIEW_",
@@ -506,80 +514,16 @@
 			[
 				"gtthread",
 				"gtthread_lib_path"
-			],
-			[
-				"gtthrea",
-				"gtthread_lib_path"
-			],
-			[
-				"use",
-				"use-bigrams"
 			]
 		]
 	},
 	"buffers":
 	[
-		{
-			"file": "sass/_base.scss",
-			"settings":
-			{
-				"buffer_size": 118,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "sass/base/_layout.scss",
-			"settings":
-			{
-				"buffer_size": 1464,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "source/_layouts/default.html",
-			"settings":
-			{
-				"buffer_size": 952,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "sass/base/_color.scss",
-			"settings":
-			{
-				"buffer_size": 206,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "sass/base/_typography.scss",
-			"settings":
-			{
-				"buffer_size": 1477,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "source/portfolio/index.html",
-			"settings":
-			{
-				"buffer_size": 7048,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "source/resume/index.markdown",
-			"settings":
-			{
-				"buffer_size": 7430,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 29.0,
+		"height": 329.0,
 		"selected_items":
 		[
 			[
@@ -679,7 +623,7 @@
 				"Indentation: Reindent Lines"
 			]
 		],
-		"width": 467.0
+		"width": 593.0
 	},
 	"console":
 	{
@@ -696,32 +640,63 @@
 	},
 	"file_history":
 	[
-		"/Users/Zero/Dropbox/Sites/zerogithub/public/portfolio/index.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/portfolio.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_article.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_typography.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_syntax.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/page.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/default.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_color.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/resume/src.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/resume/index.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/plugins/octopress_filters.rb",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/asides/categories.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/plugins/category_generator.rb",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_layout.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_article.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_utils.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/post/categories.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/head.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_resume.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/post.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/page.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/article.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_color.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_typography.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/default.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_portfolio.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/zerogithub.sublime-project",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/index.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/javascripts/octopress.js",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/about/index.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/portfolio/index.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_about.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_about.css",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/screen.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass.bak/portfolio.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/public/javascripts/octopress.js",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/resume/index.haml",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_portfolio.css",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_layouts/portfolio.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/_base.scss",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/footer.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/resume/index.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2012-03-28-show-last-modified-date-in-middleman.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2012-04-19-the-solarized-dark-vim.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2012-09-04-applying-phd-for-dummies.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2012-10-29-my-way-to-write-a-hangman-ai.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2013-04-24-two-factor-authentication-for-windows.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2013-09-13-migrate-android-project-to-gradle.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2011-10-06-my-octopress-blog.markdown",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/custom/footer.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/after_footer.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/header.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/custom/header.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/custom/head.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/zerogithub.sublime-workspace",
+		"/Users/Zero/Dropbox/Sites/zerogithub/public/portfolio/index.html",
+		"/Users/Zero/Dropbox/Sites/zerogithub/sass/partial/_syntax.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_solarized.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/.themes/classic/sass/base/_utilities.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/_base.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/screen.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_utils.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass.bak/base/_typography.scss",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/article.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_posts/2013-09-13-migrate-android-project-to-gradle.markdown",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/custom/head.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/head.html",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/header.html",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass.bak/custom/_colors.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass.bak/custom/_styles.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass.bak/custom/_layout.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass.bak/custom/_fonts.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/_deploy/javascripts/ender.js",
-		"/Users/Zero/Dropbox/Sites/zerogithub/source/_includes/custom/footer.html",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass/portfolio.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass/_partials.scss",
 		"/Users/Zero/Dropbox/Sites/zerogithub/sass/base/_utilities.scss",
@@ -792,38 +767,7 @@
 		"/Users/Zero/src/lightpack-dilation/cli/src/util.h",
 		"/Users/Zero/src/lightpack-dilation/cli/src/util.c",
 		"/Users/Zero/src/lightpack-dilation/cli/src/dilation_context.h",
-		"/Users/Zero/src/lightpack-dilation/cli/src/play.c",
-		"/Users/Zero/src/lightpack-dilation/cli/src/constellation/constellation.h",
-		"/Users/Zero/src/lightpack-dilation/cli/src/main.c",
-		"/Users/Zero/src/lightpack-dilation/cli/src/constellation/andromeda.c",
-		"/Users/Zero/src/lightpack-dilation/cli/src/constellation/constellations.h",
-		"/private/tmp/a/main.cpp",
-		"/private/tmp/a/AreaDistributor.hpp",
-		"/private/tmp/a/AndromedaDistributor.hpp",
-		"/Users/Zero/src/lightpack-dilation/wscript",
-		"/Users/Zero/src/lightpack-dilation/main.cpp",
-		"/Users/Zero/src/lightpack-dilation/waf",
-		"/Users/Zero/src/lightpack-dilation/src/main.cpp",
-		"/Users/Zero/src/lightpack-dilation/CMakeLists.txt",
-		"/Users/Zero/src/lightpack-dilation/CMakeLists",
-		"/Users/Zero/src/lightpack-dilation/build.gradle",
-		"/Users/Zero/src/taggerweb/app/controllers/tags_controller.rb",
-		"/Users/Zero/src/taggerweb/app/assets/stylesheets/application.css.less",
-		"/Users/Zero/src/taggerweb/app/views/tags/tagger.html.haml",
-		"/Users/Zero/.zshrc",
-		"/Users/Zero/src/dotfiles/zshrc.erb",
-		"/Users/Zero/src/taggerweb/app/models/tag.rb",
-		"/Users/Zero/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
-		"/Users/Zero/src/bootstrap/js/button.js",
-		"/Users/Zero/Dropbox/dm_icws_paper_draft/components.tex",
-		"/Users/Zero/Dropbox/dm_icws_paper_draft/multistreamanalysis.tex",
-		"/Users/Zero/Downloads/universal-pos-tags/en-ptb.map",
-		"/Users/Zero/src/organic_hash/parser/src/main/scala/org/zj/unigram_counter/Main.scala",
-		"/Users/Zero/Desktop/cs4400x_prj1_ans.txt",
-		"/Users/Zero/src/dotfiles/vimrc",
-		"/Users/Zero/Downloads/universal-pos-tags/en-tweet.map",
-		"/Users/Zero/Downloads/universal-pos-tags/en-tweet.README",
-		"/Users/Zero/src/taggerweb/app/assets/javascripts/application.js"
+		"/Users/Zero/src/lightpack-dilation/cli/src/play.c"
 	],
 	"find":
 	{
@@ -843,6 +787,16 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"ul",
+			"right_box",
+			"left_box",
+			"github",
+			"-webkit-",
+			"webkit",
+			"code",
+			"850px",
+			"right",
+			"testFeatures",
 			"    ",
 			"highlight",
 			"figure.code",
@@ -960,17 +914,7 @@
 			"geo coordinates",
 			"appConstants",
 			"GameContextBase",
-			"GameContext",
-			"energy",
-			"GameContext",
-			"GameContextBase",
-			"RootGameContext",
-			"ModelObject",
-			"RootGameContext",
-			"GameContextBase",
-			"AppConstants",
-			", ",
-			"marker"
+			"GameContext"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -998,195 +942,8 @@
 	"groups":
 	[
 		{
-			"selected": 5,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "sass/_base.scss",
-					"settings":
-					{
-						"buffer_size": 118,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								49,
-								49
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SCSS/SCSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "sass/base/_layout.scss",
-					"settings":
-					{
-						"buffer_size": 1464,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								397,
-								397
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SCSS/SCSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 287.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "source/_layouts/default.html",
-					"settings":
-					{
-						"buffer_size": 952,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								710,
-								710
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "sass/base/_color.scss",
-					"settings":
-					{
-						"buffer_size": 206,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								100,
-								100
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SCSS/SCSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "sass/base/_typography.scss",
-					"settings":
-					{
-						"buffer_size": 1477,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1474,
-								1474
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/SCSS/SCSS.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 492.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "source/portfolio/index.html",
-					"settings":
-					{
-						"buffer_size": 7048,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								16,
-								16
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "source/resume/index.markdown",
-					"settings":
-					{
-						"buffer_size": 7430,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Markdown/Markdown.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -1248,6 +1005,142 @@
 		"selected_items":
 		[
 			[
+				"octopress",
+				"plugins/octopress_filters.rb"
+			],
+			[
+				"src.mark",
+				"source/resume/src.markdown"
+			],
+			[
+				"index.html",
+				"source/resume/index.html"
+			],
+			[
+				"article",
+				"sass/base/_article.scss"
+			],
+			[
+				"utils",
+				"sass/base/_utils.scss"
+			],
+			[
+				"layout",
+				"sass/base/_layout.scss"
+			],
+			[
+				"category",
+				"plugins/category_generator.rb"
+			],
+			[
+				"categories",
+				"source/_includes/post/categories.html"
+			],
+			[
+				"post",
+				"source/_layouts/post.html"
+			],
+			[
+				"resume",
+				"sass/partial/_resume.scss"
+			],
+			[
+				"typogr",
+				"sass/base/_typography.scss"
+			],
+			[
+				"arti",
+				"sass/base/_article.scss"
+			],
+			[
+				"layou",
+				"sass/base/_layout.scss"
+			],
+			[
+				"head",
+				"source/_includes/head.html"
+			],
+			[
+				"default",
+				"source/_layouts/default.html"
+			],
+			[
+				"page.html",
+				"source/_layouts/page.html"
+			],
+			[
+				"default.html",
+				"source/_layouts/default.html"
+			],
+			[
+				"portfol",
+				"sass/partial/_portfolio.scss"
+			],
+			[
+				"portfoli",
+				"sass/partial/_portfolio.scss"
+			],
+			[
+				"post.",
+				"source/_layouts/post.html"
+			],
+			[
+				"src.mar",
+				"source/resume/src.markdown"
+			],
+			[
+				"octopress.js",
+				"source/javascripts/octopress.js"
+			],
+			[
+				"octopres",
+				"source/javascripts/octopress.js"
+			],
+			[
+				"typo",
+				"sass/base/_typography.scss"
+			],
+			[
+				"lau",
+				"sass/base/_layout.scss"
+			],
+			[
+				"portfolio.scss",
+				"sass.bak/portfolio.scss"
+			],
+			[
+				"octo",
+				"public/javascripts/octopress.js"
+			],
+			[
+				"defau",
+				"source/_layouts/default.html"
+			],
+			[
+				"portfolio.",
+				"source/_layouts/portfolio.html"
+			],
+			[
+				"typog",
+				"sass/base/_typography.scss"
+			],
+			[
+				"page",
+				"source/_layouts/page.html"
+			],
+			[
+				"index.mar",
+				"source/resume/index.markdown"
+			],
+			[
+				"head.",
+				"source/_includes/head.html"
+			],
+			[
+				"foot",
+				"source/_includes/custom/footer.html"
+			],
+			[
 				"resume.mar",
 				"source/resume/index.markdown"
 			],
@@ -1264,16 +1157,8 @@
 				".themes/classic/sass/base/_utilities.scss"
 			],
 			[
-				"article",
-				"source/_includes/article.html"
-			],
-			[
 				"ender.js",
 				"_deploy/javascripts/ender.js"
-			],
-			[
-				"head",
-				"source/_includes/head.html"
 			],
 			[
 				"footer",
@@ -1432,10 +1317,6 @@
 				"Homebrew/formula.rb"
 			],
 			[
-				"index.html",
-				"server/public/index.html"
-			],
-			[
 				"layout_stora",
 				"server/public/app/data/layout_storage.js"
 			],
@@ -1576,10 +1457,6 @@
 				"server/public/css/main.css"
 			],
 			[
-				"page",
-				"server/public/app/boot/page.js"
-			],
-			[
 				"main.js",
 				"server/public/js/main.js"
 			],
@@ -1602,10 +1479,6 @@
 			[
 				"activity_login.xml",
 				"res/layout/activity_login.xml"
-			],
-			[
-				"layout",
-				"source/layout.haml"
 			],
 			[
 				"venue",
@@ -1642,122 +1515,6 @@
 			[
 				"response.b",
 				"app/models/response.rb"
-			],
-			[
-				"form.rb",
-				"app/models/form.rb"
-			],
-			[
-				"index",
-				"app/views/responses/index.haml"
-			],
-			[
-				"route",
-				"config/routes.rb"
-			],
-			[
-				"add_state",
-				"db/migrate/20130408211057_add_state_to_responses.rb"
-			],
-			[
-				"responses",
-				"app/controllers/responses_controller.rb"
-			],
-			[
-				"add",
-				"db/migrate/20130324193014_add_file_to_response_values.rb"
-			],
-			[
-				"add_st",
-				"db/migrate/20130408211057_add_state_to_response.rb"
-			],
-			[
-				"gemfi",
-				"Gemfile"
-			],
-			[
-				"show.h",
-				"app/views/forms/show.haml"
-			],
-			[
-				"validator",
-				"lib/form_wizard_validator.rb"
-			],
-			[
-				"responsecon",
-				"app/controllers/responses_controller.rb"
-			],
-			[
-				"page_break",
-				"app/assets/javascripts/templates/forms/_page_break.hamlc"
-			],
-			[
-				"valid",
-				"lib/form_wizard_validator.rb"
-			],
-			[
-				"response.rb",
-				"app/models/response.rb"
-			],
-			[
-				"application.css",
-				"app/assets/stylesheets/application.css.scss"
-			],
-			[
-				"response/inde",
-				"app/views/responses/index.haml"
-			],
-			[
-				"response.",
-				"app/models/response.rb"
-			],
-			[
-				"dev12.sc",
-				"report/plots/dev12.script"
-			],
-			[
-				"dev12",
-				"report/plots/dev12.script"
-			],
-			[
-				"adduser",
-				"db/migrate/20130325054856_add_user_id_to_forms.rb"
-			],
-			[
-				"gemfile",
-				"Gemfile"
-			],
-			[
-				"add_im",
-				"db/migrate/20130324193014_add_image_to_response_values.rb"
-			],
-			[
-				"css.cs",
-				"app/assets/stylesheets/application.css.scss"
-			],
-			[
-				"image",
-				"app/uploaders/image_uploader.rb"
-			],
-			[
-				"responsevalu",
-				"app/models/response_value.rb"
-			],
-			[
-				"addimage",
-				"db/migrate/20130324193014_add_image_to_response_values.rb"
-			],
-			[
-				"form",
-				"app/assets/javascripts/forms_edit.js.coffee"
-			],
-			[
-				"search",
-				"app/controllers/search_controller.rb"
-			],
-			[
-				"omniau",
-				"config/initializers/omniauth.rb"
 			]
 		],
 		"width": 0.0
