@@ -1,8 +1,8 @@
 @include establish-baseline;
 
-$sans: "JAF Bernino Sans", "Helvetica Neue", "HiraKakuPro-W3", "Microsoft JhengHei", sans !default;
-$heading-font-family: "Omnes Pro", "Helvetica Neue", sans !default;
-$mono: "Source Code Pro", mono !default;
+$sans: "jaf-bernino-sans", "Helvetica Neue", "HiraKakuPro-W3", "Microsoft JhengHei", sans !default;
+$heading-font-family: "omnes-pro", "Helvetica Neue", sans !default;
+$mono: "source-code-pro", mono !default;
 $h1-font-size: 38px !default;
 $h2-font-size: $h1-font-size * 0.8 !default;
 $h3-font-size: $h2-font-size * 0.8 !default;
